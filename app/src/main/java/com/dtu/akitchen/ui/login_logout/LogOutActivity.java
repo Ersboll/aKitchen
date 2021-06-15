@@ -1,6 +1,5 @@
 package com.dtu.akitchen.ui.login_logout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -22,10 +21,5 @@ public class LogOutActivity extends AppCompatActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signOut();
-
-        // When logged out the activity stack is cleared and the LoginActivity is set as the root activity
-        Intent intent = new Intent(LogOutActivity.this,LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
     }
 }

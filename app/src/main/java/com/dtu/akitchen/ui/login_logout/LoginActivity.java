@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.dtu.akitchen.MainActivity;
 import com.dtu.akitchen.databinding.ActivityLoginBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -85,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                         // Sign in succes, update UI with the signed-in user's information
                         FirebaseUser user = auth.getCurrentUser();
                         //Toast.makeText(LoginActivity.this, user.getEmail(), Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(LoginActivity.this, LogOutActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
