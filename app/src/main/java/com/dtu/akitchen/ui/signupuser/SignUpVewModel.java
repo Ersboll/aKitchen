@@ -5,6 +5,8 @@ import android.util.Patterns;
 
 import androidx.lifecycle.ViewModel;
 
+import com.dtu.akitchen.authentication.logInOut;
+
 public class SignUpVewModel extends ViewModel {
     private String email;
     private String password;
@@ -22,37 +24,21 @@ public class SignUpVewModel extends ViewModel {
     }
 
     public void signUpDataChanged(String username, String password, String password2){
-        this.email = isUserNameValid(username) ? username : "";
-        this.password = isPasswordValid(password,password2) ? password: "";
+        this.email = username;
+        this.password = password;
+        this.password2 = password2;
     }
 
     public boolean isUserNameValid(String username){
-        if (username == null){
-            return false;
-        } if (username.contains("@")){
-            return Patterns.EMAIL_ADDRESS.matcher(username).matches();
-        } else {
-            return !username.trim().isEmpty();
-        }
+        return logInOut.isUserNameValid(username);
     }
 
-    public boolean isPasswordValid(String password, String password2){
-        if(password == null || password2 == null){
-            return false;
-        }
-        if (password.isEmpty() || password2.isEmpty()) {
-            return false;
-        } if (!password.equals(password2)){
-            return false;
-        } if (password.equals(password2) && password.trim().length() < 5){
-            return false;
-        } else{
-            return true;
-        }
+    public boolean arePasswordsValid(String password, String password2){
+        return logInOut.arePasswordsValid(password,password2);
     }
 
     public boolean isPasswordValid(){
-        return isPasswordValid(password,password);
+        return logInOut.arePasswordsValid(password,password);
     }
 
     public boolean isUserNameValid(){

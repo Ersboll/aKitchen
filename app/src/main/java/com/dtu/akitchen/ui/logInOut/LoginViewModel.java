@@ -1,9 +1,11 @@
-package com.dtu.akitchen.ui.login_logout;
+package com.dtu.akitchen.ui.logInOut;
 
 import android.util.Log;
 import android.util.Patterns;
 
 import androidx.lifecycle.ViewModel;
+
+import com.dtu.akitchen.authentication.logInOut;
 
 public class LoginViewModel extends ViewModel {
     private String email;
@@ -27,15 +29,8 @@ public class LoginViewModel extends ViewModel {
     }
 
     // Username validation check
-    public boolean isUserNameValid(String username) {
-        if (username == null) {
-            return false;
-        }
-        if (username.contains("@")) {
-            return Patterns.EMAIL_ADDRESS.matcher(username).matches();
-        } else {
-            return !username.trim().isEmpty();
-        }
+    private boolean isUserNameValid(String username) {
+        return logInOut.isUserNameValid(username);
     }
 
     public boolean isUserNameValid(){
@@ -44,13 +39,15 @@ public class LoginViewModel extends ViewModel {
 
     // Password validation check
     public boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
+        return logInOut.isPasswordValid(password);
     }
 
     public boolean isPasswordValid(){
         return isPasswordValid(password);
     }
 
+
+    // getters
 
     public String getPassword() {
         return password;

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.dtu.akitchen.MainActivity;
 import com.dtu.akitchen.R;
-import com.dtu.akitchen.ui.login_logout.LoginActivity;
+import com.dtu.akitchen.ui.logInOut.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -33,7 +33,7 @@ public class StartupActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        if(user != null){
+        if(user != null){ // Logged in
             Intent intent = new Intent(StartupActivity.this, MainActivity.class);
             startActivity(intent);
             finish();

@@ -1,6 +1,5 @@
 package com.dtu.akitchen.ui.forgotpassword;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -16,13 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dtu.akitchen.databinding.ActivityForgotPasswordBinding;
-import com.dtu.akitchen.ui.login_logout.LoginViewModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
