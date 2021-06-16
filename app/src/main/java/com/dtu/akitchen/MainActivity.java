@@ -3,6 +3,7 @@ package com.dtu.akitchen;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import com.dtu.akitchen.authentication.UserNotSignedInException;
 import com.dtu.akitchen.authentication.logInOut;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -71,12 +72,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
-            case R.id.Logout_submenu:
+            case R.id.Logout_SubMenu:
                 Log.d(TAG,"Logout submenu clicked");
                 logInOut.logout();
                 return true;
             case R.id.Delete_User_SubMenu:
                 Log.d(TAG, "Delete user submenu clicked");
+                try {
+                    logInOut.deleteUser();
+                } catch (UserNotSignedInException e) {
+                    e.printStackTrace();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
