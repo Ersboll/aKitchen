@@ -17,6 +17,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.dtu.akitchen.MainActivity;
 import com.dtu.akitchen.databinding.ActivityLoginBinding;
+import com.dtu.akitchen.ui.forgotpassword.ForgotPasswordActivity;
+import com.dtu.akitchen.ui.forgotpassword.ForgotPasswordViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final Button signUpButton = binding.signUp;
+        final Button forgotPasswordButton = binding.forgotButton;
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -76,10 +79,15 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(v -> {
             login(mViewModel.getEmail(),mViewModel.getPassword());
         });
+
+        forgotPasswordButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
     }
 
 
-    public void login(String email, String password) {
+    private void login(String email, String password) {
         auth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener( this, task -> {
                     if (task.isSuccessful()){
