@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">aKitchen</string>
+    <string name="app_name">áKitchen</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_in">sign in</string>
+    <string name="sign_up_here">sign up here</string>
+    <string name="password">password</string>
+    <string name="email">email</string>
+    <string name="send_password_reset_email">Send password reset email</string>
 </resources>
