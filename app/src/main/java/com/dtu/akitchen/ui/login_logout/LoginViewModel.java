@@ -27,7 +27,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     // Username validation check
-    private boolean isUserNameValid(String username) {
+    public boolean isUserNameValid(String username) {
         if (username == null) {
             return false;
         }
@@ -38,9 +38,17 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
+    public boolean isUserNameValid(){
+        return isUserNameValid(email);
+    }
+
     // Password validation check
-    private boolean isPasswordValid(String password) {
+    public boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
+    }
+
+    public boolean isPasswordValid(){
+        return isPasswordValid(password);
     }
 
 

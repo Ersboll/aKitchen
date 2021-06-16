@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AKitchen">
         <activity android:name=".ui.forgotpassword.ForgotPasswordActivity"></activity>
-        <activity android:name=".ui.signupuser.SignUpUser" />
+        <activity android:name=".ui.signupuser.SignUpUserActivity" />
         <activity android:name=".ui.StartupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -19,6 +19,7 @@ import com.dtu.akitchen.MainActivity;
 import com.dtu.akitchen.databinding.ActivityLoginBinding;
 import com.dtu.akitchen.ui.forgotpassword.ForgotPasswordActivity;
 import com.dtu.akitchen.ui.forgotpassword.ForgotPasswordViewModel;
+import com.dtu.akitchen.ui.signupuser.SignUpUserActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -65,42 +66,45 @@ public class LoginActivity extends AppCompatActivity {
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE){
-                    login(mViewModel.getEmail(),mViewModel.getPassword());
-                }
-                return false;
+        passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE){
+                login(mViewModel.getEmail(),mViewModel.getPassword());
             }
+            return false;
         });
 
-        loginButton.setOnClickListener(v -> {
-            login(mViewModel.getEmail(),mViewModel.getPassword());
-        });
+        loginButton.setOnClickListener(v -> login(mViewModel.getEmail(),mViewModel.getPassword()));
 
         forgotPasswordButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
+
+        signUpButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, SignUpUserActivity.class);
             startActivity(intent);
         });
     }
 
 
     private void login(String email, String password) {
-        auth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener( this, task -> {
-                    if (task.isSuccessful()){
-                        // Sign in succes, update UI with the signed-in user's information
-                        FirebaseUser user = auth.getCurrentUser();
-                        //Toast.makeText(LoginActivity.this, user.getEmail(), Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        // If sign in fails displays a message to the user
-                        Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_LONG).show();
-                    }
-                });
+        if(mViewModel.isPasswordValid() && mViewModel.isUserNameValid()) {
+            auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            // Sign in succes, update UI with the signed-in user's information
+                            FirebaseUser user = auth.getCurrentUser();
+                            //Toast.makeText(LoginActivity.this, user.getEmail(), Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            // If sign in fails displays a message to the user
+                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+        } else {
+            Toast.makeText(LoginActivity.this, "Email or password is invalid", Toast.LENGTH_LONG).show();
+        }
     }
 }

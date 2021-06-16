@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import com.dtu.akitchen.R;
 import com.dtu.akitchen.databinding.ActivitySignUpUserBinding;
+import com.dtu.akitchen.ui.login_logout.LogOutActivity;
 import com.dtu.akitchen.ui.login_logout.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -71,16 +72,13 @@ public class SignUpUserActivity extends AppCompatActivity {
         SignUpPass.addTextChangedListener(afterTextChangedListener);
         SignUpPass2.addTextChangedListener(afterTextChangedListener);
 
-        SignUpPass2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE){
-                    if(mViewModel.isPasswordValid() && mViewModel.isUserNameValid()){
-                        signUp(mViewModel.getEmail(),mViewModel.getPassword());
-                    }
+        SignUpPass2.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE){
+                if(mViewModel.isPasswordValid() && mViewModel.isUserNameValid()){
+                    signUp(mViewModel.getEmail(),mViewModel.getPassword());
                 }
-                return false;
             }
+            return false;
         });
 
         SignUpButton.setOnClickListener(v -> {
@@ -103,7 +101,7 @@ public class SignUpUserActivity extends AppCompatActivity {
                         Log.w(TAG, "Error unable to create user");
                     } else { // Go to login screen, if sucessfull creating a new user.
                         Log.d(TAG, "Success creating user");
-                        Intent intent = new Intent(SignUpUserActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(SignUpUserActivity.this, LogOutActivity.class);
                         startActivity(intent);
                         finish();
                     }
