@@ -65,6 +65,9 @@ public class GrocceryListAdapter extends
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
+        if(null == localDataSet) {
+            return 0;
+        }
         return localDataSet.length;
     }
 

@@ -7,4 +7,18 @@
     <string name="password">password</string>
     <string name="email">email</string>
     <string name="send_password_reset_email">Send password reset email</string>
+    <string name="enter_item_hint">Enter item</string>
+    <string name="add_button_text">Add</string>
+
+    <string-array name="test_items">
+        <item>baking soda</item>
+        <item>carrots</item>
+        <item>frozen pizza</item>
+        <item>onion</item>
+        <item>cofee</item>
+        <item>covfefe</item>
+        <item>lava</item>
+        <item>diamond</item>
+    </string-array>
+
 </resources>
