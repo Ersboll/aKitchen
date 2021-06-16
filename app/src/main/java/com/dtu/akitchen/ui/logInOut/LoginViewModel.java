@@ -1,7 +1,6 @@
 package com.dtu.akitchen.ui.logInOut;
 
 import android.util.Log;
-import android.util.Patterns;
 
 import androidx.lifecycle.ViewModel;
 
@@ -30,7 +29,7 @@ public class LoginViewModel extends ViewModel {
 
     // Username validation check
     private boolean isUserNameValid(String username) {
-        return logInOut.isUserNameValid(username);
+        return logInOut.isEmailValid(username);
     }
 
     public boolean isUserNameValid(){

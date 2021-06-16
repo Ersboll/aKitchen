@@ -1,24 +1,14 @@
 package com.dtu.akitchen.authentication;
 
-import android.accounts.AuthenticatorException;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
 import com.dtu.akitchen.MainActivity;
-import com.dtu.akitchen.ui.logInOut.LoginActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.jetbrains.annotations.NotNull;
 
 public class logInOut {
 
@@ -28,7 +18,7 @@ public class logInOut {
         FirebaseAuth.getInstance().signOut();
     }
 
-    public static boolean isUserNameValid(String username) {
+    public static boolean isEmailValid(String username) {
         return username != null && (Patterns.EMAIL_ADDRESS.matcher((username)).matches() && !username.trim().isEmpty());
     }
 
@@ -48,7 +38,7 @@ public class logInOut {
      * @return true if password and email are valid, false if not
      */
     public static boolean login(Activity activity, String email, String password) {
-        if(isPasswordValid(password) && isUserNameValid(email)) {
+        if(isPasswordValid(password) && isEmailValid(email)) {
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(activity,task -> {
@@ -74,7 +64,7 @@ public class logInOut {
      * @return true if password and email are valid, false if not
      */
     public static boolean signUp(Activity activity, String email, String password){
-        if(isPasswordValid(password) && isUserNameValid(email)){
+        if(isPasswordValid(password) && isEmailValid(email)){
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.createUserWithEmailAndPassword(email,password)
                     .addOnCompleteListener(activity,task ->{
@@ -88,5 +78,27 @@ public class logInOut {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Backed resetpassword method, sends a passwordreset link to the supplied email
+     * @param activity the current actvitiy calling the method (often this)
+     * @param email the user email
+     * @return true if email is valid, false if not
+     */
+    public static boolean resetPassword(Activity activity, String email){
+        if(isEmailValid(email)) {
+            FirebaseAuth.getInstance()
+                    .sendPasswordResetEmail(email)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Password reset email sent");
+                        }
+                    });
+            activity.finish();
+            return true;
+        } else {
+            return false;
+        }
     }
 }
