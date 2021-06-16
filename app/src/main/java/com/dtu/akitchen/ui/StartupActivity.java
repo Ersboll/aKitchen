@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.dtu.akitchen.MainActivity;
 import com.dtu.akitchen.R;
@@ -17,6 +18,7 @@ public class StartupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_startup);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -29,13 +31,18 @@ public class StartupActivity extends AppCompatActivity {
         if (user == null){ // Not logged in
             Intent intent = new Intent(StartupActivity.this, LoginActivity.class);
             startActivity(intent);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // When logged out the activity stack is cleared and the LoginActivity is set as the root activity
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK | // When logged out the activity stack is cleared and the LoginActivity is set as the root activity
+                            Intent.FLAG_ACTIVITY_NO_ANIMATION); // No animation when switching
             startActivity(intent);
             finish();
         }
         if(user != null){ // Logged in
             Intent intent = new Intent(StartupActivity.this, MainActivity.class);
             startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK | // When logged out the activity stack is cleared and the MainActivity is set as the root activity
+                    Intent.FLAG_ACTIVITY_NO_ANIMATION); // No animation when switching
             finish();
         }
     };
