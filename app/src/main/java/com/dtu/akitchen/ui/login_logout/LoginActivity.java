@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.dtu.akitchen.MainActivity;
 import com.dtu.akitchen.databinding.ActivityLoginBinding;
+import com.dtu.akitchen.ui.signupuser.SignUpUserActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -75,6 +76,13 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton.setOnClickListener(v -> {
             login(mViewModel.getEmail(),mViewModel.getPassword());
+        });
+
+
+        signUpButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, SignUpUserActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
