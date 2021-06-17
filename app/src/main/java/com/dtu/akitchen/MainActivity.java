@@ -1,17 +1,16 @@
 package com.dtu.akitchen;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.dtu.akitchen.authentication.UserNotSignedInException;
 import com.dtu.akitchen.authentication.logInOut;
+import com.dtu.akitchen.databinding.ActivityMainBinding;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
-import androidx.core.internal.view.SupportMenuItem;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,18 +19,25 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toolbar;
+import android.widget.TextView;
 
 import com.dtu.akitchen.ui.main.SectionsPagerAdapter;
-import com.dtu.akitchen.databinding.ActivityMainBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private String TAG = "ClickedLogout";
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mConditionRef = mRootRef.child("condition");
+    public TextView mTextviewTest;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         //Adding support for submenus
         MaterialToolbar toolbar =  binding.topAppBar;
         setSupportActionBar(toolbar);
-
+        mTextviewTest = binding.TextViewTest;
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -58,13 +64,28 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Ja, du vil jo gerne oprette et nyt køkken ikke", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("message");
-                myRef.setValue("Hello world");
+
             }
         });
 
 
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        mConditionRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                // TODO Used when update sucessfully
+                String text = snapshot.getValue(String.class);
+                mTextviewTest.setText(text);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                // TODO used when condition fails updating
+            }
+        });
     }
 
     @Override
