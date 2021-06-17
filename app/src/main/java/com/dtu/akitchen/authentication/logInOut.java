@@ -183,6 +183,8 @@ public class logInOut {
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         Log.d(TAG, "User account deleted");
+                    } else {
+                        Log.d(TAG, "Failed account deletion");
                     }
                 });
     }

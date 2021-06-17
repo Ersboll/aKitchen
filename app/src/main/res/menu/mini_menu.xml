@@ -2,20 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title="Logout"
+        android:title="@string/logout"
         android:icon="@drawable/ic_logout_icon"
         android:id="@+id/logout_submenu"
         app:showAsAction="ifRoom"
         />
 
     <item
-        android:title="Overview"
+        android:title="@string/overview"
         android:id="@+id/overview_submenu"
         app:showAsAction="never"
         />
 
     <item
-        android:title="Settings"
+        android:title="@string/invite"
+        android:id="@+id/invite_submenu"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:title="@string/settings"
         android:id="@+id/settings_submenu"
         app:showAsAction="never"
         />

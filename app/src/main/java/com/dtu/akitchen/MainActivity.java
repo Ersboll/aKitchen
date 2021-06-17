@@ -1,30 +1,22 @@
 package com.dtu.akitchen;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-
-import com.dtu.akitchen.authentication.UserNotSignedInException;
-import com.dtu.akitchen.authentication.logInOut;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.annotation.NonNull;
-import androidx.core.internal.view.SupportMenuItem;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toolbar;
 
-import com.dtu.akitchen.ui.main.SectionsPagerAdapter;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.dtu.akitchen.authentication.logInOut;
 import com.dtu.akitchen.databinding.ActivityMainBinding;
+import com.dtu.akitchen.ui.main.SectionsPagerAdapter;
+import com.dtu.akitchen.ui.main.SettingsActivity;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,18 +57,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.settings_submenu:
                 Log.d(TAG, "Settings submenu clicked");
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
             case R.id.overview_submenu:
                 Log.d(TAG, "Overview submenu clicked");
                 return true;
-            /*case R.id.Delete_User_SubMenu:
-                Log.d(TAG, "Delete user submenu clicked");
-                try {
-                    logInOut.deleteUser();
-                } catch (UserNotSignedInException e) {
-                    e.printStackTrace();
-                }
-                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }

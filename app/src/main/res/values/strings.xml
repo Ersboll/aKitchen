@@ -59,5 +59,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_price">Enter price</string>
     <string name="buy_button_text">Buy</string>
+    <string name="delete_account">Delete account</string>
+    <string name="leave_kitchen">Leave kitchen</string>
+    <string name="logout">Logout</string>
+    <string name="overview">Overview</string>
+    <string name="invite">Invite</string>
+    <string name="settings">Settings</string>
 
 </resources>
