@@ -54,7 +54,7 @@ public class GrocceriesFragment extends Fragment {
         //set custom made adapter for groccery items
         //TODO remove this placeholder dataSet
         dataSet = getResources().getStringArray(R.array.test_items);
-        grocceryListAdapter = new GrocceryListAdapter(dataSet);
+        grocceryListAdapter = new GrocceryListAdapter(dataSet, this.getContext());
         grocceryListView.setAdapter(grocceryListAdapter);
 
 

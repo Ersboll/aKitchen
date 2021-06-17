@@ -1,34 +1,57 @@
 package com.dtu.akitchen.ui.main;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dtu.akitchen.R;
+
+import org.jetbrains.annotations.NotNull;
 
 
 public class GrocceryListAdapter extends
         RecyclerView.Adapter<GrocceryListAdapter.ViewHolder> {
 
+    private Context mContext;
     private String[] localDataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, Context mContext) {
             super(view);
+
+            textView = (TextView) view.findViewById(R.id.groccery_item_name);
             //Open dialogue to prompt for price
             view.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    //TODO add dialogue prompt
+                    String itemName = textView.getText().toString();
+                    Log.i("Buying", "clicked grocceryitem: " + itemName);
+                    openInputPriceDialog(mContext, itemName);
+                    //TODO style, so you can see what item you are buying
                 }
             });
 
-            textView = (TextView) view.findViewById(R.id.groccery_item_name);
+
         }
+
+        public void openInputPriceDialog(Context mContext, String itemName) {
+            //TODO add dialog fragment here
+            EnterPriceDialogFragment inputDialog = new EnterPriceDialogFragment();
+            inputDialog.show(((FragmentActivity)mContext).getSupportFragmentManager(),
+                    "inputDialog");
+
+
+        }
+
+
 
         public TextView getTextView() {
             return textView;
@@ -37,18 +60,20 @@ public class GrocceryListAdapter extends
 
     //dataSet represents data to be used by the adapter
     //TODO import from firebase
-    public GrocceryListAdapter(String[] dataSet) {
+    public GrocceryListAdapter(String[] dataSet, Context mContext) {
+        this.mContext = mContext;
         localDataSet = dataSet;
     }
 
     // Create new views (invoked by the layout manager)
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.grocceries_list_item, viewGroup, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view, mContext);
     }
 
 
