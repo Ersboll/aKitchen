@@ -4,14 +4,16 @@
     <item
         android:title="Logout"
         android:icon="@drawable/ic_logout_icon"
-        android:id="@+id/Logout_SubMenu"
+        android:id="@+id/logout_submenu"
         app:showAsAction="ifRoom"
         />
+
     <item
-        android:title="Delete account"
-        android:id="@+id/Delete_User_SubMenu"
+        android:title="Overview"
+        android:id="@+id/overview_submenu"
         app:showAsAction="never"
         />
+
     <item
         android:title="Settings"
         android:id="@+id/settings_submenu"

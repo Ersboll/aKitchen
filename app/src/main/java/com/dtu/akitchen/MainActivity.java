@@ -59,18 +59,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
-            case R.id.Logout_SubMenu:
+            case R.id.logout_submenu:
                 Log.d(TAG,"Logout submenu clicked");
                 logInOut.logout();
                 return true;
-            case R.id.Delete_User_SubMenu:
+            case R.id.settings_submenu:
+                Log.d(TAG, "Settings submenu clicked");
+                return true;
+            case R.id.overview_submenu:
+                Log.d(TAG, "Overview submenu clicked");
+                return true;
+            /*case R.id.Delete_User_SubMenu:
                 Log.d(TAG, "Delete user submenu clicked");
                 try {
                     logInOut.deleteUser();
                 } catch (UserNotSignedInException e) {
                     e.printStackTrace();
                 }
-                return true;
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
