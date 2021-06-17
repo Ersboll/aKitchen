@@ -25,6 +25,8 @@ import android.widget.Toolbar;
 
 import com.dtu.akitchen.ui.main.SectionsPagerAdapter;
 import com.dtu.akitchen.databinding.ActivityMainBinding;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,8 +56,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Ja, du vil jo gerne oprette et nyt køkken ikke", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("message");
+                myRef.setValue("Hello world");
             }
         });
 
