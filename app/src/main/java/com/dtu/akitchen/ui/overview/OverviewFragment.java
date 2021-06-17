@@ -1,4 +1,4 @@
-package com.dtu.akitchen.ui.main;
+package com.dtu.akitchen.ui.overview;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.dtu.akitchen.R;
-import com.dtu.akitchen.databinding.FragmentMainBinding;
+import com.dtu.akitchen.databinding.FragmentOverviewBinding;
+import com.dtu.akitchen.ui.main.PageViewModel;
+import com.dtu.akitchen.ui.main.PlaceholderFragment;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -23,7 +25,7 @@ public class OverviewFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private PageViewModel pageViewModel;
-    private FragmentMainBinding binding;
+    private FragmentOverviewBinding binding;
 
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -49,16 +51,9 @@ public class OverviewFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        binding = FragmentMainBinding.inflate(inflater, container, false);
+        binding = FragmentOverviewBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.sectionLabel;
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         return root;
     }
 

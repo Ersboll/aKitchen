@@ -7,4 +7,6 @@
     <string name="password">password</string>
     <string name="email">email</string>
     <string name="send_password_reset_email">Send password reset email</string>
+    <string name="history">History</string>
+    <string name="current">Current</string>
 </resources>

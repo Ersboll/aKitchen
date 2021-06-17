@@ -26,6 +26,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AKitchen.NoActionBar" />
+        <activity android:name=".ui.overview.OverviewActivity" />
     </application>
 
 </manifest>

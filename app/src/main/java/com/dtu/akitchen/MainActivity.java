@@ -1,9 +1,11 @@
 package com.dtu.akitchen;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.dtu.akitchen.authentication.logInOut;
+import com.dtu.akitchen.ui.overview.OverviewActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -77,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.Delete_User_SubMenu:
                 Log.d(TAG, "Delete user submenu clicked");
+                return true;
+            case R.id.Overview_SubMenu:
+                Log.d(TAG, "Overview submenu clicked");
+                Intent intentOverview = new Intent(this, OverviewActivity.class);
+                startActivity(intentOverview);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
