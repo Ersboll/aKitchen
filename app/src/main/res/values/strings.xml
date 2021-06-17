@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">áKitchen</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="sign_in">sign in</string>
-    <string name="sign_up_here">sign up here</string>
+    <string name="tab_text_1">Shopping list</string>
+    <string name="tab_text_2">Bought items</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up_here">Sign up here</string>
     <string name="forgot_password">I forgot my password</string>
     <string name="password">password</string>
     <string name="email">email</string>
@@ -11,7 +11,7 @@
     <string name="enter_item_hint">Enter item</string>
     <string name="add_button_text">Add</string>
     <string name="reenter_password">re-enter password</string>
-    <string name="sign_up">Sign Up</string>
+    <string name="sign_up">Sign up</string>
 
     <string-array name="test_items">
         <item>baking soda</item>
