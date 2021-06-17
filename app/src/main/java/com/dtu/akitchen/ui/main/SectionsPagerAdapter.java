@@ -31,8 +31,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         if (position == 0) {
             return GrocceriesFragment.newInstance();
-        } else {
-            return PlaceholderFragment.newInstance();
+        } else{
+            return BoughtItemsFragment.newInstance();
         }
     }
 
