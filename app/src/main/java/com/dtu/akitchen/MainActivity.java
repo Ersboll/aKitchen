@@ -1,5 +1,6 @@
 package com.dtu.akitchen;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.dtu.akitchen.authentication.UserNotSignedInException;
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private String TAG = "ClickedLogout";
     private FirebaseDatabase database;
-    private DatabaseReference myRef;
     public TextView mTextviewTest;
 
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
+        DatabaseReference myRef = database.getReference();
 
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         //Adding support for submenus
         MaterialToolbar toolbar =  binding.topAppBar;
         setSupportActionBar(toolbar);
-        mTextviewTest = binding.TextViewTest;
 
 
         fab.setOnClickListener(new View.OnClickListener() {
