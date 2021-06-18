@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private String TAG = "ClickedLogout";
-    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference mConditionRef = mRootRef.child("condition");
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
     public TextView mTextviewTest;
 
 
@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("condition");
 
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -73,17 +76,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        mConditionRef.addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 // TODO Used when update sucessfully
                 String text = snapshot.getValue(String.class);
+                Log.d(TAG, "Value is " + text);
                 mTextviewTest.setText(text);
             }
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
                 // TODO used when condition fails updating
+                Log.w(TAG, "Failed to read value", error.toException());
             }
         });
     }
