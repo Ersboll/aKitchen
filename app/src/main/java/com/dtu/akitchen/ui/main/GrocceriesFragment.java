@@ -1,18 +1,25 @@
 package com.dtu.akitchen.ui.main;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dtu.akitchen.R;
@@ -23,6 +30,9 @@ public class GrocceriesFragment extends Fragment {
     GrocceryListAdapter grocceryListAdapter;
     RecyclerView.LayoutManager layoutManager;
     String[] dataSet;
+    Button positiveButton;
+    EditText priceInput;
+    EnterPriceDialogFragment inputDialog;
 
 
     // TODO: Rename and change types and number of parameters
@@ -77,10 +87,50 @@ public class GrocceriesFragment extends Fragment {
     }
 
     public void openInputPriceDialog(String itemName) {
-        EnterPriceDialogFragment inputDialog = new EnterPriceDialogFragment();
+        inputDialog = new EnterPriceDialogFragment();
         inputDialog.setTitle(itemName);
+
         inputDialog.show(getActivity().getSupportFragmentManager(),
                 "inputDialog");
+        getActivity().getSupportFragmentManager().executePendingTransactions();
+
+        //make button only be active when the input is >=0
+        positiveButton = ((AlertDialog) inputDialog.getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
+        positiveButton.setEnabled(false);
+        //saves the price input field to add event listener to enable confirm button
+        priceInput = inputDialog.getPrice();
+
+        priceInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(TextUtils.isEmpty(s)){
+                    positiveButton.setEnabled(false);
+                    return;
+                }
+                int priceValue = Integer.parseInt((priceInput.getText().toString()));
+                if(priceValue<0){
+                    positiveButton.setEnabled(false);
+                } else {
+                    positiveButton.setEnabled(true);
+                }
+            }
+        });
+
+
     }
+
+
+
+
 
 }
