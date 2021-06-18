@@ -26,6 +26,19 @@ public class Kitchen {
     }
 
     @Exclude
+    public void addUser(User newUser){
+        users.put(newUser.getUid(), newUser);
+    }
+
+    @Exclude
+    public void addUsers(List<User> users){
+        for (User u:
+             users) {
+            this.users.put(u.getUid(),u);
+        }
+    }
+
+    @Exclude
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
         result.put("kitchenName", kitchenName);

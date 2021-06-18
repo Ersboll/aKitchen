@@ -21,6 +21,7 @@ public class User{
         this.admin = admin;
     }
 
+    @Exclude
     public String getUid() {
         return uid;
     }
