@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.dtu.akitchen.MainActivity;
-import com.dtu.akitchen.R;
-import com.dtu.akitchen.authentication.UserNotSignedInException;
 import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.databinding.ActivityCreateOrJoinKitchenBinding;
 import com.dtu.akitchen.kitchen.FirebaseCalls;
@@ -42,12 +40,7 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String uid = null;
-        try {
-            uid = LogInOut.getCurrentUser().getUid();
-        } catch (UserNotSignedInException e) {
-            e.printStackTrace();
-        }
+        String uid = LogInOut.getCurrentUser().getUid();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference("/users/" + uid + "/kitchen");

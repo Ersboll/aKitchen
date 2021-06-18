@@ -123,24 +123,17 @@ public class LogInOut {
     /**
      * Get the current user firebase element
      * @return a FirebaseUser object
-     * @throws UserNotSignedInException if the user is not signed in
      */
-    public static FirebaseUser getCurrentUser() throws UserNotSignedInException{
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
-            return user;
-        } else {
-            throw new UserNotSignedInException("The user is not signed in");
-        }
+    public static FirebaseUser getCurrentUser(){
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
     /**
      * Sets the current user's email
      * @param email the new email
      * @throws IllegalArgumentException if the email is invalid
-     * @throws UserNotSignedInException if the user is not signed in
      */
-    public static void setUserEmail(String email) throws IllegalArgumentException,UserNotSignedInException {
+    public static void setUserEmail(String email) throws IllegalArgumentException {
         if(!isEmailValid(email))
             throw new IllegalArgumentException("Invalid email passed to setUserEmail");
         FirebaseUser user = getCurrentUser();
@@ -156,9 +149,8 @@ public class LogInOut {
      * Sets the current user's password
      * @param password the new password
      * @throws IllegalArgumentException if the password is invalid
-     * @throws UserNotSignedInException if the user is not signed in
      */
-    public static void setUserPassword(String password) throws IllegalArgumentException,UserNotSignedInException{
+    public static void setUserPassword(String password) throws IllegalArgumentException{
         if(!isPasswordValid(password))
             throw new IllegalArgumentException("Invalid password passed to setUserPassword");
         getCurrentUser()
@@ -172,9 +164,8 @@ public class LogInOut {
 
     /**
      * Deletes the current user
-     * @throws UserNotSignedInException if the user is not signed in
      */
-    public static void deleteUser() throws UserNotSignedInException{
+    public static void deleteUser(){
         getCurrentUser()
                 .delete()
                 .addOnCompleteListener(task -> {
