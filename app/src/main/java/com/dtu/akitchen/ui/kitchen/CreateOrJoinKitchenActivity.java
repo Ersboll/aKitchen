@@ -3,16 +3,23 @@ package com.dtu.akitchen.ui.kitchen;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.dtu.akitchen.MainActivity;
 import com.dtu.akitchen.R;
 import com.dtu.akitchen.authentication.UserNotSignedInException;
 import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.databinding.ActivityCreateOrJoinKitchenBinding;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
+import com.dtu.akitchen.kitchen.Kitchen;
+import com.dtu.akitchen.kitchen.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +34,8 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
     ValueEventListener listener;
     DatabaseReference myRef;
     private final Boolean IN_CREATE_OR_JOIN_KITCHEN_ACTIVITY = true;
+
+
 
 
     @Override
@@ -77,24 +86,51 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
 
 
         binding = ActivityCreateOrJoinKitchenBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        View view = binding.getRoot();
+        setContentView(view);
+
 
         final Button createKitchenButton = binding.createKitchenButton;
         final Button joinKitchenButton = binding.joinKitchenButton;
 
         createKitchenButton.setOnClickListener(v->{
-            // TODO create CreateKitchenActivity
-            //Intent intent = new Intent(CreateOrJoinKitchenActivity.this, CreateKitchenActivity.class);
-            //startActivity(intent);
-            /*try { //TODO set name
-            User user = new User(LogInOut.getCurrentUser().getUid(),true, "");
-            Kitchen kitchen = new Kitchen("Vores køkken", user);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Kitchen details");
+            builder.setIcon(R.drawable.ic_baseline_kitchen_24);
+            builder.setMessage("Enter name of the kitchen");
 
-            FirebaseCalls.createKitchen(kitchen, user);
+            EditText alertInput = new EditText(this);
 
-        } catch (UserNotSignedInException e) {
-            e.printStackTrace();
-        }*/
+            builder.setView(alertInput);
+            // Create dialog
+
+            // Set button
+            builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //TODO ON Create click
+                    String kitchenName = alertInput.getText().toString();
+                    try {
+                        User user = new User(LogInOut.getCurrentUser().getUid(),true,"");
+                        Kitchen kitchen = new Kitchen(kitchenName,user);
+                        FirebaseCalls.createKitchen(kitchen,user);
+                    } catch (UserNotSignedInException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog ad = builder.create();
+            ad.show(); // Shows dialog button
         });
 
         joinKitchenButton.setOnClickListener(v -> {
