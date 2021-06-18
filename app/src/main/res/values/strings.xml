@@ -67,5 +67,8 @@
     <string name="current">Current</string>
     <string name="invite">Invite</string>
     <string name="settings">Settings</string>
+    <string name="you_have_not_joined_a_kitchen_please_create_one_or_join_another">You have not joined a kitchen please create one or join another</string>
+    <string name="create_kitchen">Create Kitchen</string>
+    <string name="join_kitchen">Join Kitchen</string>
 
 </resources>
