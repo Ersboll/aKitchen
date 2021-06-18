@@ -79,14 +79,7 @@ public class MainActivity extends AppCompatActivity {
         MaterialToolbar toolbar =  binding.topAppBar;
         setSupportActionBar(toolbar);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "You pressed me", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
-            }
-        });
     }
     @Override
     protected void onStart(){
