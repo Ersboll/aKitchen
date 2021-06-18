@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">áKitchen</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_1">Shopping List</string>
+    <string name="tab_text_2">Bought Items</string>
     <string name="sign_in">sign in</string>
     <string name="sign_up_here">sign up here</string>
     <string name="password">password</string>

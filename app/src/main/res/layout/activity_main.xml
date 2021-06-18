@@ -26,12 +26,6 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             app:tabBackground="@color/cardview_light_background"/>
-
-        <TextView
-            android:id="@+id/TextViewTest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextViewRealtimeTest" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
