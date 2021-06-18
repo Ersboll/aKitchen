@@ -5,6 +5,9 @@ import android.os.Bundle;
 import com.dtu.akitchen.authentication.UserNotSignedInException;
 import com.dtu.akitchen.authentication.logInOut;
 import com.dtu.akitchen.databinding.ActivityMainBinding;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
+import com.dtu.akitchen.kitchen.Kitchen;
+import com.dtu.akitchen.kitchen.User;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,6 +33,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -47,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("condition");
+        myRef = database.getReference();
 
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -65,7 +71,16 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Ja, du vil jo gerne oprette et nyt køkken ikke", Snackbar.LENGTH_LONG)
+                try { //TODO set name
+                    User user = new User(logInOut.getCurrentUser().getUid(),true, "");
+                    Kitchen kitchen = new Kitchen("Vores køkken", user);
+
+                    FirebaseCalls.createKitchen(kitchen, user);
+
+                } catch (UserNotSignedInException e) {
+                    e.printStackTrace();
+                }
+                Snackbar.make(view, "Created a new kitchen", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
             }
@@ -76,21 +91,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                // TODO Used when update sucessfully
-                String text = snapshot.getValue(String.class);
-                Log.d(TAG, "Value is " + text);
-                mTextviewTest.setText(text);
-            }
 
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                // TODO used when condition fails updating
-                Log.w(TAG, "Failed to read value", error.toException());
-            }
-        });
     }
 
     @Override
