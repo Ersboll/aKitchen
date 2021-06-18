@@ -18,6 +18,7 @@ import com.dtu.akitchen.R;
 
 public class EnterPriceDialogFragment extends AppCompatDialogFragment {
     private EditText price;
+    private String itemName;
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -25,7 +26,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_enter_price_dialog, null);
 
-        builder.setView(view).setTitle("Enter item price")
+        builder.setView(view).setTitle(itemName)
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -43,4 +44,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
         return builder.create();
     }
 
+    public void setTitle(String itemName) {
+        this.itemName = itemName;
+    }
 }

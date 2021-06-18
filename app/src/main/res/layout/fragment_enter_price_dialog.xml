@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/enter_price_dialog"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="100dp"
     android:layout_centerInParent="true"
     android:layout_marginHorizontal="30dp"
     tools:context=".ui.main.EnterPriceDialogFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/price_text_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="332dp"
+        android:layout_height="120dp"
         android:hint="@string/enter_price"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
