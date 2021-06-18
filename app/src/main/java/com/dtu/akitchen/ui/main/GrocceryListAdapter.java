@@ -43,8 +43,8 @@ public class GrocceryListAdapter extends
         }
 
         public void openInputPriceDialog(Context mContext, String itemName) {
-            //TODO add dialog fragment here
             EnterPriceDialogFragment inputDialog = new EnterPriceDialogFragment();
+            inputDialog.setTitle(itemName);
             inputDialog.show(((FragmentActivity)mContext).getSupportFragmentManager(),
                     "inputDialog");
 
