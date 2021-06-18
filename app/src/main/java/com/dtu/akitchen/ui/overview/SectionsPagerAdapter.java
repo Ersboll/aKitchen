@@ -9,8 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.dtu.akitchen.R;
-import com.dtu.akitchen.ui.overview.OverviewFragment;
-import com.dtu.akitchen.ui.overview.OverviewHistoryFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -31,7 +29,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return OverviewFragment.newInstance(position + 1);
+        return OverviewCurrentFragment.newInstance(position + 1);
     }
 
     @Nullable

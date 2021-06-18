@@ -20,7 +20,7 @@ import com.dtu.akitchen.ui.main.PlaceholderFragment;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class OverviewFragment extends Fragment {
+public class OverviewCurrentFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
