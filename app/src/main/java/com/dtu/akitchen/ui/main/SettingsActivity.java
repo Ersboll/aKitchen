@@ -27,6 +27,10 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
     }
 
+    public void onPressUpdateName (View view) {
+        Log.d("aKitchen_settings", "Update name");
+    }
+
     public void onPressLeaveKitchen (View view) {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE) {
