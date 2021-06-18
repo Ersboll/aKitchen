@@ -70,16 +70,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try { //TODO set name
-                    User user = new User(logInOut.getCurrentUser().getUid(),true, "");
-                    Kitchen kitchen = new Kitchen("Vores køkken", user);
-
-                    FirebaseCalls.createKitchen(kitchen, user);
-
-                } catch (UserNotSignedInException e) {
-                    e.printStackTrace();
-                }
-                Snackbar.make(view, "Created a new kitchen", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "You pressed me", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
             }
