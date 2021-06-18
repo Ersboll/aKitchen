@@ -11,19 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AKitchen">
-        <activity android:name=".ui.kitchen.CreateOrJoinKitchenActivity"></activity>
+        <activity android:name=".ui.kitchen.CreateOrJoinKitchenActivity" />
         <activity android:name=".ui.forgotpassword.ForgotPasswordActivity" />
         <activity android:name=".ui.main.SettingsActivity" />
-
+        <activity android:name=".ui.kitchen.InviteActivity" />
         <activity android:name=".ui.signupuser.SignUpUserActivity" />
         <activity android:name=".ui.StartupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.logInOut.LoginActivity"></activity>
+        <activity android:name=".ui.logInOut.LoginActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

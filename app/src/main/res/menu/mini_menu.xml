@@ -25,10 +25,4 @@
         android:id="@+id/settings_submenu"
         app:showAsAction="never"
         />
-    <item
-        android:title="Overview"
-        android:id="@+id/Overview_SubMenu"
-        app:showAsAction="never"
-        />
-
 </menu>
