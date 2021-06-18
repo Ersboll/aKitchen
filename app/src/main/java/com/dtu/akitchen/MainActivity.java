@@ -1,6 +1,6 @@
 package com.dtu.akitchen;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.dtu.akitchen.authentication.UserNotSignedInException;
@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,6 +37,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.dtu.akitchen.authentication.logInOut;
+import com.dtu.akitchen.databinding.ActivityMainBinding;
+import com.dtu.akitchen.ui.main.SectionsPagerAdapter;
+import com.dtu.akitchen.ui.main.SettingsActivity;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.tabs.TabLayout;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,11 +74,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
-        FloatingActionButton fab = binding.fab;
         //Adding support for submenus
         MaterialToolbar toolbar =  binding.topAppBar;
         setSupportActionBar(toolbar);
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
     @Override
     protected void onStart(){
@@ -94,17 +103,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
-            case R.id.Logout_SubMenu:
+            case R.id.logout_submenu:
                 Log.d(TAG,"Logout submenu clicked");
                 logInOut.logout();
                 return true;
-            case R.id.Delete_User_SubMenu:
-                Log.d(TAG, "Delete user submenu clicked");
-                try {
-                    logInOut.deleteUser();
-                } catch (UserNotSignedInException e) {
-                    e.printStackTrace();
-                }
+            case R.id.settings_submenu:
+                Log.d(TAG, "Settings submenu clicked");
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                return true;
+            case R.id.overview_submenu:
+                Log.d(TAG, "Overview submenu clicked");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

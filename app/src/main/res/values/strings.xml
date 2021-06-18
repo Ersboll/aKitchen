@@ -1,10 +1,69 @@
 <resources>
     <string name="app_name">áKitchen</string>
-    <string name="tab_text_1">Shopping List</string>
-    <string name="tab_text_2">Bought Items</string>
-    <string name="sign_in">sign in</string>
-    <string name="sign_up_here">sign up here</string>
+    <string name="tab_text_1">Shopping list</string>
+    <string name="tab_text_2">Bought items</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up_here">Sign up here</string>
+    <string name="forgot_password">I forgot my password</string>
     <string name="password">password</string>
     <string name="email">email</string>
     <string name="send_password_reset_email">Send password reset email</string>
+    <string name="enter_item_hint">Enter item</string>
+    <string name="add_button_text">Add</string>
+    <string name="reenter_password">re-enter password</string>
+    <string name="sign_up">Sign up</string>
+
+    <string-array name="test_items">
+        <item>baking soda</item>
+        <item>carrots</item>
+        <item>frozen pizza</item>
+        <item>onion</item>
+        <item>cofee</item>
+        <item>covfefe</item>
+        <item>lava</item>
+        <item>diamond</item>
+        <item>baking soda</item>
+        <item>carrots</item>
+        <item>frozen pizza</item>
+        <item>onion</item>
+        <item>cofee</item>
+        <item>covfefe</item>
+        <item>lava</item>
+        <item>diamond</item>
+        <item>baking soda</item>
+        <item>carrots</item>
+        <item>frozen pizza</item>
+        <item>onion</item>
+        <item>cofee</item>
+        <item>covfefe</item>
+        <item>lava</item>
+        <item>diamond</item>
+        <item>baking soda</item>
+        <item>carrots</item>
+        <item>frozen pizza</item>
+        <item>onion</item>
+        <item>cofee</item>
+        <item>covfefe</item>
+        <item>lava</item>
+        <item>diamond</item>
+        <item>baking soda</item>
+        <item>carrots</item>
+        <item>frozen pizza</item>
+        <item>onion</item>
+        <item>cofee</item>
+        <item>covfefe</item>
+        <item>lava</item>
+        <item>diamond</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_price">Enter price</string>
+    <string name="buy_button_text">Buy</string>
+    <string name="delete_account">Delete account</string>
+    <string name="leave_kitchen">Leave kitchen</string>
+    <string name="logout">Logout</string>
+    <string name="overview">Overview</string>
+    <string name="invite">Invite</string>
+    <string name="settings">Settings</string>
+
 </resources>

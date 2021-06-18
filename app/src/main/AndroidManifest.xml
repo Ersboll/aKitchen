@@ -13,6 +13,8 @@
         android:theme="@style/Theme.AKitchen">
         <activity android:name=".ui.kitchen.CreateOrJoinKitchenActivity"></activity>
         <activity android:name=".ui.forgotpassword.ForgotPasswordActivity" />
+        <activity android:name=".ui.main.SettingsActivity" />
+
         <activity android:name=".ui.signupuser.SignUpUserActivity" />
         <activity android:name=".ui.StartupActivity">
             <intent-filter>

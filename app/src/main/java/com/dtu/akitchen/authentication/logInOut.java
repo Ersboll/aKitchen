@@ -64,10 +64,7 @@ public class logInOut {
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(activity,task -> {
                         if(task.isSuccessful()){
-                            FirebaseUser user = auth.getCurrentUser();
-                            Intent intent = new Intent(activity, MainActivity.class);
-                            activity.startActivity(intent);
-                            activity.finish();
+                            auth.getCurrentUser();
                         } else {
                             Toast.makeText(activity, "Authentication failed.", Toast.LENGTH_LONG).show();
                         }
@@ -183,6 +180,8 @@ public class logInOut {
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         Log.d(TAG, "User account deleted");
+                    } else {
+                        Log.d(TAG, "Failed account deletion");
                     }
                 });
     }
