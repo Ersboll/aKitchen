@@ -15,6 +15,7 @@ import android.widget.EditText;
 import com.dtu.akitchen.R;
 import com.dtu.akitchen.ui.overview.SectionsPagerAdapter;
 import com.dtu.akitchen.databinding.ActivityOverviewBinding;
+import com.google.android.material.tabs.TabLayout;
 
 public class OverviewActivity extends AppCompatActivity{
 
@@ -28,8 +29,16 @@ public class OverviewActivity extends AppCompatActivity{
         setContentView(binding.getRoot());
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        //ViewPager viewPager = binding.viewPager;
+        ViewPager viewPager = binding.viewPager;
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = binding.tabs;
+        tabs.setupWithViewPager(viewPager);
 
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
     }
 
 }
