@@ -11,24 +11,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AKitchen">
-        <activity android:name=".ui.kitchen.CreateOrJoinKitchenActivity"></activity>
-        <activity android:name=".ui.forgotpassword.ForgotPasswordActivity" />
-        <activity android:name=".ui.main.SettingsActivity" />
-
-        <activity android:name=".ui.signupuser.SignUpUserActivity" />
-        <activity android:name=".ui.StartupActivity">
+        <activity android:name=".ui.kitchen.InviteActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.kitchen.CreateOrJoinKitchenActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.forgotpassword.ForgotPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.SettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.signupuser.SignUpUserActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.StartupActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.logInOut.LoginActivity"></activity>
+        <activity android:name=".ui.logInOut.LoginActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AKitchen.NoActionBar" />
-        <activity android:name=".ui.overview.OverviewActivity" />
+            android:theme="@style/Theme.AKitchen.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.overview.OverviewActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

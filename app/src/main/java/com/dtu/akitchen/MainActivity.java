@@ -9,6 +9,7 @@ import com.dtu.akitchen.databinding.ActivityMainBinding;
 import com.dtu.akitchen.kitchen.FirebaseCalls;
 import com.dtu.akitchen.kitchen.Kitchen;
 import com.dtu.akitchen.kitchen.User;
+import com.dtu.akitchen.ui.kitchen.InviteActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -104,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.settings_submenu:
                 Log.d(TAG, "Settings submenu clicked");
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                return true;
+            case R.id.invite_submenu:
+                Log.d(TAG, "Invite submenu clicked");
+                startActivity(new Intent(MainActivity.this, InviteActivity.class));
                 return true;
             case R.id.overview_submenu:
                 Log.d(TAG, "Overview submenu clicked");

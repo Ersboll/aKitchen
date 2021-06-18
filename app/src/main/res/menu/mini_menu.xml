@@ -25,5 +25,4 @@
         android:id="@+id/settings_submenu"
         app:showAsAction="never"
         />
-
 </menu>

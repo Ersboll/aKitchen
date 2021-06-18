@@ -67,5 +67,6 @@
     <string name="current">Current</string>
     <string name="invite">Invite</string>
     <string name="settings">Settings</string>
+    <string name="invite_code">Invite Code</string>
 
 </resources>
