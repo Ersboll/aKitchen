@@ -15,6 +15,7 @@ import com.dtu.akitchen.authentication.logInOut;
 import com.dtu.akitchen.databinding.ActivityMainBinding;
 import com.dtu.akitchen.ui.main.SectionsPagerAdapter;
 import com.dtu.akitchen.ui.main.SettingsActivity;
+import com.dtu.akitchen.ui.overview.OverviewActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.overview_submenu:
                 Log.d(TAG, "Overview submenu clicked");
+                Intent intentOverview = new Intent(this, OverviewActivity.class);
+                startActivity(intentOverview);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
