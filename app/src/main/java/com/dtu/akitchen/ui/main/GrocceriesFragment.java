@@ -117,16 +117,14 @@ public class GrocceriesFragment extends Fragment {
                     positiveButton.setEnabled(false);
                     return;
                 }
-                int priceValue = Integer.parseInt((priceInput.getText().toString()));
-                if(priceValue<0){
+                try {
+                    double priceValue = Double.parseDouble((priceInput.getText().toString()));
+                    positiveButton.setEnabled(priceValue >= 0);
+                } catch (NumberFormatException e) {
                     positiveButton.setEnabled(false);
-                } else {
-                    positiveButton.setEnabled(true);
                 }
             }
         });
-
-
     }
 
 

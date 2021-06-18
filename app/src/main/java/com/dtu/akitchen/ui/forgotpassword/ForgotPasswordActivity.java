@@ -1,11 +1,14 @@
 package com.dtu.akitchen.ui.forgotpassword;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -27,6 +30,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         binding = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         setContentView(view);
 
@@ -61,5 +68,16 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         });
 
         resetPasswordButton.setOnClickListener(v -> logInOut.resetPassword(this,mViewModel.getEmail()));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
