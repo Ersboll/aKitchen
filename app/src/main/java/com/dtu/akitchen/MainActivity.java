@@ -34,9 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private String TAG = "ClickedLogout";
-    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference mConditionRef = mRootRef.child("condition");
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("condition");
     public TextView mTextviewTest;
+    private String TAG2 = "Entered database lol";
 
 
     @Override
@@ -67,26 +68,25 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
     @Override
-    protected void onStart(){
+    public void onStart() {
         super.onStart();
-        mConditionRef.addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                // TODO Used when update sucessfully
-                String text = snapshot.getValue(String.class);
-                mTextviewTest.setText(text);
+            public void onDataChange( DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                mTextviewTest.setText(value);
+
             }
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                // TODO used when condition fails updating
+
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
