@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,13 +19,13 @@ import org.jetbrains.annotations.NotNull;
 public class GrocceryListAdapter extends
         RecyclerView.Adapter<GrocceryListAdapter.ViewHolder> {
 
-    private Context mContext;
+    private GrocceriesFragment fragment;
     private String[] localDataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
 
-        public ViewHolder(View view, Context mContext) {
+        public ViewHolder(View view, GrocceriesFragment fragment) {
             super(view);
 
             textView = (TextView) view.findViewById(R.id.groccery_item_name);
@@ -34,23 +35,12 @@ public class GrocceryListAdapter extends
                 public void onClick(View view) {
                     String itemName = textView.getText().toString();
                     Log.i("Buying", "clicked grocceryitem: " + itemName);
-                    openInputPriceDialog(mContext, itemName);
-                    //TODO style, so you can see what item you are buying
+                    fragment.openInputPriceDialog(itemName);
                 }
             });
 
 
         }
-
-        public void openInputPriceDialog(Context mContext, String itemName) {
-            EnterPriceDialogFragment inputDialog = new EnterPriceDialogFragment();
-            inputDialog.setTitle(itemName);
-            inputDialog.show(((FragmentActivity)mContext).getSupportFragmentManager(),
-                    "inputDialog");
-
-
-        }
-
 
 
         public TextView getTextView() {
@@ -60,8 +50,8 @@ public class GrocceryListAdapter extends
 
     //dataSet represents data to be used by the adapter
     //TODO import from firebase
-    public GrocceryListAdapter(String[] dataSet, Context mContext) {
-        this.mContext = mContext;
+    public GrocceryListAdapter(String[] dataSet, GrocceriesFragment fragment) {
+        this.fragment = fragment;
         localDataSet = dataSet;
     }
 
@@ -73,7 +63,7 @@ public class GrocceryListAdapter extends
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.grocceries_list_item, viewGroup, false);
 
-        return new ViewHolder(view, mContext);
+        return new ViewHolder(view, fragment);
     }
 
 
