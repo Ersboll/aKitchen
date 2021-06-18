@@ -125,8 +125,7 @@ public class LogInOut {
      * @return a FirebaseUser object
      */
     public static FirebaseUser getCurrentUser(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        return user;
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
     /**
