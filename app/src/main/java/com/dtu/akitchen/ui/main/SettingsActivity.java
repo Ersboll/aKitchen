@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dtu.akitchen.authentication.LogInOut;
-import com.dtu.akitchen.authentication.UserNotSignedInException;
 import com.dtu.akitchen.databinding.ActivitySettingsBinding;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -38,11 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void onPressDeleteUser (View view) {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE) {
-                try {
-                    LogInOut.deleteUser();
-                } catch (UserNotSignedInException e) {
-                    e.printStackTrace();
-                }
+                LogInOut.deleteUser();
             }
         };
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
