@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +19,6 @@ import com.dtu.akitchen.R;
 
 
 public class GrocceriesFragment extends Fragment {
-    Activity activity;
     RecyclerView grocceryListView;
     GrocceryListAdapter grocceryListAdapter;
     RecyclerView.LayoutManager layoutManager;
@@ -54,7 +54,7 @@ public class GrocceriesFragment extends Fragment {
         //set custom made adapter for groccery items
         //TODO remove this placeholder dataSet
         dataSet = getResources().getStringArray(R.array.test_items);
-        grocceryListAdapter = new GrocceryListAdapter(dataSet, this.getContext());
+        grocceryListAdapter = new GrocceryListAdapter(dataSet, this);
         grocceryListView.setAdapter(grocceryListAdapter);
 
 
@@ -75,4 +75,12 @@ public class GrocceriesFragment extends Fragment {
         //return the inflated flagment
         return rootView;
     }
+
+    public void openInputPriceDialog(String itemName) {
+        EnterPriceDialogFragment inputDialog = new EnterPriceDialogFragment();
+        inputDialog.setTitle(itemName);
+        inputDialog.show(getActivity().getSupportFragmentManager(),
+                "inputDialog");
+    }
+
 }
