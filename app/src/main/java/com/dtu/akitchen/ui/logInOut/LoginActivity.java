@@ -8,18 +8,15 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.dtu.akitchen.MainActivity;
-import com.dtu.akitchen.authentication.logInOut;
+import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.databinding.ActivityLoginBinding;
 import com.dtu.akitchen.ui.forgotpassword.ForgotPasswordActivity;
 import com.dtu.akitchen.ui.signupuser.SignUpUserActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -66,12 +63,12 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE){
-                logInOut.login(this,mViewModel.getEmail(),mViewModel.getPassword());
+                LogInOut.login(this,mViewModel.getEmail(),mViewModel.getPassword());
             }
             return false;
         });
 
-        loginButton.setOnClickListener(v -> logInOut.login(this,mViewModel.getEmail(),mViewModel.getPassword()));
+        loginButton.setOnClickListener(v -> LogInOut.login(this,mViewModel.getEmail(),mViewModel.getPassword()));
 
         forgotPasswordButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);

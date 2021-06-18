@@ -7,13 +7,10 @@ import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
+import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.authentication.UserNotSignedInException;
-import com.dtu.akitchen.authentication.logInOut;
 import com.dtu.akitchen.databinding.ActivitySettingsBinding;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.tabs.TabLayout;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -42,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE) {
                 try {
-                    logInOut.deleteUser();
+                    LogInOut.deleteUser();
                 } catch (UserNotSignedInException e) {
                     e.printStackTrace();
                 }

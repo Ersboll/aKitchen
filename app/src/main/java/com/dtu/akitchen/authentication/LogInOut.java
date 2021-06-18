@@ -12,9 +12,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
-public class logInOut {
+public class LogInOut {
 
-    public static String TAG = "logInOut";
+    public static String TAG = "LogInOut";
 
     /**
      * Logs the current out of their session

@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.lifecycle.ViewModel;
 
-import com.dtu.akitchen.authentication.logInOut;
+import com.dtu.akitchen.authentication.LogInOut;
 
 public class SignUpVewModel extends ViewModel {
     private String email;
@@ -29,15 +29,15 @@ public class SignUpVewModel extends ViewModel {
     }
 
     public boolean isUserNameValid(String username){
-        return logInOut.isEmailValid(username);
+        return LogInOut.isEmailValid(username);
     }
 
     public boolean arePasswordsValid(String password, String password2){
-        return logInOut.arePasswordsValid(password,password2);
+        return LogInOut.arePasswordsValid(password,password2);
     }
 
     public boolean isPasswordValid(){
-        return logInOut.arePasswordsValid(password,password);
+        return LogInOut.arePasswordsValid(password,password);
     }
 
     public boolean isUserNameValid(){
