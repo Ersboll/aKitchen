@@ -63,6 +63,8 @@
     <string name="leave_kitchen">Leave kitchen</string>
     <string name="logout">Logout</string>
     <string name="overview">Overview</string>
+    <string name="history">History</string>
+    <string name="current">Current</string>
     <string name="invite">Invite</string>
     <string name="settings">Settings</string>
 
