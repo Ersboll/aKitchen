@@ -3,13 +3,13 @@ package com.dtu.akitchen.ui.boughtItems;
 public class BoughtItem {
     public double price;
     public String name;
-    public String bought_by;
+    public String boughtBy;
     public String date;
 
-    public BoughtItem( String name, double price ,String bought_by, String date){
+    public BoughtItem( String name, double price ,String boughtBy, String date){
         this.name=name;
         this.price=price;
-        this.bought_by=bought_by;
+        this.boughtBy=boughtBy;
         this.date=date;
     }
 
@@ -21,8 +21,8 @@ public class BoughtItem {
         return price;
     }
 
-    public String getBought_by() {
-        return bought_by;
+    public String getBoughtBy() {
+        return boughtBy;
     }
 
     public String getName() {

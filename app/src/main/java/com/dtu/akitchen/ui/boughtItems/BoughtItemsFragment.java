@@ -54,18 +54,15 @@ public class BoughtItemsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
-                    String bought_by = (String) dataSnapshot.child("bought_by").getValue();
+                    String boughtBy = (String) dataSnapshot.child("bought_by").getValue();
                     double price = (double)  dataSnapshot.child("price").getValue();
                     String name = (String) dataSnapshot.child("itemName").getValue();
                     String date = (String) dataSnapshot.child("date").getValue();
 
-                    BoughtItem item = new BoughtItem(name, price, bought_by, date);
+                    BoughtItem item = new BoughtItem(name, price, boughtBy, date);
                     boughtItemsList.add(item);
                     boughtItemsAdapter.notifyDataSetChanged();
-                    System.out.println(item.name);
-                    System.out.println(item.bought_by);
                 }
-                System.out.println(boughtItemsList.size());
             }
 
             @Override
@@ -82,7 +79,6 @@ public class BoughtItemsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_bought_items, container, false);
         ListView listView = (ListView) view.findViewById(R.id.bought_item_list);
 
-        System.out.println("LIST SIZE: "+boughtItemsList.size());
         listView.setAdapter(boughtItemsAdapter);
         return view;
     }
