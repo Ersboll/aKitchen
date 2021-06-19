@@ -13,19 +13,17 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.dtu.akitchen.R;
-import com.dtu.akitchen.databinding.FragmentOverviewBinding;
+import com.dtu.akitchen.databinding.FragmentHistoryBinding;
+import com.dtu.akitchen.ui.main.GrocceriesFragment;
 import com.dtu.akitchen.ui.main.PageViewModel;
 import com.dtu.akitchen.ui.main.PlaceholderFragment;
 
-/**
- * A placeholder fragment containing a simple view.
- */
-public class OverviewCurrentFragment extends Fragment {
+public class HistoryFragment extends GrocceriesFragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private PageViewModel pageViewModel;
-    private FragmentOverviewBinding binding;
+    private FragmentHistoryBinding binding;
 
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -51,7 +49,7 @@ public class OverviewCurrentFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        binding = FragmentOverviewBinding.inflate(inflater, container, false);
+        binding = FragmentHistoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         return root;
