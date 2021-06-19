@@ -86,6 +86,9 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
 
         final Button createKitchenButton = binding.createKitchenButton;
         final Button joinKitchenButton = binding.joinKitchenButton;
+        final Button logOutButton = binding.logOutButton;
+
+        logOutButton.setOnClickListener(v-> LogInOut.logout());
 
         createKitchenButton.setOnClickListener(v->{
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
