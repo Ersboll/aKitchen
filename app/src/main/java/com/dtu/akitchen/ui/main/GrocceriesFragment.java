@@ -1,5 +1,5 @@
 package com.dtu.akitchen.ui.main;
-
+//Philip Hviid
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -23,6 +23,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dtu.akitchen.R;
+import com.dtu.akitchen.authentication.UserNotSignedInException;
+import com.dtu.akitchen.authentication.logInOut;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class GrocceriesFragment extends Fragment {
@@ -33,9 +36,11 @@ public class GrocceriesFragment extends Fragment {
     Button positiveButton;
     EditText priceInput;
     EnterPriceDialogFragment inputDialog;
+    FirebaseUser user;
 
 
-    // TODO: Rename and change types and number of parameters
+
+
     public static GrocceriesFragment newInstance() {
         GrocceriesFragment fragment = new GrocceriesFragment();
         Bundle args = new Bundle();
@@ -61,6 +66,15 @@ public class GrocceriesFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         grocceryListView.setLayoutManager(layoutManager);
 
+        //get the currently logged in user
+        try {
+            user = logInOut.getCurrentUser();
+        } catch (UserNotSignedInException e) {
+            //TODO maybe open log in fragment?
+            e.printStackTrace();
+        }
+
+
         //set custom made adapter for groccery items
         //TODO remove this placeholder dataSet
         dataSet = getResources().getStringArray(R.array.test_items);
@@ -77,7 +91,7 @@ public class GrocceriesFragment extends Fragment {
                 TextView itemTextView = (TextView) rootView.findViewById(R.id.new_item_text);
                 String newItemText = itemTextView.getText().toString();
                 Log.i("ADD", newItemText);
-                //TODO add firebaseintegration
+                //TODO add firebase implementation
             }
         });
 
@@ -128,8 +142,6 @@ public class GrocceriesFragment extends Fragment {
 
 
     }
-
-
 
 
 

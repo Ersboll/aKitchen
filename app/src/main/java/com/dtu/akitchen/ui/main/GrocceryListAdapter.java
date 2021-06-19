@@ -1,5 +1,5 @@
 package com.dtu.akitchen.ui.main;
-
+//Philip Hviid
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
