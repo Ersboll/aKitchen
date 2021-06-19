@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -30,6 +31,8 @@ public class SettingsActivity extends AppCompatActivity {
     public DatabaseReference myIsAdminRef;
     String TAG = "Settingsactivity";
     public String kitchenKey;
+    private boolean isCurrentAdmin;
+
 
 
     @Override
@@ -76,8 +79,10 @@ public class SettingsActivity extends AppCompatActivity {
                 } else {
                     if (value) {
                         Log.d(TAG, "User is current admin of a kitchen");
+                        isCurrentAdmin = true;
                     } else {
                         Log.d(TAG, "User is currently not the admin of a kitchen");
+                        isCurrentAdmin = false;
                     }
                 }
             }
@@ -104,9 +109,13 @@ public class SettingsActivity extends AppCompatActivity {
     public void onPressDeleteUser (View view) {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE) {
-                @SuppressLint("ShowToast") Snackbar snackbar = Snackbar.make(view,"Delete user", Snackbar.LENGTH_LONG);
-                snackbar.show();
-                LogInOut.deleteUser();
+                if (isCurrentAdmin){
+                    Toast.makeText(getApplicationContext(),"Error deleting user while kitchen admin", Toast.LENGTH_LONG).show();
+                } else {
+                    @SuppressLint("ShowToast") Snackbar snackbar = Snackbar.make(view,"Delete user", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    LogInOut.deleteUser();
+                }
             }
         };
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
