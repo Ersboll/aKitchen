@@ -1,5 +1,6 @@
 package com.dtu.akitchen.ui.overview;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +63,13 @@ public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         viewHolder.getNameTextView().setText(localNameDataSet[position]);
-        viewHolder.getValueTextView().setText("" + localValuesDataSet[position] + fragment.getResources().getString(R.string.dkk));
-        //TODO: implement getValueTextView aswell
+        String color = localValuesDataSet[position] + fragment.getResources().getString(R.string.dkk);
+        viewHolder.getValueTextView().setText(color);
+        if(localValuesDataSet[position] < 0){
+            viewHolder.getValueTextView().setTextColor(Color.RED);
+        } else {
+            viewHolder.getValueTextView().setTextColor(Color.parseColor("#00bd03"));
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
