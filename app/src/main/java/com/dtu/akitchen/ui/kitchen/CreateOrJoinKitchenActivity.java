@@ -102,31 +102,23 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
             // Create dialog
 
             // Set button
-            builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //TODO ON Create click
-                    String kitchenName = alertInput.getText().toString();
-                        User user = new User(LogInOut.getCurrentUser().getUid(),true,"");
-                        Kitchen kitchen = new Kitchen(kitchenName,user);
-                        FirebaseCalls.createKitchen(kitchen,user);
-                }
+            builder.setPositiveButton("Create", (dialog, which) -> {
+                //TODO ON Create click
+                String kitchenName = alertInput.getText().toString();
+                    User user = new User(LogInOut.getCurrentUser().getUid(),true,"");
+                    Kitchen kitchen = new Kitchen(kitchenName,user);
+                    FirebaseCalls.createKitchen(kitchen,user);
             });
 
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
 
             AlertDialog ad = builder.create();
             ad.show(); // Shows dialog button
         });
 
         joinKitchenButton.setOnClickListener(v -> {
-            // TODO create JoinKitchenActivity
-            //Intent intent = new Intent(CreateOrJoinKitchenActivity.this, JoinKitchenActivity.class)
+            Intent intent = new Intent(CreateOrJoinKitchenActivity.this, JoinKitchenActivity.class);
+            startActivity(intent);
         });
 
     }
