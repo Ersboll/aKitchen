@@ -7,6 +7,8 @@ import android.util.Patterns;
 import android.widget.Toast;
 
 import com.dtu.akitchen.MainActivity;
+import com.dtu.akitchen.ui.logInOut.LoginActivity;
+import com.dtu.akitchen.ui.main.SettingsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

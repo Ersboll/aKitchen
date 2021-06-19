@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.dtu.akitchen.MainActivity;
+import com.dtu.akitchen.R;
 import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.databinding.ActivityCreateOrJoinKitchenBinding;
 import com.dtu.akitchen.kitchen.FirebaseCalls;
@@ -103,15 +104,9 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     //TODO ON Create click
                     String kitchenName = alertInput.getText().toString();
-                    try {
                         User user = new User(LogInOut.getCurrentUser().getUid(),true,"");
                         Kitchen kitchen = new Kitchen(kitchenName,user);
                         FirebaseCalls.createKitchen(kitchen,user);
-                    } catch (UserNotSignedInException e) {
-                        e.printStackTrace();
-                    }
-
-
                 }
             });
 
