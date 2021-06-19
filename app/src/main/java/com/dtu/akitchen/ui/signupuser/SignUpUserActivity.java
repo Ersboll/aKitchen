@@ -64,7 +64,7 @@ public class SignUpUserActivity extends AppCompatActivity {
         SignUpPass2.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE){
                 if(mViewModel.isPasswordValid() && mViewModel.isUserNameValid()){
-                    LogInOut.signUp(this,mViewModel.getEmail(),mViewModel.getPassword());
+                    LogInOut.signUp(SignUpUserActivity.this,mViewModel.getEmail(),mViewModel.getPassword());
                 }
             }
             return false;
@@ -73,7 +73,7 @@ public class SignUpUserActivity extends AppCompatActivity {
         SignUpButton.setOnClickListener(v -> {
             Log.d(TAG, "You clicked SignUpButton");
             if(mViewModel.isPasswordValid() && mViewModel.isUserNameValid()){
-                LogInOut.signUp(this,mViewModel.getEmail(),mViewModel.getPassword());
+                LogInOut.signUp(SignUpUserActivity.this,mViewModel.getEmail(),mViewModel.getPassword());
             }
 
         });

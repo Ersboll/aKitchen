@@ -33,19 +33,16 @@ public class StartupActivity extends AppCompatActivity {
     }
     FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
         FirebaseUser user = LogInOut.getCurrentUser();
-        if (user == null){ // Not logged in
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK | // When logged out the activity stack is cleared and the LoginActivity is set as the root activity
-                            Intent.FLAG_ACTIVITY_NO_ANIMATION); // No animation when switching
-            startActivity(intent);
-            finish();
+        Intent intent;
+        if(user != null){ // User is Logged in
+            intent = new Intent(StartupActivity.this, CreateOrJoinKitchenActivity.class);
+        } else { // User is not logged in
+            intent = new Intent(StartupActivity.this, LoginActivity.class);
         }
-        if(user != null){ // Logged in
-            Intent intent = new Intent(getApplicationContext(), CreateOrJoinKitchenActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION); // No animation when switching
-            startActivity(intent);
-            finish();
-        }
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK | // When logged out the activity stack is cleared and the LoginActivity is set as the root activity
+                Intent.FLAG_ACTIVITY_NO_ANIMATION); // No animation when switching
+        startActivity(intent);
+        finish();
     };
 }

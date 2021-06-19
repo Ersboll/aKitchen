@@ -89,7 +89,7 @@ public class LogInOut {
             auth.createUserWithEmailAndPassword(email,password)
                     .addOnCompleteListener(activity,task ->{
                         if(task.isSuccessful()){
-                            logout();
+                            Log.d(TAG, "User has signed up");
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(activity, "ERROR creating user", Toast.LENGTH_SHORT).show();
