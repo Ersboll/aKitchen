@@ -1,28 +1,32 @@
 package com.dtu.akitchen.GrocceryItems;
 
-import androidx.fragment.app.Fragment;
-
+import com.dtu.akitchen.authentication.UserNotSignedInException;
 import com.dtu.akitchen.ui.main.GrocceriesFragment;
+import com.google.firebase.database.Exclude;
 
-public class GrocceryItem {
+import java.util.HashMap;
+import java.util.Map;
+
+public class boughtItem {
     private GrocceriesFragment fragment;
     private String boughtBy;
     private int timeStamp;
     private String itemName;
     private double price;
 
-    private DAOGrocceryItem DAO;
+    private DAOboughtItem DAO;
 
-    public GrocceryItem(String itemName) throws BlankItemNameException {
+    public boughtItem(String itemName, String boughtBy) throws BlankItemNameException, UserNotSignedInException {
         if(itemName.isEmpty()) {
             throw new BlankItemNameException("Item name cannot be blank");
         }
         this.itemName = itemName;
-        this.DAO = new DAOGrocceryItem();
+        this.boughtBy = boughtBy;
+        this.DAO = new DAOboughtItem();
     }
 
     public void addItem() {
-        DAO.addItem(this).addOnSuccessListener( suc ->
+        DAO.addItem(this).addOnSuccessListener(suc ->
         {
             fragment.showShortToast("Item added");
 
@@ -32,11 +36,18 @@ public class GrocceryItem {
         });
     }
 
-
+    //TODO gonna be replaced
     public void buyItem(int price, String userUID){
         this.price = price;
         this.boughtBy = userUID;
         DAO.updateItem(this);
+    }
+
+    @Exclude
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        //TODO fill in info
+        return result;
     }
 
     //must set fragment to make toast messages from the fragments context

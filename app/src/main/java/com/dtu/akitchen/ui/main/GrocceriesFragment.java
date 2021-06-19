@@ -1,13 +1,9 @@
 package com.dtu.akitchen.ui.main;
 //Philip Hviid
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,11 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dtu.akitchen.GrocceryItems.BlankItemNameException;
-import com.dtu.akitchen.GrocceryItems.DAOGrocceryItem;
-import com.dtu.akitchen.GrocceryItems.GrocceryItem;
+import com.dtu.akitchen.GrocceryItems.DAOshoppingListItems;
+import com.dtu.akitchen.GrocceryItems.boughtItem;
 import com.dtu.akitchen.R;
 import com.dtu.akitchen.authentication.UserNotSignedInException;
-import com.dtu.akitchen.authentication.logInOut;
 import com.google.firebase.auth.FirebaseUser;
 
 
@@ -40,6 +35,7 @@ public class GrocceriesFragment extends Fragment {
     Button positiveButton;
     EditText priceInput;
     EnterPriceDialogFragment inputDialog;
+    DAOshoppingListItems DAO;
     FirebaseUser user;
 
 
@@ -77,20 +73,56 @@ public class GrocceriesFragment extends Fragment {
         grocceryListAdapter = new GrocceryListAdapter(dataSet, this);
         grocceryListView.setAdapter(grocceryListAdapter);
 
-
         //set add button onClick
 
         Button addButton = rootView.findViewById((R.id.add_item_button));
+        //only pressable if not blank
+
+        TextView itemTextView = (TextView) rootView.findViewById(R.id.new_item_text);
+        String newItemText = itemTextView.getText().toString();
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView itemTextView = (TextView) rootView.findViewById(R.id.new_item_text);
-                String newItemText = itemTextView.getText().toString();
                 Log.i("ADD", newItemText);
-                //extra check to make sure no blank item names are added
-                addItem(newItemText);
-                //TODO add firebase implementation
+                try {
+                    DAO = new DAOshoppingListItems();
+                } catch (UserNotSignedInException e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.i("DAO", "failed to create DAO");
+                }
 
+
+                DAO.addItem(newItemText).addOnSuccessListener( suc -> {
+                    showShortToast("newItemText added");
+                    itemTextView.setText("");
+                }).addOnFailureListener( err -> {
+                    showShortToast(err.getMessage());
+                });
+
+            }
+        });
+
+        //addButton only works if an item has been entered
+        addButton.setEnabled(false);
+        itemTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!itemTextView.getText().toString().isEmpty()){
+                    addButton.setEnabled(true);
+                } else {
+                    addButton.setEnabled(false);
+                }
             }
         });
 
@@ -99,13 +131,15 @@ public class GrocceriesFragment extends Fragment {
         return rootView;
     }
 
-    public void addItem(String itemName) {
+
+
+    public void buyItem(String itemName, String boughtBy) {
         try {
-            GrocceryItem grocceryItem = new GrocceryItem(itemName);
-            grocceryItem.setFragment(this);
-            grocceryItem.addItem();
-        } catch (BlankItemNameException e) {
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT);
+            boughtItem boughtItem = new boughtItem(itemName, boughtBy);
+            boughtItem.setFragment(this);
+            boughtItem.addItem();
+        } catch (BlankItemNameException | UserNotSignedInException e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

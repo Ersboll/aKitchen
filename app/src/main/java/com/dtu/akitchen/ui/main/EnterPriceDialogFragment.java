@@ -34,13 +34,13 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        buyItem(itemName, price.getText().toString());
+
                     }
                 })
                 .setPositiveButton("Buy", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        buyItem(itemName, price.getText().toString());
                     }
                 });
 
@@ -50,6 +50,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
 
 
     private void buyItem(String itemName, String price) {
+
         //TODO implement with firebase
     }
 
