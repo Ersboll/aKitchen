@@ -21,7 +21,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.dtu.akitchen.GrocceryItems.BlankItemNameException;
+import com.dtu.akitchen.GrocceryItems.DAOGrocceryItem;
+import com.dtu.akitchen.GrocceryItems.GrocceryItem;
 import com.dtu.akitchen.R;
 import com.dtu.akitchen.authentication.UserNotSignedInException;
 import com.dtu.akitchen.authentication.logInOut;
@@ -66,14 +70,6 @@ public class GrocceriesFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         grocceryListView.setLayoutManager(layoutManager);
 
-        //get the currently logged in user
-        try {
-            user = logInOut.getCurrentUser();
-        } catch (UserNotSignedInException e) {
-            //TODO maybe open log in fragment?
-            e.printStackTrace();
-        }
-
 
         //set custom made adapter for groccery items
         //TODO remove this placeholder dataSet
@@ -91,13 +87,30 @@ public class GrocceriesFragment extends Fragment {
                 TextView itemTextView = (TextView) rootView.findViewById(R.id.new_item_text);
                 String newItemText = itemTextView.getText().toString();
                 Log.i("ADD", newItemText);
+                //extra check to make sure no blank item names are added
+                addItem(newItemText);
                 //TODO add firebase implementation
+
             }
         });
 
 
         //return the inflated flagment
         return rootView;
+    }
+
+    public void addItem(String itemName) {
+        try {
+            GrocceryItem grocceryItem = new GrocceryItem(itemName);
+            grocceryItem.setFragment(this);
+            grocceryItem.addItem();
+        } catch (BlankItemNameException e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT);
+        }
+    }
+
+    public void showShortToast(String message) {
+        Toast.makeText(getContext(), message , Toast.LENGTH_SHORT).show();
     }
 
     public void openInputPriceDialog(String itemName) {
