@@ -4,60 +4,65 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.dtu.akitchen.R;
-import com.dtu.akitchen.databinding.FragmentHistoryBinding;
-import com.dtu.akitchen.ui.main.GrocceriesFragment;
-import com.dtu.akitchen.ui.main.PageViewModel;
-import com.dtu.akitchen.ui.main.PlaceholderFragment;
 
-public class HistoryFragment extends GrocceriesFragment {
+import java.util.Date;
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
+public class HistoryFragment extends Fragment {
 
-    private PageViewModel pageViewModel;
-    private FragmentHistoryBinding binding;
+    RecyclerView recyclerView;
+    HistoryListAdapter historyListAdapter;
+    RecyclerView.LayoutManager layoutManager;
+    String[] tempDateData;
+    int[] tempSizeData;
+    int[] tempSumData;
 
-    public static PlaceholderFragment newInstance(int index) {
-        PlaceholderFragment fragment = new PlaceholderFragment();
+    public static HistoryFragment newInstance() {
+        HistoryFragment historyFragment = new HistoryFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
-        fragment.setArguments(bundle);
-        return fragment;
+        return historyFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
-        int index = 1;
-        if (getArguments() != null) {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
-        }
-        pageViewModel.setIndex(index);
     }
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentHistoryBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        View root = inflater.inflate(R.layout.fragment_history, container, false);
+
+        recyclerView = root.findViewById(R.id.history_list_view);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+
+        tempDateData = getResources().getStringArray(R.array.test_dates);
+        tempSizeData = getResources().getIntArray(R.array.test_sizes);
+        tempSumData = getResources().getIntArray(R.array.test_sums);
+        historyListAdapter = new HistoryListAdapter(tempDateData, tempSizeData, tempSumData, this);
+        recyclerView.setAdapter(historyListAdapter);
+
+        Button exportButton = root.findViewById(R.id.export_button);
+        exportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Export selected list entry as xlsx/pdf
+                //TODO: Firebase integration
+            }
+        });
 
         return root;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

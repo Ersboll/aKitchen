@@ -74,6 +74,33 @@
         <item>350</item>
     </integer-array>
 
+    <string-array name="test_dates">
+        <item>19/06/2021</item>
+        <item>04/06/2021</item>
+        <item>22/05/2021</item>
+        <item>07/05/2021</item>
+        <item>25/04/2021</item>
+        <item>10/04/2021</item>
+    </string-array>
+
+    <integer-array name="test_sizes">
+        <item>4</item>
+        <item>5</item>
+        <item>-4</item>
+        <item>-7</item>
+        <item>-8</item>
+        <item>10</item>
+    </integer-array>
+
+    <integer-array name="test_sums">
+        <item>437</item>
+        <item>550</item>
+        <item>522</item>
+        <item>819</item>
+        <item>875</item>
+        <item>1369</item>
+    </integer-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_price">Enter price</string>
@@ -90,5 +117,7 @@
     <string name="update_name">Update name</string>
     <string name="conclude_button_text">Opgør regnskab</string>
     <string name="dkk">&#160;DKK</string>
+    <string name="export_button_text">Export Selection</string>
+    <string name="size">&#160;People</string>
 
 </resources>
