@@ -32,14 +32,12 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
     private ActivityCreateOrJoinKitchenBinding binding;
     ValueEventListener listener;
     DatabaseReference myRef;
-    private final Boolean IN_CREATE_OR_JOIN_KITCHEN_ACTIVITY = true;
-
-
-
+    private Boolean IN_CREATE_OR_JOIN_KITCHEN_ACTIVITY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IN_CREATE_OR_JOIN_KITCHEN_ACTIVITY = true;
 
         String uid = LogInOut.getCurrentUser().getUid();
 
@@ -49,7 +47,7 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 String value = snapshot.getValue(String.class);
-                //Log.d(TAG, "Value is: " + value);
+                Log.d(TAG, "Value is: " + value);
                 if(value != null){
                     Log.d(TAG,"You are a member of kitchen: " + value);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -124,8 +122,13 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        IN_CREATE_OR_JOIN_KITCHEN_ACTIVITY = false;
+    }
+    /*@Override
     protected void onDestroy() {
         super.onDestroy();
         myRef.removeEventListener(listener);
-    }
+    }*/
 }

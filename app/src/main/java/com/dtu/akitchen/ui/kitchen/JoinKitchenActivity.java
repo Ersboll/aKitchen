@@ -33,6 +33,7 @@ public class JoinKitchenActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private boolean kitchenExists = false;
     private ValueEventListener kitchenListener;
+    DatabaseReference kitchenIDReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class JoinKitchenActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        DatabaseReference kitchenIDReference = mDatabase.child("kitchens").child(mViewModel.getInviteCode());
+        kitchenIDReference = mDatabase.child("kitchens").child(mViewModel.getInviteCode());
 
         kitchenListener = new ValueEventListener() {
             @Override
@@ -120,4 +121,11 @@ public class JoinKitchenActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        kitchenIDReference.removeEventListener(kitchenListener);
+    }
 }

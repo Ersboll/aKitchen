@@ -99,12 +99,14 @@ public class SettingsActivity extends AppCompatActivity {
     public void onPressLeaveKitchen (View view) {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE) {
-                Log.d("aKitchen_settings", "Leave Kitchen");
+                Log.d(TAG, "Leave Kitchen");
                 if (isCurrentAdmin){
-                    Log.d("aKithcen_settings","Leave kithcen error::While admin");
+                    Log.d(TAG,"Leave kitchen error::While admin");
                     Toast.makeText(getApplicationContext(),"Error leaving kitchen while admin",Toast.LENGTH_LONG).show();
                 } else{
-                    myKitchenRef.child("users").child(uid).removeValue(); // Removes current user from the current kitchen
+                    Log.d(TAG, "Removes user from kitchen");
+                    myIsAdminRef.removeValue();
+                    myKitchenRef.removeValue(); // Removes current user from the current kitchen
                 }
             }
         };
