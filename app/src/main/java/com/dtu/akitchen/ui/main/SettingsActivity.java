@@ -32,6 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
     String TAG = "Settingsactivity";
     public String kitchenKey;
     private boolean isCurrentAdmin;
+    public String uid;
 
 
 
@@ -42,7 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        String uid = LogInOut.getCurrentUser().getUid();
+        uid = LogInOut.getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
@@ -99,6 +100,12 @@ public class SettingsActivity extends AppCompatActivity {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE) {
                 Log.d("aKitchen_settings", "Leave Kitchen");
+                if (isCurrentAdmin){
+                    Log.d("aKithcen_settings","Leave kithcen error::While admin");
+                    Toast.makeText(getApplicationContext(),"Error leaving kitchen while admin",Toast.LENGTH_LONG).show();
+                } else{
+                    myKitchenRef.child("users").child(uid).removeValue(); // Removes current user from the current kitchen
+                }
             }
         };
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
