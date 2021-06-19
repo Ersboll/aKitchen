@@ -42,6 +42,29 @@ public class SettingsActivity extends AppCompatActivity {
         String uid = LogInOut.getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+
+
+        // Getting kitchen ID. Used to identify whether a user is admin or not.
+        myKitchenRef = database.getReference("/users/" + uid + "/kitchen");
+        myIsAdminRef = database.getReference("/kitchens/" + kitchenKey + "/users/" + uid + "/admin");
+        kitchenListener = new ValueEventListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                kitchenKey = snapshot.getValue(String.class);
+                Log.d(TAG, "Got kitchen key: " + kitchenKey);
+                myIsAdminRef = database.getReference("/kitchens/" + kitchenKey + "/users/" + uid + "/admin");
+                // Add listener call to get updated data with the values from this listener
+                myIsAdminRef.addValueEventListener(adminListener);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                Log.w(TAG, "Failed to read value", error.toException());
+            }
+        };
+
         // Getting whether a user is admin or not
         adminListener = new ValueEventListener() {
             @Override
@@ -64,27 +87,6 @@ public class SettingsActivity extends AppCompatActivity {
                 Log.w(TAG, "Failed to read value", error.toException());
             }
         };
-
-        // Get kitchenID
-        myKitchenRef = database.getReference("/users/" + uid + "/kitchen");
-        myIsAdminRef = database.getReference("/kitchens/" + kitchenKey + "/users/" + uid + "/admin");
-        kitchenListener = new ValueEventListener() {
-            @SuppressLint("RestrictedApi")
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                kitchenKey = snapshot.getValue(String.class);
-                Log.d(TAG, "Got kitchen key: " + kitchenKey);
-                myIsAdminRef = database.getReference("/kitchens/" + kitchenKey + "/users/" + uid + "/admin");
-                Log.d(TAG,"Is admin path: "+ myIsAdminRef.getPath().toString());
-                myIsAdminRef.addValueEventListener(adminListener);
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                Log.w(TAG, "Failed to read value", error.toException());
-            }
-        };
-
         myKitchenRef.addValueEventListener(kitchenListener);
     }
 
