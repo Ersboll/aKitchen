@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 
 import androidx.fragment.app.Fragment;
@@ -19,7 +18,8 @@ public class CurrentFragment extends Fragment {
     RecyclerView recyclerView;
     CurrentListAdapter currentListAdapter;
     RecyclerView.LayoutManager layoutManager;
-    String[] tempData;
+    String[] tempNameData;
+    int[] tempValueData;
 
     public static CurrentFragment newInstance() {
         CurrentFragment currentFragment = new CurrentFragment();
@@ -37,14 +37,14 @@ public class CurrentFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_current, container, false);
 
-        //TODO: find this id and fix
         recyclerView = root.findViewById(R.id.current_list_view);
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        tempData = getResources().getStringArray(R.array.test_names);
-        currentListAdapter = new CurrentListAdapter(tempData, this);
+        tempNameData = getResources().getStringArray(R.array.test_names);
+        tempValueData = getResources().getIntArray(R.array.test_values);
+        currentListAdapter = new CurrentListAdapter(tempNameData, tempValueData, this);
         recyclerView.setAdapter(currentListAdapter);
 
         Button concludeButton = root.findViewById(R.id.conclude_button);

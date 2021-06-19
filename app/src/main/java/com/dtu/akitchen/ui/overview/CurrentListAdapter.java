@@ -1,6 +1,5 @@
 package com.dtu.akitchen.ui.overview;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +8,14 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dtu.akitchen.R;
-import com.dtu.akitchen.ui.main.GrocceriesFragment;
-import com.dtu.akitchen.ui.main.GrocceryListAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
 public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.ViewHolder> {
 
     private CurrentFragment fragment;
-    private String[] localDataSet;
+    private String[] localNameDataSet;
+    private int[] localValuesDataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameTextView;
@@ -40,9 +38,10 @@ public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.
 
     //dataSet represents data to be used by the adapter
     //TODO import from firebase
-    public CurrentListAdapter(String[] dataSet, CurrentFragment fragment) {
+    public CurrentListAdapter(String[] dataSetNames, int[] dataSetValues, CurrentFragment fragment) {
         this.fragment = fragment;
-        localDataSet = dataSet;
+        localNameDataSet = dataSetNames;
+        localValuesDataSet = dataSetValues;
     }
 
     // Create new views (invoked by the layout manager)
@@ -62,17 +61,18 @@ public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getNameTextView().setText(localDataSet[position]);
+        viewHolder.getNameTextView().setText(localNameDataSet[position]);
+        viewHolder.getValueTextView().setText("" + localValuesDataSet[position] + fragment.getResources().getString(R.string.dkk));
         //TODO: implement getValueTextView aswell
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        if(null == localDataSet) {
+        if(null == localNameDataSet) {
             return 0;
         }
-        return localDataSet.length;
+        return localNameDataSet.length;
     }
 
 }
