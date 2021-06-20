@@ -7,14 +7,16 @@ import android.util.Patterns;
 import android.widget.Toast;
 
 import com.dtu.akitchen.MainActivity;
+import com.dtu.akitchen.ui.logInOut.LoginActivity;
+import com.dtu.akitchen.ui.main.SettingsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
-public class logInOut {
+public class LogInOut {
 
-    public static String TAG = "logInOut";
+    public static String TAG = "LogInOut";
 
     /**
      * Logs the current out of their session
@@ -87,7 +89,7 @@ public class logInOut {
             auth.createUserWithEmailAndPassword(email,password)
                     .addOnCompleteListener(activity,task ->{
                         if(task.isSuccessful()){
-                            logout();
+                            Log.d(TAG, "User has signed up");
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(activity, "ERROR creating user", Toast.LENGTH_SHORT).show();
@@ -123,24 +125,17 @@ public class logInOut {
     /**
      * Get the current user firebase element
      * @return a FirebaseUser object
-     * @throws UserNotSignedInException if the user is not signed in
      */
-    public static FirebaseUser getCurrentUser() throws UserNotSignedInException{
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
-            return user;
-        } else {
-            throw new UserNotSignedInException("The user is not signed in");
-        }
+    public static FirebaseUser getCurrentUser(){
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
     /**
      * Sets the current user's email
      * @param email the new email
      * @throws IllegalArgumentException if the email is invalid
-     * @throws UserNotSignedInException if the user is not signed in
      */
-    public static void setUserEmail(String email) throws IllegalArgumentException,UserNotSignedInException {
+    public static void setUserEmail(String email) throws IllegalArgumentException {
         if(!isEmailValid(email))
             throw new IllegalArgumentException("Invalid email passed to setUserEmail");
         FirebaseUser user = getCurrentUser();
@@ -156,9 +151,8 @@ public class logInOut {
      * Sets the current user's password
      * @param password the new password
      * @throws IllegalArgumentException if the password is invalid
-     * @throws UserNotSignedInException if the user is not signed in
      */
-    public static void setUserPassword(String password) throws IllegalArgumentException,UserNotSignedInException{
+    public static void setUserPassword(String password) throws IllegalArgumentException{
         if(!isPasswordValid(password))
             throw new IllegalArgumentException("Invalid password passed to setUserPassword");
         getCurrentUser()
@@ -172,9 +166,8 @@ public class logInOut {
 
     /**
      * Deletes the current user
-     * @throws UserNotSignedInException if the user is not signed in
      */
-    public static void deleteUser() throws UserNotSignedInException{
+    public static void deleteUser(){
         getCurrentUser()
                 .delete()
                 .addOnCompleteListener(task -> {

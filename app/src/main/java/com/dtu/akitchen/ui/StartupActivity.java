@@ -9,9 +9,14 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.dtu.akitchen.MainActivity;
 import com.dtu.akitchen.R;
+import com.dtu.akitchen.authentication.LogInOut;
+import com.dtu.akitchen.ui.kitchen.CreateOrJoinKitchenActivity;
 import com.dtu.akitchen.ui.logInOut.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class StartupActivity extends AppCompatActivity {
 
@@ -27,22 +32,17 @@ public class StartupActivity extends AppCompatActivity {
         Log.i("StartupActivity", "Launched StartupActivty");
     }
     FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user == null){ // Not logged in
-            Intent intent = new Intent(StartupActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK | // When logged out the activity stack is cleared and the LoginActivity is set as the root activity
-                            Intent.FLAG_ACTIVITY_NO_ANIMATION); // No animation when switching
-            startActivity(intent);
-            finish();
+        FirebaseUser user = LogInOut.getCurrentUser();
+        Intent intent;
+        if(user != null){ // User is Logged in
+            intent = new Intent(StartupActivity.this, CreateOrJoinKitchenActivity.class);
+        } else { // User is not logged in
+            intent = new Intent(StartupActivity.this, LoginActivity.class);
         }
-        if(user != null){ // Logged in
-            Intent intent = new Intent(StartupActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK | // When logged out the activity stack is cleared and the MainActivity is set as the root activity
-                    Intent.FLAG_ACTIVITY_NO_ANIMATION); // No animation when switching
-            startActivity(intent);
-            finish();
-        }
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK | // When logged out the activity stack is cleared and the LoginActivity is set as the root activity
+                Intent.FLAG_ACTIVITY_NO_ANIMATION); // No animation when switching
+        startActivity(intent);
+        finish();
     };
 }

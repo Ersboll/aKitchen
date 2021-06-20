@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
-import com.dtu.akitchen.authentication.logInOut;
+import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.databinding.ActivityForgotPasswordBinding;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
@@ -62,12 +62,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         usernameEditText.setOnEditorActionListener((v, actionId, event) -> {
             if(actionId == EditorInfo.IME_ACTION_DONE){
-                logInOut.resetPassword(ForgotPasswordActivity.this,mViewModel.getEmail());
+                LogInOut.resetPassword(ForgotPasswordActivity.this,mViewModel.getEmail());
             }
             return false;
         });
 
-        resetPasswordButton.setOnClickListener(v -> logInOut.resetPassword(this,mViewModel.getEmail()));
+        resetPasswordButton.setOnClickListener(v -> LogInOut.resetPassword(this,mViewModel.getEmail()));
     }
 
     @Override

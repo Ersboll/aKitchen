@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @IgnoreExtraProperties
 public class Kitchen {
     private static String TAG = "KITCHEN";
+    private final static int ID_LENGTH = 8;
 
     public String kitchenName;
     public HashMap<String, Object> users;
@@ -23,6 +25,17 @@ public class Kitchen {
         this.kitchenName = kitchenName;
         users = new HashMap<>();
         users.put(userAdmin.getUid(),userAdmin);
+    }
+
+    public static String generateId () {
+        String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder id = new StringBuilder();
+        Random rnd = new Random();
+        for (int i = 0; i < ID_LENGTH; i++) {
+            int idx = rnd.nextInt(abc.length());
+            id.append(abc.charAt(idx));
+        }
+        return id.toString();
     }
 
     @Exclude

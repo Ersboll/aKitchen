@@ -1,7 +1,6 @@
 package com.dtu.akitchen.GrocceryItems;
 
-import com.dtu.akitchen.authentication.UserNotSignedInException;
-import com.dtu.akitchen.authentication.logInOut;
+import com.dtu.akitchen.authentication.LogInOut;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -14,10 +13,10 @@ public class DAOboughtItem {
     private DatabaseReference grocceryListRef;
     private FirebaseUser user;
 
-    public DAOboughtItem() throws UserNotSignedInException {
+    public DAOboughtItem() {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         //change this in case database is restructured;
-        user = logInOut.getCurrentUser();
+        user = LogInOut.getCurrentUser();
         String kitchenId = databaseReference.child("users")
                 .child("kitchen").get().toString();
         grocceryListRef = databaseReference.child("bought_items").child(kitchenId);
