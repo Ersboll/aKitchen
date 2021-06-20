@@ -19,7 +19,8 @@ public class DAOshoppingListItems {
         //get the kitchen that the user belongs to
         //TODO should be done with onValueChagneListener instead
         //TODO uncomment line below when database connection is up
-        kitchenId = databaseReference.child("users").child(user.getUid()).get().toString();
+        //kitchenId = databaseReference.child("users").child(user.getUid()).get().toString();
+        kitchenId = "kitchen1";
         this.shoppingListReference = databaseReference.child("shopping_list").child(kitchenId);
 
     }
