@@ -94,7 +94,7 @@ public class GrocceriesFragment extends Fragment {
                     }).addOnFailureListener( err -> {
                         showShortToast(err.getMessage());
                     });
-                } catch (UserNotSignedInException e) {
+                } catch (Exception e) {
                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     Log.i("DAO", "failed to create DAO");
                 }

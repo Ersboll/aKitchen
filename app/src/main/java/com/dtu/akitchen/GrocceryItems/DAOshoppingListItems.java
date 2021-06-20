@@ -28,6 +28,8 @@ public class DAOshoppingListItems {
         Log.i(TAG, "user: " + user + ", kitchen: " + kitchenId);
         this.shoppingListReference = databaseReference.child("shopping_list").child(kitchenId);
 
+
+
     }
 
     public Task<Void> addItem(String itemName) {
