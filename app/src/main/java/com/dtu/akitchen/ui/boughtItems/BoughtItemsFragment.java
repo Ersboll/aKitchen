@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.dtu.akitchen.ShoppingListItems.BoughtItem;
 import com.dtu.akitchen.authentication.LogInOut;
 
 import com.dtu.akitchen.R;

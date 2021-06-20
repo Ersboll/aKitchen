@@ -10,29 +10,28 @@ import com.google.firebase.database.FirebaseDatabase;
 public class DAOboughtItem {
 
     private DatabaseReference databaseReference;
-    private DatabaseReference grocceryListRef;
+    private DatabaseReference soppingListRef;
     private FirebaseUser user;
 
     public DAOboughtItem() {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         //change this in case database is restructured;
         user = LogInOut.getCurrentUser();
-        String kitchenId = databaseReference.child("users")
-                .child("kitchen").get().toString();
+        String kitchenId = kitchenHelper.getKitchenId();
         //grocceryListRef = databaseReference.child("bought_items).child(kitchenId);
-        grocceryListRef = databaseReference.child("bought_items").child(kitchenId);
+        soppingListRef = databaseReference.child("bought_items").child(kitchenId);
     }
 
-    public Task<Void> addItem(boughtItem item) {
+    public Task<Void> addItem(BoughtItem item) {
         return null;
     }
 
     public Task<Void> deleteItem(String key) {
-        return grocceryListRef.child(key).removeValue();
+        return soppingListRef.child(key).removeValue();
     }
 
 
-    public Task<Void> updateItem(boughtItem boughtItem) {
+    public Task<Void> updateItem(BoughtItem boughtItem) {
         return null;
     }
 

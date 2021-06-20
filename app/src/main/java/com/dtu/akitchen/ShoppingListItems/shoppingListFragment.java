@@ -73,8 +73,7 @@ public class shoppingListFragment extends Fragment {
 
         //TODO figure out how to actually get kitchen id
         //get database reference to the shopping list
-        //String kitchenId = kitchenHelper.getKitchenId();
-        String kitchenId = "kitchen1";
+        String kitchenId = kitchenHelper.getKitchenId();
 
         Log.i("KitchenId",kitchenId);
         DatabaseReference shoppingListReference = FirebaseDatabase.getInstance().getReference()
@@ -161,15 +160,7 @@ public class shoppingListFragment extends Fragment {
 
 
 
-    public void buyItem(String itemName, String boughtBy) {
-        try {
-            boughtItem boughtItem = new boughtItem(itemName, boughtBy);
-            boughtItem.setFragment(this);
-            boughtItem.addItem();
-        } catch (BlankItemNameException e) {
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
+
 
     public void showShortToast(String message) {
         Toast.makeText(getContext(), message , Toast.LENGTH_SHORT).show();

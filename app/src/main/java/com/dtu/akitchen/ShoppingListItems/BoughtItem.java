@@ -5,22 +5,37 @@ import com.google.firebase.database.Exclude;
 import java.util.HashMap;
 import java.util.Map;
 
-public class boughtItem {
+public class BoughtItem {
     private shoppingListFragment fragment;
-    private String boughtBy;
-    private int timeStamp;
-    private String itemName;
-    private double price;
+    public double price;
+    public String itemName;
+    public String boughtBy;
+    public String date;
 
     private DAOboughtItem DAO;
 
-    public boughtItem(String itemName, String boughtBy) throws BlankItemNameException {
-        if(itemName.isEmpty()) {
-            throw new BlankItemNameException("Item name cannot be blank");
-        }
+    public String getDate() {
+        return date;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getBoughtBy() {
+        return boughtBy;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public BoughtItem(String itemName, double price, String boughtBy, String date) {
         this.itemName = itemName;
         this.boughtBy = boughtBy;
+        this.price = price;
         this.DAO = new DAOboughtItem();
+        this.date = date;
     }
 
     public void addItem() {
@@ -52,4 +67,6 @@ public class boughtItem {
     public void setFragment(shoppingListFragment fragment) {
         this.fragment = fragment;
     }
+
+
 }
