@@ -87,18 +87,17 @@ public class GrocceriesFragment extends Fragment {
                 Log.i("ADD", newItemText);
                 try {
                     DAO = new DAOshoppingListItems();
+
+                    DAO.addItem(newItemText).addOnSuccessListener( suc -> {
+                        showShortToast(newItemText + "added");
+                        itemTextView.setText("");
+                    }).addOnFailureListener( err -> {
+                        showShortToast(err.getMessage());
+                    });
                 } catch (UserNotSignedInException e) {
                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     Log.i("DAO", "failed to create DAO");
                 }
-
-
-                DAO.addItem(newItemText).addOnSuccessListener( suc -> {
-                    showShortToast("newItemText added");
-                    itemTextView.setText("");
-                }).addOnFailureListener( err -> {
-                    showShortToast(err.getMessage());
-                });
 
             }
         });

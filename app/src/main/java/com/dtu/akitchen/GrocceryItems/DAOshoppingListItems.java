@@ -1,5 +1,7 @@
 package com.dtu.akitchen.GrocceryItems;
 
+import android.util.Log;
+
 import com.dtu.akitchen.authentication.UserNotSignedInException;
 import com.dtu.akitchen.authentication.logInOut;
 import com.google.android.gms.tasks.Task;
@@ -13,6 +15,8 @@ public class DAOshoppingListItems {
     private DatabaseReference shoppingListReference;
     private String kitchenId;
 
+    private static final String TAG = "DAO";
+
 
     public DAOshoppingListItems() throws UserNotSignedInException {
         FirebaseUser user = logInOut.getCurrentUser();
@@ -20,8 +24,9 @@ public class DAOshoppingListItems {
         //get the kitchen that the user belongs to
         //TODO should be done with onValueChagneListener instead
         //TODO uncomment line below when database connection is up
-        //kitchenId = databaseReference.child("users").child(user.getUid()).get().toString();
-        this.shoppingListReference = databaseReference.child("shopping_list").child("kitchen1");
+        kitchenId = databaseReference.child("users").child(user.getUid()).get().toString();
+        Log.i(TAG, "user: " + user + ", kitchen: " + kitchenId);
+        this.shoppingListReference = databaseReference.child("shopping_list").child(kitchenId);
 
     }
 

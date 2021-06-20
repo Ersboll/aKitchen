@@ -14,7 +14,8 @@ public class boughtItem {
     private String itemName;
     private double price;
 
-    private DAOboughtItem DAO;
+    private DAOboughtItem boughtItemDAO;
+    private DAOshoppingListItems shoppingListDAO;
 
     public boughtItem(String itemName, String boughtBy) throws BlankItemNameException, UserNotSignedInException {
         if(itemName.isEmpty()) {
@@ -22,11 +23,12 @@ public class boughtItem {
         }
         this.itemName = itemName;
         this.boughtBy = boughtBy;
-        this.DAO = new DAOboughtItem();
+        this.boughtItemDAO = new DAOboughtItem();
+        this.shoppingListDAO = new DAOshoppingListItems();
     }
 
     public void addItem() {
-        DAO.addItem(this).addOnSuccessListener(suc ->
+        boughtItemDAO.addItem(this).addOnSuccessListener(suc ->
         {
             fragment.showShortToast("Item added");
 
@@ -40,13 +42,16 @@ public class boughtItem {
     public void buyItem(int price, String userUID){
         this.price = price;
         this.boughtBy = userUID;
-        DAO.updateItem(this);
+
     }
 
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
-        //TODO fill in info
+        result.put("itemName", itemName);
+        result.put("bought_by", boughtBy);
+        result.put("date", timeStamp);
+        result.put("price", price);
         return result;
     }
 

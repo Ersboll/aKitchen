@@ -20,7 +20,6 @@ public class DAOboughtItem {
         user = logInOut.getCurrentUser();
         String kitchenId = databaseReference.child("users")
                 .child("kitchen").get().toString();
-        //grocceryListRef = databaseReference.child("bought_items).child(kitchenId);
         grocceryListRef = databaseReference.child("bought_items").child(kitchenId);
     }
 
