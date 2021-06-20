@@ -23,7 +23,6 @@ import com.dtu.akitchen.GrocceryItems.BlankItemNameException;
 import com.dtu.akitchen.GrocceryItems.DAOshoppingListItems;
 import com.dtu.akitchen.GrocceryItems.boughtItem;
 import com.dtu.akitchen.R;
-import com.dtu.akitchen.authentication.UserNotSignedInException;
 import com.google.firebase.auth.FirebaseUser;
 
 
@@ -85,12 +84,9 @@ public class GrocceriesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.i("ADD", newItemText);
-                try {
-                    DAO = new DAOshoppingListItems();
-                } catch (UserNotSignedInException e) {
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.i("DAO", "failed to create DAO");
-                }
+                DAO = new DAOshoppingListItems();
+                //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                //Log.i("DAO", "failed to create DAO");
 
 
                 DAO.addItem(newItemText).addOnSuccessListener( suc -> {
@@ -138,7 +134,7 @@ public class GrocceriesFragment extends Fragment {
             boughtItem boughtItem = new boughtItem(itemName, boughtBy);
             boughtItem.setFragment(this);
             boughtItem.addItem();
-        } catch (BlankItemNameException | UserNotSignedInException e) {
+        } catch (BlankItemNameException e) {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }

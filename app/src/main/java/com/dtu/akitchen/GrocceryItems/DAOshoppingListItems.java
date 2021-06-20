@@ -1,7 +1,6 @@
 package com.dtu.akitchen.GrocceryItems;
 
-import com.dtu.akitchen.authentication.UserNotSignedInException;
-import com.dtu.akitchen.authentication.logInOut;
+import com.dtu.akitchen.authentication.LogInOut;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -14,8 +13,8 @@ public class DAOshoppingListItems {
     private String kitchenId;
 
 
-    public DAOshoppingListItems() throws UserNotSignedInException {
-        FirebaseUser user = logInOut.getCurrentUser();
+    public DAOshoppingListItems() {
+        FirebaseUser user = LogInOut.getCurrentUser();
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         //get the kitchen that the user belongs to
         //TODO should be done with onValueChagneListener instead

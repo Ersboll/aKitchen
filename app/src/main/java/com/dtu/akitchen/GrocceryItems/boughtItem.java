@@ -1,6 +1,5 @@
 package com.dtu.akitchen.GrocceryItems;
 
-import com.dtu.akitchen.authentication.UserNotSignedInException;
 import com.dtu.akitchen.ui.main.GrocceriesFragment;
 import com.google.firebase.database.Exclude;
 
@@ -16,7 +15,7 @@ public class boughtItem {
 
     private DAOboughtItem DAO;
 
-    public boughtItem(String itemName, String boughtBy) throws BlankItemNameException, UserNotSignedInException {
+    public boughtItem(String itemName, String boughtBy) throws BlankItemNameException {
         if(itemName.isEmpty()) {
             throw new BlankItemNameException("Item name cannot be blank");
         }
