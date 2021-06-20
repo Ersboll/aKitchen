@@ -2,7 +2,7 @@ package com.dtu.akitchen.overview;
 
 import android.util.Log;
 
-import com.dtu.akitchen.GrocceryItems.boughtItem;
+import com.dtu.akitchen.ShoppingListItems.boughtItem;
 import com.dtu.akitchen.kitchen.Kitchen;
 import com.dtu.akitchen.kitchen.User;
 
