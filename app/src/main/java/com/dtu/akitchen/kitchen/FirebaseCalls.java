@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class FirebaseCalls {
 
+    public static String kitchenId = null;
+
     /**
      * Creates a kitchen with a specified Kitchen and User object
      * @param kitchen the Kitchen object that will be added to the database
@@ -19,16 +21,15 @@ public class FirebaseCalls {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
 
-        String key = myRef.child("kitchens").push().getKey();
+        kitchenId = Kitchen.generateId();
         Map<String, Object> kitchenValues = kitchen.toMap();
         Map<String, Object> userValues = new HashMap<>();
-        userValues.put("kitchen", key);
+        userValues.put("kitchen", kitchenId);
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/kitchens/" + key, kitchenValues);
+        childUpdates.put("/kitchens/" + kitchenId, kitchenValues);
         childUpdates.put("/users/" + useradmin.getUid() + "/",userValues);
 
         myRef.updateChildren(childUpdates);
     }
-
 }
