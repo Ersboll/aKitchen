@@ -1,8 +1,9 @@
-package com.dtu.akitchen.ui.main;
+package com.dtu.akitchen.ShoppingListItems;
 //Philip Hviid
 import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,29 +20,34 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dtu.akitchen.GrocceryItems.BlankItemNameException;
-import com.dtu.akitchen.GrocceryItems.DAOshoppingListItems;
-import com.dtu.akitchen.GrocceryItems.boughtItem;
 import com.dtu.akitchen.R;
-import com.google.firebase.auth.FirebaseUser;
+import com.dtu.akitchen.ui.main.EnterPriceDialogFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 
-public class GrocceriesFragment extends Fragment {
-    RecyclerView grocceryListView;
-    GrocceryListAdapter grocceryListAdapter;
+public class ShoppingListFragment extends Fragment {
+    RecyclerView recyclerView;
+    ShoppingListAdapter shoppingListAdapter;
     RecyclerView.LayoutManager layoutManager;
-    String[] dataSet;
     Button positiveButton;
     EditText priceInput;
     EnterPriceDialogFragment inputDialog;
-    DAOshoppingListItems DAO;
-    FirebaseUser user;
+    DAOshoppingListItems shoppingListItemsDAO;
+    ArrayList<ShoppingListItem> shoppingItems = new ArrayList<ShoppingListItem>();
 
 
 
 
-    public static GrocceriesFragment newInstance() {
-        GrocceriesFragment fragment = new GrocceriesFragment();
+    public static ShoppingListFragment newInstance() {
+        ShoppingListFragment fragment = new ShoppingListFragment();
         Bundle args = new Bundle();
         return fragment;
     }
@@ -59,18 +65,46 @@ public class GrocceriesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_grocceries, container, false);
 
         //set recyclerview
-        grocceryListView = rootView.findViewById(R.id.grocceries_list_view);
+        recyclerView = rootView.findViewById(R.id.grocceries_list_view);
 
         //set layoutmanager
         layoutManager = new LinearLayoutManager(getActivity());
-        grocceryListView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
+
+        //TODO figure out how to actually get kitchen id
+        //get database reference to the shopping list
+        String kitchenId = KitchenHelper.getKitchenId();
+
+        Log.i("KitchenId",kitchenId);
+        DatabaseReference shoppingListReference = FirebaseDatabase.getInstance().getReference()
+                .child("shopping_list").child(kitchenId);
+
 
 
         //set custom made adapter for groccery items
-        //TODO remove this placeholder dataSet
-        dataSet = getResources().getStringArray(R.array.test_items);
-        grocceryListAdapter = new GrocceryListAdapter(dataSet, this);
-        grocceryListView.setAdapter(grocceryListAdapter);
+        shoppingListAdapter = new ShoppingListAdapter(shoppingItems, this);
+        recyclerView.setAdapter(shoppingListAdapter);
+
+
+        shoppingListReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                shoppingItems.clear();
+                ShoppingListItem shoppingListItem;
+                for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
+                    shoppingListItem = new ShoppingListItem(dataSnapshot.getKey(),
+                            dataSnapshot.getValue().toString());
+                    shoppingItems.add(shoppingListItem);
+                    shoppingListAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                showShortToast("Failed to get data");
+            }
+        });
+
 
         //set add button onClick
 
@@ -78,18 +112,15 @@ public class GrocceriesFragment extends Fragment {
         //only pressable if not blank
 
         TextView itemTextView = (TextView) rootView.findViewById(R.id.new_item_text);
-        String newItemText = itemTextView.getText().toString();
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String newItemText = itemTextView.getText().toString();
                 Log.i("ADD", newItemText);
-                DAO = new DAOshoppingListItems();
-                //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                //Log.i("DAO", "failed to create DAO");
+                shoppingListItemsDAO = new DAOshoppingListItems();
 
-
-                DAO.addItem(newItemText).addOnSuccessListener( suc -> {
+                shoppingListItemsDAO.addItem(newItemText).addOnSuccessListener(suc -> {
                     showShortToast("newItemText added");
                     itemTextView.setText("");
                 }).addOnFailureListener( err -> {
@@ -129,23 +160,16 @@ public class GrocceriesFragment extends Fragment {
 
 
 
-    public void buyItem(String itemName, String boughtBy) {
-        try {
-            boughtItem boughtItem = new boughtItem(itemName, boughtBy);
-            boughtItem.setFragment(this);
-            boughtItem.addItem();
-        } catch (BlankItemNameException e) {
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
+
 
     public void showShortToast(String message) {
         Toast.makeText(getContext(), message , Toast.LENGTH_SHORT).show();
     }
 
-    public void openInputPriceDialog(String itemName) {
+    public void openInputPriceDialog(String itemName, String itemKey) {
         inputDialog = new EnterPriceDialogFragment();
         inputDialog.setTitle(itemName);
+        inputDialog.setItemKey(itemKey);
 
         inputDialog.show(getActivity().getSupportFragmentManager(),
                 "inputDialog");

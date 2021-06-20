@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.dtu.akitchen.R;
+import com.dtu.akitchen.ShoppingListItems.BoughtItem;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class BoughtItemsAdapter extends ArrayAdapter<BoughtItem> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        String name = getItem(position).name;
+        String name = getItem(position).itemName;
         String  boughtBy = getItem(position).getBoughtBy();
         String  date= getItem(position).getDate();
         double price = getItem(position).price;
