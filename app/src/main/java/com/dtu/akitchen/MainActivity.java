@@ -3,16 +3,13 @@ package com.dtu.akitchen;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.dtu.akitchen.authentication.UserNotSignedInException;
-import com.dtu.akitchen.authentication.logInOut;
+import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.databinding.ActivityMainBinding;
 import com.dtu.akitchen.kitchen.FirebaseCalls;
 import com.dtu.akitchen.kitchen.Kitchen;
 import com.dtu.akitchen.kitchen.User;
 import com.dtu.akitchen.ui.kitchen.InviteActivity;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
@@ -24,32 +21,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import android.view.View;
 import android.widget.TextView;
 
 import com.dtu.akitchen.ui.main.SectionsPagerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
-import com.dtu.akitchen.authentication.logInOut;
-import com.dtu.akitchen.databinding.ActivityMainBinding;
-import com.dtu.akitchen.ui.main.SectionsPagerAdapter;
 import com.dtu.akitchen.ui.main.SettingsActivity;
 import com.dtu.akitchen.ui.overview.OverviewActivity;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.tabs.TabLayout;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -100,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.logout_submenu:
                 Log.d(TAG,"Logout submenu clicked");
-                logInOut.logout();
+                LogInOut.logout();
                 return true;
             case R.id.settings_submenu:
                 Log.d(TAG, "Settings submenu clicked");

@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.lifecycle.ViewModel;
 
-import com.dtu.akitchen.authentication.logInOut;
+import com.dtu.akitchen.authentication.LogInOut;
 
 public class LoginViewModel extends ViewModel {
     private String email;
@@ -29,7 +29,7 @@ public class LoginViewModel extends ViewModel {
 
     // Username validation check
     private boolean isUserNameValid(String username) {
-        return logInOut.isEmailValid(username);
+        return LogInOut.isEmailValid(username);
     }
 
     public boolean isUserNameValid(){
@@ -38,7 +38,7 @@ public class LoginViewModel extends ViewModel {
 
     // Password validation check
     public boolean isPasswordValid(String password) {
-        return logInOut.isPasswordValid(password);
+        return LogInOut.isPasswordValid(password);
     }
 
     public boolean isPasswordValid(){

@@ -4,47 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.kitchen.CreateOrJoinKitchenActivity">
+    tools:context=".ui.kitchen.JoinKitchenActivity">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="214dp"
-        android:layout_height="85dp"
-        android:layout_marginTop="150dp"
-        android:text="@string/you_have_not_joined_a_kitchen_please_create_one_or_join_another"
+        android:id="@+id/joinAKitchenTextView"
+        android:layout_width="182dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="148dp"
+        android:text="Join a kitchen"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/kitchenInviteCodeEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="288dp"
+        android:ems="10"
+        android:hint="Kitchen invite code"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/create_kitchen_button"
+        android:id="@+id/joinWithCodeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="362dp"
-        android:text="@string/create_kitchen"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/join_kitchen_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="255dp"
-        android:layout_marginTop="362dp"
-        android:text="@string/join_kitchen"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/log_out_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="537dp"
-        android:text="@string/logout"
+        android:layout_marginTop="387dp"
+        android:text="Join with code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

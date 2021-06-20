@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AKitchen">
+        <activity android:name=".ui.kitchen.JoinKitchenActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.kitchen.InviteActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.kitchen.CreateOrJoinKitchenActivity"
