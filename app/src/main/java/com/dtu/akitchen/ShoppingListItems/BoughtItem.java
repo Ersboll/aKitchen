@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BoughtItem {
-    private shoppingListFragment fragment;
+    private ShoppingListFragment fragment;
     public double price;
     public String itemName;
     public String boughtBy;
@@ -59,12 +59,15 @@ public class BoughtItem {
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
-        //TODO fill in info
+        result.put("itemName", itemName);
+        result.put("price", price);
+        result.put("boughtBy", boughtBy);
+        result.put("date", date);
         return result;
     }
 
     //must set fragment to make toast messages from the fragments context
-    public void setFragment(shoppingListFragment fragment) {
+    public void setFragment(ShoppingListFragment fragment) {
         this.fragment = fragment;
     }
 

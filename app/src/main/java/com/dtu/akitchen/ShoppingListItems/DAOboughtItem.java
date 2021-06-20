@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class DAOboughtItem {
 
     private DatabaseReference databaseReference;
-    private DatabaseReference soppingListRef;
+    private DatabaseReference boughtItemsRef;
     private FirebaseUser user;
 
     public DAOboughtItem() {
@@ -18,21 +18,20 @@ public class DAOboughtItem {
         //change this in case database is restructured;
         user = LogInOut.getCurrentUser();
         String kitchenId = kitchenHelper.getKitchenId();
-        //grocceryListRef = databaseReference.child("bought_items).child(kitchenId);
-        soppingListRef = databaseReference.child("bought_items").child(kitchenId);
+        boughtItemsRef = databaseReference.child("bought_items").child(kitchenId);
     }
 
     public Task<Void> addItem(BoughtItem item) {
-        return null;
+        return boughtItemsRef.push().setValue(item.toMap());
     }
 
     public Task<Void> deleteItem(String key) {
-        return soppingListRef.child(key).removeValue();
+        return boughtItemsRef.child(key).removeValue();
     }
 
 
-    public Task<Void> updateItem(BoughtItem boughtItem) {
-        return null;
+    public void upDateBalances(String userUID, double price) {
+        //TODO update balances of the active people in the kitchen
     }
 
 

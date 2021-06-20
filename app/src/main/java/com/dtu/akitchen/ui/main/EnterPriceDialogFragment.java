@@ -9,18 +9,26 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.dtu.akitchen.R;
+import com.dtu.akitchen.ShoppingListItems.BoughtItem;
+import com.dtu.akitchen.ShoppingListItems.DAOboughtItem;
+import com.dtu.akitchen.ShoppingListItems.DAOshoppingListItems;
+import com.dtu.akitchen.ShoppingListItems.ShoppingListFragment;
+import com.dtu.akitchen.authentication.LogInOut;
 
 
 public class EnterPriceDialogFragment extends AppCompatDialogFragment {
     private EditText price;
     private String itemName;
+    private String itemKey;
 
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -40,7 +48,9 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
                 .setPositiveButton("Buy", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        buyItem(itemName, price.getText().toString());
+                        Log.i("BoughtItem", "trying to buy: " + itemName + "" +
+                                " with key:" + itemKey);
+                        buyItem(itemName, itemKey, Double.parseDouble(price.getText().toString()));
                     }
                 });
 
@@ -49,9 +59,21 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
 
 
 
-    private void buyItem(String itemName, String price) {
+    private void buyItem(String itemName, String itemKey, double price) {
+        DAOshoppingListItems shoppingDAO = new DAOshoppingListItems();
+        DAOboughtItem boughtDAO = new DAOboughtItem();
+        //TODO add real date
+        BoughtItem boughtItem = new BoughtItem(itemName,price,
+                LogInOut.getCurrentUser().getUid(), "today");
+        boughtDAO.addItem(boughtItem).addOnSuccessListener( suc -> {
+            Log.i("BoughtItems", itemName + "bought");
+            shoppingDAO.deleteItem(itemKey);
+            boughtDAO.upDateBalances(LogInOut.getCurrentUser().getUid(), price);
 
-        //TODO implement with firebase
+        }).addOnFailureListener(err -> {
+            Log.i("BoughtItems", err.getMessage());
+        });
+
     }
 
     public EditText getPrice() {
@@ -61,5 +83,6 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
     public void setTitle(String itemName) {
         this.itemName = itemName;
     }
+    public void setItemKey(String itemKey) {this.itemKey = itemKey; }
 
 }

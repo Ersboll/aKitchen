@@ -12,37 +12,40 @@ import com.dtu.akitchen.R;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class ShoppingListAdapter extends
         RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
 
-    private shoppingListFragment fragment;
+    private ShoppingListFragment fragment;
     private ArrayList<ShoppingListItem> shoppingListItems;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
+        private String itemKey;
 
-        public ViewHolder(View view, shoppingListFragment fragment) {
+        public ViewHolder(View view, ShoppingListFragment fragment) {
             super(view);
-
             textView = (TextView) view.findViewById(R.id.groccery_item_name);
             //Open dialogue to prompt for price
             view.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
                     String itemName = textView.getText().toString();
-                    Log.i("Buying", "clicked grocceryitem: " + itemName);
-                    fragment.openInputPriceDialog(itemName);
+                    Log.i("Buying", "clicked grocceryitem: " + itemName + "," +
+                            "with itemkey: " + itemKey);
+                    fragment.openInputPriceDialog(itemName, itemKey);
                 }
             });
 
 
+
         }
 
+        public void setItemKey(String key) {
+            itemKey = key;
+        }
 
         public TextView getTextView() {
             return textView;
@@ -51,7 +54,7 @@ public class ShoppingListAdapter extends
 
     //dataSet represents data to be used by the adapter
     //TODO import from firebase
-    public ShoppingListAdapter(ArrayList<ShoppingListItem> shoppingListItems, shoppingListFragment fragment) {
+    public ShoppingListAdapter(ArrayList<ShoppingListItem> shoppingListItems, ShoppingListFragment fragment) {
         this.fragment = fragment;
         this.shoppingListItems = shoppingListItems;
     }
@@ -75,7 +78,10 @@ public class ShoppingListAdapter extends
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getTextView().setText(shoppingListItems.get(position).getItemName());
+        ShoppingListItem item = shoppingListItems.get(position);
+        viewHolder.getTextView().setText(item.getItemName());
+        Log.i("itemKey", "setting key to: " + item.getKey());
+        viewHolder.setItemKey(item.getKey());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

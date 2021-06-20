@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 
-public class shoppingListFragment extends Fragment {
+public class ShoppingListFragment extends Fragment {
     RecyclerView recyclerView;
     ShoppingListAdapter shoppingListAdapter;
     RecyclerView.LayoutManager layoutManager;
@@ -46,8 +46,8 @@ public class shoppingListFragment extends Fragment {
 
 
 
-    public static shoppingListFragment newInstance() {
-        shoppingListFragment fragment = new shoppingListFragment();
+    public static ShoppingListFragment newInstance() {
+        ShoppingListFragment fragment = new ShoppingListFragment();
         Bundle args = new Bundle();
         return fragment;
     }
@@ -166,9 +166,10 @@ public class shoppingListFragment extends Fragment {
         Toast.makeText(getContext(), message , Toast.LENGTH_SHORT).show();
     }
 
-    public void openInputPriceDialog(String itemName) {
+    public void openInputPriceDialog(String itemName, String itemKey) {
         inputDialog = new EnterPriceDialogFragment();
         inputDialog.setTitle(itemName);
+        inputDialog.setItemKey(itemKey);
 
         inputDialog.show(getActivity().getSupportFragmentManager(),
                 "inputDialog");
