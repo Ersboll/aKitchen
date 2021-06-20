@@ -1,4 +1,4 @@
-package com.dtu.akitchen.GrocceryItems;
+package com.dtu.akitchen.ShoppingListItems;
 
 import com.dtu.akitchen.authentication.LogInOut;
 import com.google.android.gms.tasks.Task;
@@ -19,8 +19,8 @@ public class DAOshoppingListItems {
         //get the kitchen that the user belongs to
         //TODO should be done with onValueChagneListener instead
         //TODO uncomment line below when database connection is up
-        //kitchenId = databaseReference.child("users").child(user.getUid()).get().toString();
-        this.shoppingListReference = databaseReference.child("shopping_list").child("kitchen1");
+        kitchenId = databaseReference.child("users").child(user.getUid()).get().toString();
+        this.shoppingListReference = databaseReference.child("shopping_list").child(kitchenId);
 
     }
 
@@ -31,4 +31,5 @@ public class DAOshoppingListItems {
     public Task<Void> deleteItem(String key) {
         return shoppingListReference.child(key).removeValue();
     }
+
 }

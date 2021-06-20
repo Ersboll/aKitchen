@@ -1,31 +1,32 @@
-package com.dtu.akitchen.ui.main;
+package com.dtu.akitchen.ShoppingListItems;
 //Philip Hviid
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dtu.akitchen.R;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class GrocceryListAdapter extends
-        RecyclerView.Adapter<GrocceryListAdapter.ViewHolder> {
 
-    private GrocceriesFragment fragment;
-    private String[] localDataSet;
+public class ShoppingListAdapter extends
+        RecyclerView.Adapter<ShoppingListAdapter.ViewHolder> {
+
+    private shoppingListFragment fragment;
+    private ArrayList<ShoppingListItem> shoppingListItems;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
 
-        public ViewHolder(View view, GrocceriesFragment fragment) {
+        public ViewHolder(View view, shoppingListFragment fragment) {
             super(view);
 
             textView = (TextView) view.findViewById(R.id.groccery_item_name);
@@ -50,9 +51,9 @@ public class GrocceryListAdapter extends
 
     //dataSet represents data to be used by the adapter
     //TODO import from firebase
-    public GrocceryListAdapter(String[] dataSet, GrocceriesFragment fragment) {
+    public ShoppingListAdapter(ArrayList<ShoppingListItem> shoppingListItems, shoppingListFragment fragment) {
         this.fragment = fragment;
-        localDataSet = dataSet;
+        this.shoppingListItems = shoppingListItems;
     }
 
     // Create new views (invoked by the layout manager)
@@ -74,16 +75,16 @@ public class GrocceryListAdapter extends
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getTextView().setText(localDataSet[position]);
+        viewHolder.getTextView().setText(shoppingListItems.get(position).getItemName());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        if(null == localDataSet) {
+        if(null == shoppingListItems) {
             return 0;
         }
-        return localDataSet.length;
+        return shoppingListItems.size();
     }
 
 }
