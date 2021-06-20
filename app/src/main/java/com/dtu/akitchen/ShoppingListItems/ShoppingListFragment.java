@@ -73,7 +73,7 @@ public class ShoppingListFragment extends Fragment {
 
         //TODO figure out how to actually get kitchen id
         //get database reference to the shopping list
-        String kitchenId = kitchenHelper.getKitchenId();
+        String kitchenId = KitchenHelper.getKitchenId();
 
         Log.i("KitchenId",kitchenId);
         DatabaseReference shoppingListReference = FirebaseDatabase.getInstance().getReference()

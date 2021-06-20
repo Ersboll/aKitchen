@@ -11,7 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 //TODO replace this placeholder
-public class kitchenHelper {
+public class KitchenHelper {
     public static String getKitchenId(){
         return "kitchen1";
     }

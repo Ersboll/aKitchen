@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.dtu.akitchen.ShoppingListItems.BoughtItem;
+import com.dtu.akitchen.ShoppingListItems.KitchenHelper;
 import com.dtu.akitchen.authentication.LogInOut;
 
 import com.dtu.akitchen.R;
@@ -54,7 +55,7 @@ public class BoughtItemsFragment extends Fragment {
         boughtItemsAdapter = new BoughtItemsAdapter(getActivity(), R.layout.bought_items_item ,boughtItemsList);
         // connect to firebase
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("bought_items").child("kitchenId");
+                .child("bought_items").child(KitchenHelper.getKitchenId());
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,7 +63,7 @@ public class BoughtItemsFragment extends Fragment {
                     boughtItemsList.clear();
                 for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
                     String boughtById = (String) dataSnapshot.child("bought_by").getValue();
-                    double price = (double)  dataSnapshot.child("price").getValue();
+                    double price = Double.parseDouble(dataSnapshot.child("price").getValue().toString());
                     String name = (String) dataSnapshot.child("itemName").getValue();
                     String date = (String) dataSnapshot.child("date").getValue();
 

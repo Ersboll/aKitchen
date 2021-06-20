@@ -17,7 +17,7 @@ public class DAOboughtItem {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         //change this in case database is restructured;
         user = LogInOut.getCurrentUser();
-        String kitchenId = kitchenHelper.getKitchenId();
+        String kitchenId = KitchenHelper.getKitchenId();
         boughtItemsRef = databaseReference.child("bought_items").child(kitchenId);
     }
 

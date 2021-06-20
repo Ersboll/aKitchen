@@ -49,19 +49,13 @@ public class BoughtItem {
         });
     }
 
-    //TODO gonna be replaced
-    public void buyItem(int price, String userUID){
-        this.price = price;
-        this.boughtBy = userUID;
-        DAO.updateItem(this);
-    }
 
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
         result.put("itemName", itemName);
         result.put("price", price);
-        result.put("boughtBy", boughtBy);
+        result.put("bought_by", boughtBy);
         result.put("date", date);
         return result;
     }
