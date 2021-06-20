@@ -1,13 +1,12 @@
-package com.dtu.akitchen.GrocceryItems;
+package com.dtu.akitchen.ShoppingListItems;
 
-import com.dtu.akitchen.ui.main.GrocceriesFragment;
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class boughtItem {
-    private GrocceriesFragment fragment;
+    private shoppingListFragment fragment;
     private String boughtBy;
     private int timeStamp;
     private String itemName;
@@ -50,7 +49,7 @@ public class boughtItem {
     }
 
     //must set fragment to make toast messages from the fragments context
-    public void setFragment(GrocceriesFragment fragment) {
+    public void setFragment(shoppingListFragment fragment) {
         this.fragment = fragment;
     }
 }

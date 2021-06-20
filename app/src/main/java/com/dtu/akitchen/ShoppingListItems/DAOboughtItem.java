@@ -1,4 +1,4 @@
-package com.dtu.akitchen.GrocceryItems;
+package com.dtu.akitchen.ShoppingListItems;
 
 import com.dtu.akitchen.authentication.LogInOut;
 import com.google.android.gms.tasks.Task;
@@ -35,6 +35,7 @@ public class DAOboughtItem {
     public Task<Void> updateItem(boughtItem boughtItem) {
         return null;
     }
+
 
 
 }
