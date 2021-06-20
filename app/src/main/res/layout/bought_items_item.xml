@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100"
+    android:orientation="horizontal"
+    >
+
+
+    <TextView
+        android:layout_margin="1sp"
+        android:padding="5dp"
+        android:textSize="15sp"
+        android:id="@+id/bought_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="33.3"
+        android:height="60dp"
+        android:gravity="center_horizontal"
+        android:text="name"
+        android:textAlignment="center" />
+    <TextView
+        android:textSize="15sp"
+        android:layout_margin="1sp"
+        android:padding="5dp"
+        android:id="@+id/bought_item_bought_by"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="33.3"
+        android:height="60dp"
+        android:gravity="center_horizontal"
+        android:text="bought_by"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="33.3"
+        >
+
+        <TextView
+            android:textSize="15sp"
+            android:layout_margin="1sp"
+            android:padding="5dp"
+            android:id="@+id/bought_item_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:text="price" />
+
+        <TextView
+            android:layout_margin="1sp"
+            android:padding="5dp"
+            android:textSize="15sp"
+            android:text="date"
+            android:id="@+id/bought_item_date"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:layout_width="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>

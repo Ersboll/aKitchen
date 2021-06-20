@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.dtu.akitchen.R;
+import com.dtu.akitchen.ui.boughtItems.BoughtItemsFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
