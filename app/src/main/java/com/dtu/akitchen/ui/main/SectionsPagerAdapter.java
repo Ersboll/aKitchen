@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.dtu.akitchen.ShoppingListItems.shoppingListFragment;
+import com.dtu.akitchen.ShoppingListItems.ShoppingListFragment;
 import com.dtu.akitchen.R;
 import com.dtu.akitchen.ui.boughtItems.BoughtItemsFragment;
 
@@ -32,7 +32,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
         if (position == 0) {
-            return shoppingListFragment.newInstance();
+            return ShoppingListFragment.newInstance();
         } else{
             return BoughtItemsFragment.newInstance();
         }

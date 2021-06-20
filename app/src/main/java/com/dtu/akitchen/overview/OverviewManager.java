@@ -1,12 +1,9 @@
 package com.dtu.akitchen.overview;
 
-import android.util.Log;
-
-import com.dtu.akitchen.ShoppingListItems.boughtItem;
+import com.dtu.akitchen.ShoppingListItems.BoughtItem;
 import com.dtu.akitchen.kitchen.Kitchen;
 import com.dtu.akitchen.kitchen.User;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,13 +12,13 @@ public class OverviewManager {
     private String TAG = "OverviewManager";
     private User users[];
     private Kitchen kitchen;
-    private boughtItem items[];
+    private BoughtItem items[];
 
     public OverviewManager(){
 
     }
 
-    public OverviewManager(User users[], Kitchen kitchen, boughtItem items[]){
+    public OverviewManager(User users[], Kitchen kitchen, BoughtItem items[]){
         this.users = users;
         this.kitchen = kitchen;
         this.items = items;
@@ -70,11 +67,11 @@ public class OverviewManager {
         return kitchen;
     }
 
-    public void setItems(boughtItem[] items) {
+    public void setItems(BoughtItem[] items) {
         this.items = items;
     }
 
-    public boughtItem[] getItems() {
+    public BoughtItem[] getItems() {
         return items;
     }
 }
