@@ -122,5 +122,7 @@
     <string name="dkk">&#160;DKK</string>
     <string name="export_button_text">Export Selection</string>
     <string name="size">&#160;People</string>
+    <string name="settle_accounts_success">Accounts successfully settled!</string>
+    <string name="settle_accounts_fail">Failed to settle accounts!</string>
 
 </resources>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dtu.akitchen.R;
+import com.dtu.akitchen.overview.OverviewManager;
 
 public class CurrentFragment extends Fragment {
 
@@ -57,6 +59,12 @@ public class CurrentFragment extends Fragment {
             public void onClick(View v) {
                 //TODO: Create summary of current user debts, send to history list and restart tally
                 //TODO: Firebase integration
+                OverviewManager ovm = new OverviewManager();
+                if(ovm.settleAccounts()){
+                    Toast.makeText(getContext(),R.string.settle_accounts_success, Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getContext(),R.string.settle_accounts_fail, Toast.LENGTH_LONG).show();
+                }
             }
         });
 
