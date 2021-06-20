@@ -33,7 +33,6 @@ public class BoughtItemsAdapter extends ArrayAdapter<BoughtItem> {
         String  date= getItem(position).getDate();
         double price = getItem(position).price;
 
-        BoughtItem item = new BoughtItem(name, 1.1, boughtBy, "20202");
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
@@ -45,7 +44,7 @@ public class BoughtItemsAdapter extends ArrayAdapter<BoughtItem> {
         tvName.setText(name);
         tvBoughtBy.setText(boughtBy);
         tvDate.setText(date);
-        tvPrice.setText(Double.toString(price));
+        tvPrice.setText(Double.toString(price)+" kr");
         return convertView;
     }
 

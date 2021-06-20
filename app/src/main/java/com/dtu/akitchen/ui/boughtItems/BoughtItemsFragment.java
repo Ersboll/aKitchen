@@ -10,8 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.dtu.akitchen.authentication.UserNotSignedInException;
+import com.dtu.akitchen.authentication.logInOut;
 
 import com.dtu.akitchen.R;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
+import com.dtu.akitchen.kitchen.Kitchen;
+import com.dtu.akitchen.kitchen.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +31,7 @@ import java.util.ArrayList;
 
 
 public class BoughtItemsFragment extends Fragment {
-
+    String userName;
     BoughtItemsAdapter boughtItemsAdapter;
     ArrayList<BoughtItem> boughtItemsList = new ArrayList<BoughtItem>();
 
@@ -40,12 +47,11 @@ public class BoughtItemsFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         boughtItemsAdapter = new BoughtItemsAdapter(getActivity(), R.layout.bought_items_item ,boughtItemsList);
-
         // connect to firebase
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("bought_items").child("kitchenId");
@@ -53,13 +59,14 @@ public class BoughtItemsFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                    boughtItemsList.clear();
                 for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
-                    String boughtBy = (String) dataSnapshot.child("bought_by").getValue();
+                    String boughtById = (String) dataSnapshot.child("bought_by").getValue();
                     double price = (double)  dataSnapshot.child("price").getValue();
                     String name = (String) dataSnapshot.child("itemName").getValue();
                     String date = (String) dataSnapshot.child("date").getValue();
 
-                    BoughtItem item = new BoughtItem(name, price, boughtBy, date);
+                    BoughtItem item = new BoughtItem(name, price, boughtById, date);
                     boughtItemsList.add(item);
                     boughtItemsAdapter.notifyDataSetChanged();
                 }
@@ -67,7 +74,7 @@ public class BoughtItemsFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
+                Toast.makeText(getActivity(), "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
         });
 
