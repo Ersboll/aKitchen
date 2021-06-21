@@ -1,5 +1,5 @@
 package com.dtu.akitchen.ShoppingListItems;
-
+//Philio Hviid
 public class ShoppingListItem {
     String key;
     String itemName;

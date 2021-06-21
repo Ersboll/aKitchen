@@ -12,12 +12,10 @@ public class DAOboughtItem {
 
     private DatabaseReference databaseReference;
     private DatabaseReference boughtItemsRef;
-    private FirebaseUser user;
 
     public DAOboughtItem() {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         //change this in case database is restructured;
-        user = LogInOut.getCurrentUser();
         String kitchenId = FirebaseCalls.kitchenId;
         boughtItemsRef = databaseReference.child("bought_items").child(kitchenId);
     }
