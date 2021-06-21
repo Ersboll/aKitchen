@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.databinding.ActivitySettingsBinding;
 import com.dtu.akitchen.kitchen.FirebaseCalls;
+import com.dtu.akitchen.kitchen.User;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +30,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import java.util.Objects;
 
@@ -39,6 +50,13 @@ public class SettingsActivity extends AppCompatActivity {
     public String kitchenKey;
     private boolean isCurrentAdmin;
     public String uid;
+    DatabaseReference curKitchenRef;
+    public ListView UserListListView;
+    ValueEventListener userListListener;
+    DatabaseReference userListRef;
+    public AlertDialog dialog;
+
+
 
 
 
@@ -56,12 +74,45 @@ public class SettingsActivity extends AppCompatActivity {
 
         uid = LogInOut.getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myKitchenRef = database.getReference("/users/" + uid + "/kitchen");
+        myIsAdminRef = database.getReference("/kitchens/" + kitchenKey + "/users/" + uid + "/admin");
+        curKitchenRef = database.getReference("/kitchens/" + FirebaseCalls.kitchenId);
+        UserListListView = new ListView(this);
+        List<String> users = new ArrayList<>();
+        List<String> userUids = new ArrayList<>();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,users);
+        UserListListView.setAdapter(adapter);
+        UserListListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                Log.d(TAG, String.valueOf(position) + " " + id);
+                String targetUserUid = userUids.get(position);
+                Log.d(TAG,targetUserUid);
+
+                if (isCurrentAdmin){
+                    Log.d(TAG, kitchenKey);
+                    dialog.dismiss();
+                    DatabaseReference setNewAdminRef = curKitchenRef.child("users").child(targetUserUid).child("admin");
+                    setNewAdminRef.setValue(true);
+                    DatabaseReference setOldAdminRef = curKitchenRef.child("users").child(uid).child("admin");
+                    setOldAdminRef.setValue(false);
+                    Log.d(TAG, setNewAdminRef.getPath() + "path");
+                    recreate();
+                }else {
+                    dialog.dismiss();
+                    Toast.makeText(getApplicationContext(),"You dont have permission to set a new admin",Toast.LENGTH_LONG).show();
+                    recreate();
+                }
+            }
+        });
+
 
 
 
         // Getting kitchen ID. Used to identify whether a user is admin or not.
-        myKitchenRef = database.getReference("/users/" + uid + "/kitchen");
-        myIsAdminRef = database.getReference("/kitchens/" + kitchenKey + "/users/" + uid + "/admin");
+
         kitchenListener = new ValueEventListener() {
             @SuppressLint("RestrictedApi")
             @Override
@@ -105,6 +156,13 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
         myKitchenRef.addValueEventListener(kitchenListener);
+
+        // Adding usernames to listView
+        for (User user : FirebaseCalls.users.values()){
+            users.add(user.name);
+            userUids.add(user.getUid());
+        }
+
     }
 
     @Override
@@ -166,5 +224,22 @@ public class SettingsActivity extends AppCompatActivity {
         super.onStop();
         myKitchenRef.removeEventListener(kitchenListener);
         myIsAdminRef.removeEventListener(adminListener);
+    }
+
+    public void onPressSetNewAdmin(View view) {
+
+        DialogInterface.OnClickListener dialogClickListener = ((dialog, which) -> {
+            if (which == DialogInterface.BUTTON_NEUTRAL){
+                dialog.dismiss();
+                recreate();
+            }
+        });
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Select user")
+                .setNeutralButton("Cancel",dialogClickListener);
+        builder.setCancelable(false);
+        builder.setView(UserListListView);
+        dialog = builder.create();
+        dialog.show();
     }
 }
