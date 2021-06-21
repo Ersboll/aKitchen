@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -21,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpUserActivity extends AppCompatActivity {
     private ActivitySignUpUserBinding binding;
-    private SignUpVewModel mViewModel;
+    private SignUpUserVewModel mViewModel;
     private FirebaseAuth auth;
     private String TAG = "SignUpUserActivity";
 
@@ -39,7 +40,7 @@ public class SignUpUserActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        mViewModel = new ViewModelProvider(this).get(SignUpVewModel.class);
+        mViewModel = new ViewModelProvider(this).get(SignUpUserVewModel.class);
 
         // Firebase
         final EditText SignUpMail = binding.signUpMail;
@@ -70,19 +71,14 @@ public class SignUpUserActivity extends AppCompatActivity {
 
         SignUpPass2.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE){
-                if(mViewModel.isPasswordValid() && mViewModel.isUserNameValid()){
-                    LogInOut.signUp(SignUpUserActivity.this,mViewModel.getEmail(),mViewModel.getPassword());
-                }
+                signUp();
             }
             return false;
         });
 
         SignUpButton.setOnClickListener(v -> {
             Log.d(TAG, "You clicked SignUpButton");
-            if(mViewModel.isPasswordValid() && mViewModel.isUserNameValid()){
-                LogInOut.signUp(SignUpUserActivity.this,mViewModel.getEmail(),mViewModel.getPassword());
-            }
-
+            signUp();
         });
     }
 
@@ -94,6 +90,20 @@ public class SignUpUserActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    private void signUp() {
+        if( !mViewModel.isEmailValid() ){
+            Toast.makeText(this,"Must be a vaild email address", Toast.LENGTH_SHORT).show();
+        } else if(!mViewModel.doPasswordsMatch()){
+            Toast.makeText(this, "The 2 passwords must match", Toast.LENGTH_SHORT).show();
+        } else if(!mViewModel.isPasswordValid()){
+            Toast.makeText(this, "Password must be at least 6 characters long",Toast.LENGTH_LONG).show();
+        } else {
+            LogInOut.signUp(SignUpUserActivity.this, mViewModel.getEmail(), mViewModel.getPassword());
+
         }
     }
 }

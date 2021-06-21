@@ -23,6 +23,7 @@ public class CurrentFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     String[] tempNameData;
     int[] tempValueData;
+    OverviewManager ovm;
 
     public static CurrentFragment newInstance() {
         CurrentFragment currentFragment = new CurrentFragment();
@@ -33,6 +34,7 @@ public class CurrentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ovm = new OverviewManager();
     }
 
     @Override
@@ -59,7 +61,6 @@ public class CurrentFragment extends Fragment {
             public void onClick(View v) {
                 //TODO: Create summary of current user debts, send to history list and restart tally
                 //TODO: Firebase integration
-                OverviewManager ovm = new OverviewManager();
                 if(ovm.settleAccounts()){
                     Toast.makeText(getContext(),R.string.settle_accounts_success, Toast.LENGTH_LONG).show();
                 }else{

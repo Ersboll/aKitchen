@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dtu.akitchen.R;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
 import com.dtu.akitchen.ui.main.EnterPriceDialogFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -71,15 +72,12 @@ public class ShoppingListFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        //TODO figure out how to actually get kitchen id
         //get database reference to the shopping list
-        String kitchenId = KitchenHelper.getKitchenId();
+        String kitchenId = FirebaseCalls.kitchenId;
 
         Log.i("KitchenId",kitchenId);
         DatabaseReference shoppingListReference = FirebaseDatabase.getInstance().getReference()
-                .child("shopping_list").child(kitchenId);
-
-
+                .child("kitchens").child(kitchenId).child("shopping_list");
 
         //set custom made adapter for groccery items
         shoppingListAdapter = new ShoppingListAdapter(shoppingItems, this);
