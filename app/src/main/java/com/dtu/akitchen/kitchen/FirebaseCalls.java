@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.dtu.akitchen.MainActivity;
 import com.dtu.akitchen.authentication.LogInOut;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -107,6 +108,14 @@ public class FirebaseCalls {
         childUpdates.put("/users/" + useradmin.getUid() + "/",userValues);
 
         myRef.updateChildren(childUpdates);
+    }
+
+    public static boolean isCurrentAdmin () {
+        FirebaseUser firebaseUser = LogInOut.getCurrentUser();
+        if (firebaseUser == null) return false;
+        User user = FirebaseCalls.users.get(firebaseUser.getUid());
+        if (user == null) return false;
+        return user.admin;
     }
 
 }

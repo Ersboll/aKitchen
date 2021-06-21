@@ -79,12 +79,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (FirebaseCalls.showDialogWhenReady) {
             showNameDialog(this);
+            FirebaseCalls.showDialogWhenReady = false;
         }
     }
 
     @Override
-    protected void onStop(){
-        super.onStop();
+    protected void onPause(){
+        super.onPause();
         hasOpenedNameDialog = false;
     }
 

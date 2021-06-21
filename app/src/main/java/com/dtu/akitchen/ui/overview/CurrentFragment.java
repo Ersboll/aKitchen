@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dtu.akitchen.R;
+import com.dtu.akitchen.ShoppingListItems.BoughtItem;
+import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.kitchen.FirebaseCalls;
+import com.dtu.akitchen.kitchen.Summary;
 import com.dtu.akitchen.kitchen.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,9 +29,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CurrentFragment extends Fragment {
+
     String TAG = "CurrentFragment";
     RecyclerView recyclerView;
     CurrentListAdapter currentListAdapter;
@@ -65,8 +72,10 @@ public class CurrentFragment extends Fragment {
         tempValueData.add(Double.parseDouble("0"));
         tempNameData.add("");
 
+        //Depreciated test values
         //tempNameData = getResources().getStringArray(R.array.test_names);
         //tempValueData = getResources().getIntArray(R.array.test_values);
+
         currentListAdapter = new CurrentListAdapter(tempNameData, tempValueData, this);
         recyclerView.setAdapter(currentListAdapter);
 
@@ -100,17 +109,28 @@ public class CurrentFragment extends Fragment {
             }
         });
 
+
+
         Button concludeButton = root.findViewById(R.id.conclude_button);
-        concludeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: Create summary of current user debts, send to history list and restart tally
-                //TODO: Firebase integration
-                if(true){
-                    Toast.makeText(getContext(),R.string.settle_accounts_success, Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(getContext(),R.string.settle_accounts_fail, Toast.LENGTH_LONG).show();
-                }
+        if (FirebaseCalls.isCurrentAdmin()) {
+            concludeButton.setVisibility(View.VISIBLE);
+        }
+        concludeButton.setOnClickListener(v -> {
+            if (FirebaseCalls.isCurrentAdmin()) {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference kitchenRef = database.getReference("/kitchens/" + FirebaseCalls.kitchenId);
+                DatabaseReference currentRef = kitchenRef.child("summaries/current");
+                DatabaseReference newHistoryRef = kitchenRef.child("summaries/history").push();
+                DatabaseReference boughtItemsRef = kitchenRef.child("bought_items");
+
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                Date date = new Date();
+                FirebaseCalls.summary.ended = dateFormat.format(date);
+                newHistoryRef.setValue(FirebaseCalls.summary);
+                currentRef.setValue(new Summary());
+                boughtItemsRef.removeValue();
+
+                Toast.makeText(getContext(),R.string.settle_accounts_success, Toast.LENGTH_LONG).show();
             }
         });
 
