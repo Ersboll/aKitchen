@@ -66,7 +66,8 @@ public class BoughtItemsFragment extends Fragment {
                     String name = (String) dataSnapshot.child("itemName").getValue();
                     String date = (String) dataSnapshot.child("date").getValue();
 
-                    BoughtItem item = new BoughtItem(name, price, boughtById, date);
+                    String userName = FirebaseCalls.users.get(boughtById).name;
+                    BoughtItem item = new BoughtItem(name, price, userName, date);
                     boughtItemsList.add(item);
                     boughtItemsAdapter.notifyDataSetChanged();
                 }
