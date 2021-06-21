@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,6 +19,10 @@ import com.dtu.akitchen.ui.forgotpassword.ForgotPasswordActivity;
 import com.dtu.akitchen.ui.signupuser.SignUpUserActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Author: Niels Kjær Ersbøll
+ * s183903
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
@@ -56,19 +61,19 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mViewModel.loginDataChanged(usernameEditText.getText().toString(),passwordEditText.getText().toString());
+                mViewModel.loginDataChanged(usernameEditText.getText().toString(), passwordEditText.getText().toString());
             }
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE){
-                LogInOut.login(this,mViewModel.getEmail(),mViewModel.getPassword());
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                logIn();
             }
             return false;
         });
 
-        loginButton.setOnClickListener(v -> LogInOut.login(this,mViewModel.getEmail(),mViewModel.getPassword()));
+        loginButton.setOnClickListener(v -> logIn());
 
         forgotPasswordButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
@@ -79,6 +84,16 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, SignUpUserActivity.class);
             startActivity(intent);
         });
+    }
+
+    public void logIn() {
+        if (!mViewModel.isEmailValid()) {
+            Toast.makeText(this,"Must be a vaild email address", Toast.LENGTH_SHORT).show();
+        } else if(!mViewModel.isPasswordValid()){
+            Toast.makeText(this, "You must write your password", Toast.LENGTH_SHORT).show();
+        } else {
+            LogInOut.login(this, mViewModel.getEmail(), mViewModel.getPassword());
+        }
     }
 
 }

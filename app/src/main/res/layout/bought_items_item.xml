@@ -9,18 +9,19 @@
 
     <TextView
         android:layout_margin="1sp"
-        android:padding="5dp"
-        android:textSize="15sp"
+        android:textSize="17sp"
         android:id="@+id/bought_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="33.3"
+        android:textColor="#333"
         android:height="60dp"
-        android:gravity="center_horizontal"
+        android:gravity="center_vertical"
         android:text="name"
-        android:textAlignment="center" />
+        android:paddingLeft="15dp"/>
     <TextView
         android:textSize="15sp"
+        android:textColor="#333"
         android:layout_margin="1sp"
         android:padding="5dp"
         android:id="@+id/bought_item_bought_by"
@@ -28,9 +29,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="33.3"
         android:height="60dp"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:text="bought_by"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+       />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,23 +44,22 @@
         <TextView
             android:textSize="15sp"
             android:layout_margin="1sp"
+            android:textColor="#333"
             android:padding="5dp"
             android:id="@+id/bought_item_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textAlignment="center"
+            android:gravity="center"
             android:text="price" />
 
         <TextView
             android:layout_margin="1sp"
             android:padding="5dp"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:text="date"
             android:id="@+id/bought_item_date"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textAlignment="center"
+            android:gravity="center"
             android:layout_width="match_parent" />
     </LinearLayout>
 
