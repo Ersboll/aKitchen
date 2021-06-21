@@ -1,5 +1,7 @@
 package com.dtu.akitchen.kitchen;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +41,9 @@ public class FirebaseCalls {
         @Override
         public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
             summary = snapshot.getValue(Summary.class);
+            if (summary == null) {
+                summary = new Summary();
+            }
         }
 
         @Override
