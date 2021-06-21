@@ -192,7 +192,10 @@ public class SettingsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Error leaving kitchen while admin",Toast.LENGTH_LONG).show();
                 } else{
                     Log.d(TAG, "Removes user from kitchen");
-                    myIsAdminRef.removeValue();
+                    DatabaseReference kitchenUserReference = curKitchenRef.child("users").child(uid);
+                    kitchenUserReference.child("active").removeValue();
+                    kitchenUserReference.child("name").removeValue();
+                    kitchenUserReference.child("admin").removeValue();
                     myKitchenRef.removeValue(); // Removes current user from the current kitchen
                 }
             }
