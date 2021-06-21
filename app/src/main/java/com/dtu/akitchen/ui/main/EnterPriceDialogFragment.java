@@ -75,7 +75,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
     private void buyItem(String itemName, String itemKey, double price) {
         DAOshoppingListItems shoppingDAO = new DAOshoppingListItems();
         DAOboughtItem boughtDAO = new DAOboughtItem();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date date = new Date();
 
         //TODO add real date

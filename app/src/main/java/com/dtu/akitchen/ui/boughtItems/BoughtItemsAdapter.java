@@ -14,6 +14,7 @@ import com.dtu.akitchen.R;
 import com.dtu.akitchen.ShoppingListItems.BoughtItem;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class BoughtItemsAdapter extends ArrayAdapter<BoughtItem> {
 
@@ -45,7 +46,7 @@ public class BoughtItemsAdapter extends ArrayAdapter<BoughtItem> {
         tvName.setText(name);
         tvBoughtBy.setText(boughtBy);
         tvDate.setText(date);
-        tvPrice.setText(Double.toString(price)+" kr");
+        tvPrice.setText(String.format(Locale.US, "%.2f", price) + " DKK");
         return convertView;
     }
 

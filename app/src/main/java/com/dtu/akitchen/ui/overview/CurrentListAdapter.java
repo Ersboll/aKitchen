@@ -12,13 +12,15 @@ import com.dtu.akitchen.R;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.ViewHolder> {
 
     private CurrentFragment fragment;
     private ArrayList<String> localNameDataSet;
-    private ArrayList<Long> localValuesDataSet;
+    private ArrayList<Double> localValuesDataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameTextView;
@@ -41,7 +43,7 @@ public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.
 
     //dataSet represents data to be used by the adapter
     //TODO import from firebase
-    public CurrentListAdapter(ArrayList<String> dataSetNames, ArrayList<Long> dataSetValues, CurrentFragment fragment) {
+    public CurrentListAdapter(ArrayList<String> dataSetNames, ArrayList<Double> dataSetValues, CurrentFragment fragment) {
         this.fragment = fragment;
         localNameDataSet = dataSetNames;
         localValuesDataSet = dataSetValues;
@@ -65,19 +67,13 @@ public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         viewHolder.getNameTextView().setText(localNameDataSet.get(position));
-        String color = "N/A DKK";
-        try{
-            color = localValuesDataSet.get(position) + fragment.getResources().getString(R.string.dkk);
-            if(localValuesDataSet.get(position) < 0){
-                viewHolder.getValueTextView().setTextColor(Color.RED);
-            } else {
-                viewHolder.getValueTextView().setTextColor(Color.parseColor("#00bd03"));
-            }
-        } catch (IndexOutOfBoundsException e) {
-            viewHolder.getValueTextView().setTextColor(Color.YELLOW);
+        String value = String.format(Locale.US, "%.2f", localValuesDataSet.get(position)) + fragment.getResources().getString(R.string.dkk);
+        if(localValuesDataSet.get(position) < 0){
+            viewHolder.getValueTextView().setTextColor(Color.RED);
+        } else {
+            viewHolder.getValueTextView().setTextColor(Color.parseColor("#00bd03"));
         }
-        viewHolder.getValueTextView().setText(color);
-
+        viewHolder.getValueTextView().setText(value);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

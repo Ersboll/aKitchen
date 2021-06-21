@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dtu.akitchen.R;
 import com.dtu.akitchen.kitchen.FirebaseCalls;
-import com.dtu.akitchen.overview.OverviewManager_old;
+import com.dtu.akitchen.kitchen.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,8 +34,7 @@ public class CurrentFragment extends Fragment {
     CurrentListAdapter currentListAdapter;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<String> tempNameData;
-    ArrayList<Long> tempValueData;
-    OverviewManager_old ovm;
+    ArrayList<Double> tempValueData;
 
     public static CurrentFragment newInstance() {
         CurrentFragment currentFragment = new CurrentFragment();
@@ -63,7 +62,7 @@ public class CurrentFragment extends Fragment {
 
         tempValueData = new ArrayList<>();
         tempNameData = new ArrayList<>();
-        tempValueData.add(Long.parseLong("0"));
+        tempValueData.add(Double.parseDouble("0"));
         tempNameData.add("");
 
         //tempNameData = getResources().getStringArray(R.array.test_names);
@@ -73,20 +72,24 @@ public class CurrentFragment extends Fragment {
 
         String kitchenId = FirebaseCalls.kitchenId;
 
-        DatabaseReference curRef = FirebaseDatabase.getInstance().getReference()
-                .child("kitchens").child("kitchen1");
+        DatabaseReference summaryRef = FirebaseDatabase.getInstance().getReference()
+                .child("kitchens").child(kitchenId).child("summaries").child("current");
 
-        curRef.addValueEventListener(new ValueEventListener() {
+        summaryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 tempNameData.clear();
                 tempValueData.clear();
-                for (DataSnapshot snap: snapshot.child("summaries").child("current").child("users").getChildren()) {
-                    tempValueData.add(snap.getValue(Long.class));
+                for (DataSnapshot snap: snapshot.child("users").getChildren()) {
+                    tempValueData.add(snap.getValue(Double.class));
+                    User user = FirebaseCalls.users.get(snap.getKey());
+                    if (user != null && user.name != null) {
+                        tempNameData.add(user.name);
+                    } else {
+                        tempNameData.add("Unnamed user");
+                    }
+
                     Log.i(TAG,tempValueData.get(tempValueData.size()-1).toString());
-                }
-                for (DataSnapshot snap: snapshot.child("users").getChildren()){
-                    tempNameData.add(snap.child("name").getValue(String.class));
                 }
                 currentListAdapter.notifyDataSetChanged();
             }

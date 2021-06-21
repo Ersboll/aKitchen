@@ -24,6 +24,7 @@ public class FirebaseCalls {
     public static Map<String, User> users = new HashMap<>();
     public static Summary summary = null;
     public static Context context;
+    public static boolean showDialogWhenReady = false;
 
     private static final ValueEventListener kitchenUsersListener = new ValueEventListener() {
         @Override
@@ -41,6 +42,8 @@ public class FirebaseCalls {
                 if (self == null || self.name == null) {
                     if (context != null) {
                         MainActivity.showNameDialog(context);
+                    } else {
+                        showDialogWhenReady = true;
                     }
                 }
             }

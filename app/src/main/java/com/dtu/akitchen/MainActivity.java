@@ -77,14 +77,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (!hasOpenedNameDialog) {
-            if (LogInOut.getCurrentUser() != null) {
-                User self = FirebaseCalls.users.get(LogInOut.getCurrentUser().getUid());
-                if (self == null || self.name == null) {
-                    showNameDialog(this);
-                }
-            }
-
+        if (FirebaseCalls.showDialogWhenReady) {
+            showNameDialog(this);
         }
     }
 
