@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dtu.akitchen.R;
-import com.dtu.akitchen.overview.OverviewManager;
+import com.dtu.akitchen.overview.OverviewManager_old;
 
 public class CurrentFragment extends Fragment {
 
@@ -23,7 +23,7 @@ public class CurrentFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     String[] tempNameData;
     int[] tempValueData;
-    OverviewManager ovm;
+    OverviewManager_old ovm;
 
     public static CurrentFragment newInstance() {
         CurrentFragment currentFragment = new CurrentFragment();
@@ -34,7 +34,6 @@ public class CurrentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ovm = new OverviewManager();
     }
 
     @Override
@@ -61,7 +60,7 @@ public class CurrentFragment extends Fragment {
             public void onClick(View v) {
                 //TODO: Create summary of current user debts, send to history list and restart tally
                 //TODO: Firebase integration
-                if(ovm.settleAccounts()){
+                if(true){
                     Toast.makeText(getContext(),R.string.settle_accounts_success, Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(getContext(),R.string.settle_accounts_fail, Toast.LENGTH_LONG).show();
