@@ -56,10 +56,6 @@ public class SettingsActivity extends AppCompatActivity {
     DatabaseReference userListRef;
     public AlertDialog dialog;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,11 +90,13 @@ public class SettingsActivity extends AppCompatActivity {
                 if (isCurrentAdmin){
                     Log.d(TAG, kitchenKey);
                     dialog.dismiss();
-                    DatabaseReference setNewAdminRef = curKitchenRef.child("users").child(targetUserUid).child("admin");
-                    setNewAdminRef.setValue(true);
-                    DatabaseReference setOldAdminRef = curKitchenRef.child("users").child(uid).child("admin");
-                    setOldAdminRef.setValue(false);
-                    Log.d(TAG, setNewAdminRef.getPath() + "path");
+                    if (!uid.equals(targetUserUid)) {
+                        DatabaseReference setNewAdminRef = curKitchenRef.child("users").child(targetUserUid).child("admin");
+                        setNewAdminRef.setValue(true);
+                        DatabaseReference setOldAdminRef = curKitchenRef.child("users").child(uid).child("admin");
+                        setOldAdminRef.setValue(false);
+                        Log.d(TAG, setNewAdminRef.getPath() + "path");
+                    }
                     recreate();
                 }else {
                     dialog.dismiss();
@@ -189,7 +187,7 @@ public class SettingsActivity extends AppCompatActivity {
                 Log.d(TAG, "Leave Kitchen");
                 if (isCurrentAdmin){
                     Log.d(TAG,"Leave kitchen error::While admin");
-                    Toast.makeText(getApplicationContext(),"Error leaving kitchen while admin",Toast.LENGTH_LONG).show();
+                    //TODO Lav lige  en metode, der siger iscurrentadmin && userUID.size == 1 --> delete kitchen allowed + slet kitchen fra realtimeDatabase.
                 } else{
                     Log.d(TAG, "Removes user from kitchen");
                     DatabaseReference kitchenUserReference = curKitchenRef.child("users").child(uid);
