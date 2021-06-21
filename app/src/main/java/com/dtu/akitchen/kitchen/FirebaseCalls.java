@@ -1,11 +1,7 @@
 package com.dtu.akitchen.kitchen;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
-import com.dtu.akitchen.ShoppingListItems.ShoppingListAdapter;
-import com.dtu.akitchen.ShoppingListItems.ShoppingListItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +17,7 @@ public class FirebaseCalls {
 
     public static String kitchenId = null;
     public static Map<String, User> users = new HashMap<>();
+    public static Summary summary = null;
 
     private static final ValueEventListener kitchenUsersListener = new ValueEventListener() {
         @Override
@@ -38,11 +35,24 @@ public class FirebaseCalls {
         public void onCancelled(@NonNull @NotNull DatabaseError error) {}
     };
 
+    private static final ValueEventListener summaryListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+            summary = snapshot.getValue(Summary.class);
+        }
+
+        @Override
+        public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+    };
+
     public static void initialize (String newkitchenId) {
         kitchenId = newkitchenId;
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference()
                 .child("kitchens").child(kitchenId).child("users");
         usersRef.addValueEventListener(kitchenUsersListener);
+        DatabaseReference summaryRef = FirebaseDatabase.getInstance().getReference()
+                .child("kitchens").child(kitchenId).child("summaries").child("current");
+        summaryRef.addValueEventListener(summaryListener);
     }
 
     public static void destroy () {
@@ -50,6 +60,9 @@ public class FirebaseCalls {
             DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference()
                     .child("kitchens").child(kitchenId).child("users");
             usersRef.removeEventListener(kitchenUsersListener);
+            DatabaseReference summaryRef = FirebaseDatabase.getInstance().getReference()
+                    .child("kitchens").child(kitchenId).child("summaries").child("current");
+            summaryRef.removeEventListener(summaryListener);
         }
         kitchenId = null;
     }
