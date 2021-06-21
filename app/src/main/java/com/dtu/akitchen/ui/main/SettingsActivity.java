@@ -78,7 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
                 String targetUserUid = userUids.get(position);
                 Log.d(TAG,targetUserUid);
 
-                if (isCurrentAdmin()){
+                if (FirebaseCalls.isCurrentAdmin()){
                     dialog.dismiss();
                     if (!uid.equals(targetUserUid)) {
                         DatabaseReference setNewAdminRef = curKitchenRef.child("users").child(targetUserUid).child("admin");
@@ -107,12 +107,6 @@ public class SettingsActivity extends AppCompatActivity {
             userUids.add(user.getUid());
         }
 
-    }
-
-    private boolean isCurrentAdmin () {
-        User user = FirebaseCalls.users.get(uid);
-        if (user == null) return false;
-        return user.admin;
     }
 
     @Override
@@ -144,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (which == DialogInterface.BUTTON_POSITIVE) {
                 Log.d(TAG, "Leave Kitchen");
 
-                if (isCurrentAdmin()) {
+                if (FirebaseCalls.isCurrentAdmin()) {
                     int countActive = 0;
                     for (User user : FirebaseCalls.users.values()) {
                         if (user.active) countActive++;
@@ -169,7 +163,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void onPressDeleteUser (View view) {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE) {
-                if (isCurrentAdmin()){
+                if (FirebaseCalls.isCurrentAdmin()){
                     int countActive = 0;
                     for (User user : FirebaseCalls.users.values()) {
                         if (user.active) countActive++;

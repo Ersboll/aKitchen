@@ -25,10 +25,6 @@ public class LogInOut {
      * Logs the current out of their session
      */
     public static void logout() {
-        if(FirebaseCalls.kitchenId != null)
-            FirebaseDatabase.getInstance()
-                    .getReference("/kitchens/" + FirebaseCalls.kitchenId + "/users/" + getCurrentUser().getUid() + "/active")
-                    .setValue(false);
         FirebaseAuth.getInstance().signOut();
     }
 
