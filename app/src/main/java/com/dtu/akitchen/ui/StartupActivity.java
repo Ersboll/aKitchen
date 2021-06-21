@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.dtu.akitchen.MainActivity;
 import com.dtu.akitchen.R;
 import com.dtu.akitchen.authentication.LogInOut;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
 import com.dtu.akitchen.ui.kitchen.CreateOrJoinKitchenActivity;
 import com.dtu.akitchen.ui.logInOut.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,9 +47,10 @@ public class StartupActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 String value = snapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
+                Log.d(TAG, "Kitchen: " + value);
 
                 if (value != null) {
+                    FirebaseCalls.initialize(value);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                             Intent.FLAG_ACTIVITY_CLEAR_TASK | // When logged out the activity stack is cleared and the MainActivity is set as the root activity
@@ -56,6 +58,7 @@ public class StartupActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
+                    FirebaseCalls.destroy();
                     Log.d(TAG, "You have not joined a kitchen");
                     Intent intent = new Intent(getApplicationContext(), CreateOrJoinKitchenActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |

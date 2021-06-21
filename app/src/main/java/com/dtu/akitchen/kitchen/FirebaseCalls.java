@@ -1,7 +1,16 @@
 package com.dtu.akitchen.kitchen;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.dtu.akitchen.ShoppingListItems.ShoppingListAdapter;
+import com.dtu.akitchen.ShoppingListItems.ShoppingListItem;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -11,6 +20,38 @@ import java.util.Map;
 public class FirebaseCalls {
 
     public static String kitchenId = null;
+    public static Map<String, User> users = new HashMap<>();
+
+    private static final ValueEventListener kitchenUsersListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+            users.clear();
+            for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
+                User user = dataSnapshot.getValue(User.class);
+                if (user == null) continue;
+                users.put(dataSnapshot.getKey(), user);
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+    };
+
+    public static void initialize (String newkitchenId) {
+        kitchenId = newkitchenId;
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference()
+                .child("kitchens").child(kitchenId).child("users");
+        usersRef.addValueEventListener(kitchenUsersListener);
+    }
+
+    public static void destroy () {
+        if (kitchenId != null) {
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference()
+                    .child("kitchens").child(kitchenId).child("users");
+            usersRef.removeEventListener(kitchenUsersListener);
+        }
+        kitchenId = null;
+    }
 
     /**
      * Creates a kitchen with a specified Kitchen and User object
