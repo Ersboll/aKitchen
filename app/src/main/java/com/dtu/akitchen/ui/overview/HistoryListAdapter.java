@@ -12,17 +12,22 @@ import com.dtu.akitchen.R;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.ViewHolder> {
 
     private HistoryFragment fragment;
-    private String[] localDateDataSet;
-    private int[] localSizeDataSet;
-    private int[] localSumDataSet;
+    private ArrayList<String> localCreatedDateData;
+    private ArrayList<Long> localUserCountData;
+    private ArrayList<Double> localTotalExpenseData;
+    private ArrayList<String> localNameDataSet;
+    private ArrayList<Double> localValuesDataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView dateTextView;
         private final TextView sizeTextView;
         private final TextView sumTextView;
+        //add expand view fields
 
         public ViewHolder(View view, HistoryFragment fragment) {
             super(view);
@@ -45,12 +50,13 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     }
 
     //dataSet represents data to be used by the adapter
-    //TODO import from firebase
-    public HistoryListAdapter(String[] dataSetDates, int[] dataSetSizes, int[] dataSetSums, HistoryFragment fragment) {
+    public HistoryListAdapter(ArrayList<String> createdDate, ArrayList<Long> userCount, ArrayList<Double> totalExpense, ArrayList<String> nameData, ArrayList<Double> valueData, HistoryFragment fragment) {
         this.fragment = fragment;
-        localDateDataSet = dataSetDates;
-        localSizeDataSet = dataSetSizes;
-        localSumDataSet = dataSetSums;
+        localCreatedDateData = createdDate;
+        localUserCountData = userCount;
+        localTotalExpenseData = totalExpense;
+        localNameDataSet = nameData;
+        localValuesDataSet = valueData;
     }
 
     // Create new views (invoked by the layout manager)
@@ -70,20 +76,20 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getDateTextView().setText(localDateDataSet[position]);
-        String sizes = localSizeDataSet[position] + fragment.getResources().getString(R.string.size);
-        viewHolder.getSizeTextView().setText(sizes);
-        String sums = localSumDataSet[position] + fragment.getResources().getString(R.string.dkk);
-        viewHolder.getSumTextView().setText(sums);
+        viewHolder.getDateTextView().setText(localCreatedDateData.get(position));
+        String userCount = localUserCountData.get(position).toString() + fragment.getResources().getString(R.string.size);
+        viewHolder.getSizeTextView().setText(userCount);
+        String total = localTotalExpenseData.get(position).toString() + fragment.getResources().getString(R.string.dkk);
+        viewHolder.getSumTextView().setText(total);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        if(null == localDateDataSet) {
+        if(0 == localCreatedDateData.size()) {
             return 0;
         }
-        return localDateDataSet.length;
+        return localCreatedDateData.size();
     }
 
 }

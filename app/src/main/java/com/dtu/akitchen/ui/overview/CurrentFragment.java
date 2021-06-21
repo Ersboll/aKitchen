@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class CurrentFragment extends Fragment {
+
     String TAG = "CurrentFragment";
     RecyclerView recyclerView;
     CurrentListAdapter currentListAdapter;
@@ -65,8 +66,10 @@ public class CurrentFragment extends Fragment {
         tempValueData.add(Double.parseDouble("0"));
         tempNameData.add("");
 
+        //Depreciated test values
         //tempNameData = getResources().getStringArray(R.array.test_names);
         //tempValueData = getResources().getIntArray(R.array.test_values);
+
         currentListAdapter = new CurrentListAdapter(tempNameData, tempValueData, this);
         recyclerView.setAdapter(currentListAdapter);
 
@@ -106,7 +109,7 @@ public class CurrentFragment extends Fragment {
             public void onClick(View v) {
                 //TODO: Create summary of current user debts, send to history list and restart tally
                 //TODO: Firebase integration
-                if(true){
+                if(false){
                     Toast.makeText(getContext(),R.string.settle_accounts_success, Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(getContext(),R.string.settle_accounts_fail, Toast.LENGTH_LONG).show();
