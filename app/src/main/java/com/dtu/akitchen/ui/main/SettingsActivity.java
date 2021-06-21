@@ -56,10 +56,6 @@ public class SettingsActivity extends AppCompatActivity {
     DatabaseReference userListRef;
     public AlertDialog dialog;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,11 +90,13 @@ public class SettingsActivity extends AppCompatActivity {
                 if (isCurrentAdmin){
                     Log.d(TAG, kitchenKey);
                     dialog.dismiss();
-                    DatabaseReference setNewAdminRef = curKitchenRef.child("users").child(targetUserUid).child("admin");
-                    setNewAdminRef.setValue(true);
-                    DatabaseReference setOldAdminRef = curKitchenRef.child("users").child(uid).child("admin");
-                    setOldAdminRef.setValue(false);
-                    Log.d(TAG, setNewAdminRef.getPath() + "path");
+                    if (!uid.equals(targetUserUid)) {
+                        DatabaseReference setNewAdminRef = curKitchenRef.child("users").child(targetUserUid).child("admin");
+                        setNewAdminRef.setValue(true);
+                        DatabaseReference setOldAdminRef = curKitchenRef.child("users").child(uid).child("admin");
+                        setOldAdminRef.setValue(false);
+                        Log.d(TAG, setNewAdminRef.getPath() + "path");
+                    }
                     recreate();
                 }else {
                     dialog.dismiss();
