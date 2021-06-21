@@ -12,6 +12,7 @@
     <string name="add_button_text">Add</string>
     <string name="reenter_password">re-enter password</string>
     <string name="sign_up">Sign up</string>
+    <string name="set_new_admin">Set new admin</string>
 
     <string-array name="test_items">
         <item>baking soda</item>

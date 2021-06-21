@@ -6,16 +6,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.databinding.ActivitySettingsBinding;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
+import com.dtu.akitchen.kitchen.User;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +28,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -36,6 +46,13 @@ public class SettingsActivity extends AppCompatActivity {
     public String kitchenKey;
     private boolean isCurrentAdmin;
     public String uid;
+
+    public ListView UserListListView;
+    ValueEventListener userListListener;
+    DatabaseReference userListRef;
+    public AlertDialog dialog;
+
+
 
 
 
@@ -53,6 +70,24 @@ public class SettingsActivity extends AppCompatActivity {
 
         uid = LogInOut.getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        UserListListView = new ListView(this);
+        List<String> users = new ArrayList<>();
+        List<String> userUids = new ArrayList<>();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,users);
+        UserListListView.setAdapter(adapter);
+        UserListListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                Log.d(TAG, String.valueOf(position) + " " + id);
+                String username = users.get(position);
+                Log.d(TAG,username);
+                Log.d(TAG,userUids.get(position));
+                //dialog.cancel(); // Minimalistic closing
+            }
+        });
+
 
 
 
@@ -102,6 +137,13 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
         myKitchenRef.addValueEventListener(kitchenListener);
+
+        // Adding usernames to listView
+        for (User user : FirebaseCalls.users.values()){
+            users.add(user.name);
+            userUids.add(user.getUid());
+        }
+
     }
 
     @Override
@@ -160,5 +202,16 @@ public class SettingsActivity extends AppCompatActivity {
         super.onStop();
         myKitchenRef.removeEventListener(kitchenListener);
         myIsAdminRef.removeEventListener(adminListener);
+    }
+
+    public void onPressSetNewAdmin(View view) {
+        DialogInterface.OnClickListener dialogClickListener = ((dialog, which) -> {
+        });
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Select user")
+                .setNegativeButton("Cancel",dialogClickListener);
+        builder.setView(UserListListView);
+        dialog = builder.create();
+        dialog.show();
     }
 }
