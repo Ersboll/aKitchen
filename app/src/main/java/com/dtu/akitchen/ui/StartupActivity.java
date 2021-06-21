@@ -83,6 +83,8 @@ public class StartupActivity extends AppCompatActivity {
 
             if(user == null){//user is not logged in
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK); // When logged out the activity stack is cleared and the MainActivity is set as the root activity
                 startActivity(intent);
             } else {
                 userKitchenRef = database.getReference("/users/" + user.getUid() + "/kitchen");
