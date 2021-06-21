@@ -13,6 +13,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,9 +22,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dtu.akitchen.ui.main.SectionsPagerAdapter;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -64,7 +67,35 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        User user = FirebaseCalls.users.get(LogInOut.getCurrentUser().getUid());
+        if((user != null ? user.name : null) == null || user.name.isEmpty()){
+            // if a display name is not attached to the user
+            // Create a dialog to set it
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Display name");
+            builder.setIcon(R.drawable.ic_baseline_account_circle_24);
+            builder.setMessage("Enter your display name for this kitchen");
+
+            EditText alertInput = new EditText(this);
+
+            builder.setView(alertInput);
+
+            builder.setPositiveButton("Set", (dialog, which) -> {
+               String displayName = alertInput.getText().toString();
+               FirebaseDatabase.getInstance()
+                       .getReference("/kitchens/" + FirebaseCalls.kitchenId + "/users/" + LogInOut.getCurrentUser().getUid() + "/name")
+                       .setValue(displayName);
+            });
+
+            AlertDialog ad = builder.create();
+            ad.show();
+        }
     }
 
     @Override
