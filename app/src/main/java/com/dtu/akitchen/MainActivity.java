@@ -76,10 +76,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        /*User user = FirebaseCalls.users.get(LogInOut.getCurrentUser().getUid());
-        if((user != null ? user.name : null) == null || user.name.isEmpty()){
-            showNameDialog();
-        }*/
+
+        if (!hasOpenedNameDialog) {
+            if (LogInOut.getCurrentUser() != null) {
+                User self = FirebaseCalls.users.get(LogInOut.getCurrentUser().getUid());
+                if (self == null || self.name == null) {
+                    showNameDialog(this);
+                }
+            }
+
+        }
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        hasOpenedNameDialog = false;
     }
 
     public static void showNameDialog (Context context) {

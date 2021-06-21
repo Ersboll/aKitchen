@@ -39,7 +39,9 @@ public class FirebaseCalls {
             if (LogInOut.getCurrentUser() != null) {
                 User self = users.get(LogInOut.getCurrentUser().getUid());
                 if (self == null || self.name == null) {
-                    MainActivity.showNameDialog(context);
+                    if (context != null) {
+                        MainActivity.showNameDialog(context);
+                    }
                 }
             }
         }
