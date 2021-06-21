@@ -1,11 +1,12 @@
 package com.dtu.akitchen.ShoppingListItems;
 
-import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.kitchen.FirebaseCalls;
+import com.dtu.akitchen.kitchen.User;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Map;
 
 //Philip Hviid
 public class DAOboughtItem {
@@ -30,7 +31,10 @@ public class DAOboughtItem {
 
 
     public void upDateBalances(String userUID, double price) {
-        //TODO update balances of the active people in the kitchen
+        DatabaseReference summaryRef = databaseReference.child("kitchens").child(FirebaseCalls.kitchenId)
+                .child("summaries").child("current");
+        Map<String, User> userMap = FirebaseCalls.users;
+
     }
 
 
