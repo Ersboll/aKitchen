@@ -50,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
     public String kitchenKey;
     private boolean isCurrentAdmin;
     public String uid;
-
+    DatabaseReference curKitchenRef;
     public ListView UserListListView;
     ValueEventListener userListListener;
     DatabaseReference userListRef;
@@ -74,7 +74,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         uid = LogInOut.getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+        myKitchenRef = database.getReference("/users/" + uid + "/kitchen");
+        myIsAdminRef = database.getReference("/kitchens/" + kitchenKey + "/users/" + uid + "/admin");
+        curKitchenRef = database.getReference("/kitchens/" + FirebaseCalls.kitchenId);
         UserListListView = new ListView(this);
         List<String> users = new ArrayList<>();
         List<String> userUids = new ArrayList<>();
@@ -82,13 +84,27 @@ public class SettingsActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,users);
         UserListListView.setAdapter(adapter);
         UserListListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @SuppressLint("RestrictedApi")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 Log.d(TAG, String.valueOf(position) + " " + id);
-                String username = users.get(position);
-                Log.d(TAG,username);
-                Log.d(TAG,userUids.get(position));
-                //dialog.cancel(); // Minimalistic closing
+                String targetUserUid = userUids.get(position);
+                Log.d(TAG,targetUserUid);
+
+                if (isCurrentAdmin){
+                    Log.d(TAG, kitchenKey);
+                    dialog.dismiss();
+                    DatabaseReference setNewAdminRef = curKitchenRef.child("users").child(targetUserUid).child("admin");
+                    setNewAdminRef.setValue(true);
+                    DatabaseReference setOldAdminRef = curKitchenRef.child("users").child(uid).child("admin");
+                    setOldAdminRef.setValue(false);
+                    Log.d(TAG, setNewAdminRef.getPath() + "path");
+                    recreate();
+                }else {
+                    dialog.dismiss();
+                    Toast.makeText(getApplicationContext(),"You dont have permission to set a new admin",Toast.LENGTH_LONG).show();
+                    recreate();
+                }
             }
         });
 
@@ -96,8 +112,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         // Getting kitchen ID. Used to identify whether a user is admin or not.
-        myKitchenRef = database.getReference("/users/" + uid + "/kitchen");
-        myIsAdminRef = database.getReference("/kitchens/" + kitchenKey + "/users/" + uid + "/admin");
+
         kitchenListener = new ValueEventListener() {
             @SuppressLint("RestrictedApi")
             @Override
@@ -212,11 +227,17 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void onPressSetNewAdmin(View view) {
+
         DialogInterface.OnClickListener dialogClickListener = ((dialog, which) -> {
+            if (which == DialogInterface.BUTTON_NEUTRAL){
+                dialog.dismiss();
+                recreate();
+            }
         });
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Select user")
-                .setNegativeButton("Cancel",dialogClickListener);
+                .setNeutralButton("Cancel",dialogClickListener);
+        builder.setCancelable(false);
         builder.setView(UserListListView);
         dialog = builder.create();
         dialog.show();
