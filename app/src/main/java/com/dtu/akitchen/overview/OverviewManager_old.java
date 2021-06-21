@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class OverviewManager {
-
+public class OverviewManager_old {
+/*
     private String TAG = "OverviewManager";
     private String uid;
     private Kitchen kitchen;
@@ -42,7 +42,7 @@ public class OverviewManager {
     private Long total;
     private long created;
 
-    public OverviewManager(){
+    public OverviewManager_old(){
 
         uid = LogInOut.getCurrentUser().getUid();
 
@@ -112,7 +112,7 @@ public class OverviewManager {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                     Log.i(TAG,"hisRef onDataChange called");
-                    /*
+
                     for (DataSnapshot snap: snapshot.getChildren()) {
                         histories.add(snap.getValue(History.class));
                     }
@@ -121,7 +121,7 @@ public class OverviewManager {
                         Log.i(TAG, "No history objects found");
                     }
 
-                     */
+
                 }
 
                 @Override
@@ -132,7 +132,9 @@ public class OverviewManager {
         );
 
     }
+*/
 
+    /*
     public boolean settleAccounts(){
         boolean result = false;
         Date currentDate = Calendar.getInstance().getTime();
@@ -168,5 +170,5 @@ public class OverviewManager {
     public Kitchen getKitchen() {
         return kitchen;
     }
-
+*/
 }
