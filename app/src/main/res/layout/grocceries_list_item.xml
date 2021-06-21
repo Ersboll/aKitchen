@@ -7,10 +7,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/groccery_item_name"
         android:textColor="#333"
-        android:textSize="20sp"
+        android:textSize="28sp"
         android:gravity="center"
-        android:layout_margin="1sp"
-        android:padding="5dp"
+        android:padding="10dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

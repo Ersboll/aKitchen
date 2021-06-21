@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,6 +72,11 @@ public class ShoppingListFragment extends Fragment {
         //set layoutmanager
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+
+        //seperation lines for styling
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                recyclerView.getContext(), LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         //get database reference to the shopping list
         String kitchenId = FirebaseCalls.kitchenId;
@@ -166,6 +172,7 @@ public class ShoppingListFragment extends Fragment {
 
     public void openInputPriceDialog(String itemName, String itemKey) {
         inputDialog = new EnterPriceDialogFragment();
+        inputDialog.setContext(getContext());
         inputDialog.setTitle(itemName);
         inputDialog.setItemKey(itemKey);
 
@@ -176,6 +183,7 @@ public class ShoppingListFragment extends Fragment {
         //make button only be active when the input is >=0
         positiveButton = ((AlertDialog) inputDialog.getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
         positiveButton.setEnabled(false);
+
         //saves the price input field to add event listener to enable confirm button
         priceInput = inputDialog.getPrice();
 
