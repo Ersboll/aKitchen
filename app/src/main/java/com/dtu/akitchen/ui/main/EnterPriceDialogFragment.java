@@ -85,7 +85,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
             Log.i("BoughtItems", itemName + "bought");
             shoppingDAO.deleteItem(itemKey);
             //TODO implement properly
-            //boughtDAO.upDateBalances(LogInOut.getCurrentUser().getUid(), price);
+            boughtDAO.upDateBalances(LogInOut.getCurrentUser().getUid(), price);
 
         }).addOnFailureListener(err -> {
             Log.i("BoughtItems", err.getMessage());
