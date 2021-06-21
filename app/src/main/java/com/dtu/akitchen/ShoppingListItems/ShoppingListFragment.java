@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 
@@ -207,7 +208,9 @@ public class ShoppingListFragment extends Fragment {
                 try {
                     double priceValue = Double.parseDouble((priceInput.getText().toString()));
                     //to preven huge numbers from crashing database
-                    positiveButton.setEnabled(priceValue >= 0 && priceValue <= 10000);
+                    Log.i("InputValidation", ""+ (BigDecimal.valueOf(priceValue).scale()));
+                    positiveButton.setEnabled(priceValue >= 0 && priceValue <= 10000
+                    && BigDecimal.valueOf(priceValue).scale()<3); //sccuffed check for max 2 decimals
                 } catch (NumberFormatException e) {
                     positiveButton.setEnabled(false);
                 }
