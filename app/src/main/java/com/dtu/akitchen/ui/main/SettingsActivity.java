@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SettingsActivity extends AppCompatActivity {
 
     private ActivitySettingsBinding binding;
@@ -36,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
     public String kitchenKey;
     private boolean isCurrentAdmin;
     public String uid;
+    public ListView userListView;
 
 
 
@@ -53,6 +60,15 @@ public class SettingsActivity extends AppCompatActivity {
 
         uid = LogInOut.getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+        userListView = new ListView(this);
+        List<String> users = new ArrayList<>();
+        users.add("Hej");
+        users.add("user");
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,users);
+        userListView.setAdapter(adapter);
+
 
 
 
@@ -153,6 +169,26 @@ public class SettingsActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setMessage("Are you sure?").setPositiveButton("Delete", dialogClickListener)
                 .setNegativeButton("Cancel", dialogClickListener).show();
+    }
+
+    public void onPressSetNewAdmin(View view){
+        DialogInterface.OnClickListener dialogClickListener = ((dialog, which) -> {
+            if (which == DialogInterface.BUTTON_POSITIVE){
+                if (isCurrentAdmin){
+                    Toast.makeText(getApplicationContext(),"You can set new admin", Toast.LENGTH_LONG).show();
+                } else {
+                    Snackbar snackbar = Snackbar.make(view,"You can't", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+        });
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setView(userListView);
+        builder.setMessage("Are you sure?").setPositiveButton("Delete",dialogClickListener)
+                .setNegativeButton("Cancel",dialogClickListener);
+        AlertDialog dialog = builder.create();
+        dialog.show();;
+
     }
 
     @Override

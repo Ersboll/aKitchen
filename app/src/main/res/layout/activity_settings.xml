@@ -69,6 +69,16 @@
                 android:backgroundTint="@color/yellow_700"
                 android:onClick="onPressLeaveKitchen"
                 android:text="@string/leave_kitchen" />
+            <Button
+                android:id="@+id/SetNewAdminButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/purple_200"
+                android:onClick="onPressSetNewAdmin"
+                android:text="@string/set_new_admin" />
 
             <Button
                 android:id="@+id/button2"
