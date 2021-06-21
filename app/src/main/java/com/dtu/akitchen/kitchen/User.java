@@ -25,6 +25,12 @@ public class User{
         this.active = true;
     }
 
+
+    @Exclude
+    public void setUid(String newUid) {
+        uid = newUid;
+    }
+
     @Exclude
     public String getUid() {
         return uid;

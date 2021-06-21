@@ -29,6 +29,7 @@ public class FirebaseCalls {
             for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
                 User user = dataSnapshot.getValue(User.class);
                 if (user == null) continue;
+                user.setUid(dataSnapshot.getKey());
                 users.put(dataSnapshot.getKey(), user);
             }
         }
