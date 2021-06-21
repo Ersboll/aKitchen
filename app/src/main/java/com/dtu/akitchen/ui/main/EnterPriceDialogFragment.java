@@ -2,6 +2,7 @@ package com.dtu.akitchen.ui.main;
 //Philip Hviid
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -30,10 +31,15 @@ import java.util.Date;
 
 
 public class EnterPriceDialogFragment extends AppCompatDialogFragment {
+    private Context context;
     private EditText price;
     private String itemName;
     private String itemKey;
 
+    //need context to make toast, and there is a android bug, with makign toast from own context
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -83,10 +89,12 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
                 LogInOut.getCurrentUser().getUid(), dateFormat.format(date));
         boughtDAO.addItem(boughtItem).addOnSuccessListener( suc -> {
             Log.i("BoughtItems", itemName + "bought");
+            //delete the bought item fro mthe shopping list, if it is succesfully bought
             shoppingDAO.deleteItem(itemKey);
-            //TODO implement properly
+            //update balance of all active users in the kitchen
             boughtDAO.upDateBalances(LogInOut.getCurrentUser().getUid(), price);
-
+            Toast.makeText(context,
+                    itemName + " purchased", Toast.LENGTH_SHORT).show();
         }).addOnFailureListener(err -> {
             Log.i("BoughtItems", err.getMessage());
         });

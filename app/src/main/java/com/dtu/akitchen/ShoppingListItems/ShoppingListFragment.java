@@ -166,6 +166,7 @@ public class ShoppingListFragment extends Fragment {
 
     public void openInputPriceDialog(String itemName, String itemKey) {
         inputDialog = new EnterPriceDialogFragment();
+        inputDialog.setContext(getContext());
         inputDialog.setTitle(itemName);
         inputDialog.setItemKey(itemKey);
 
@@ -176,6 +177,7 @@ public class ShoppingListFragment extends Fragment {
         //make button only be active when the input is >=0
         positiveButton = ((AlertDialog) inputDialog.getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
         positiveButton.setEnabled(false);
+
         //saves the price input field to add event listener to enable confirm button
         priceInput = inputDialog.getPrice();
 
