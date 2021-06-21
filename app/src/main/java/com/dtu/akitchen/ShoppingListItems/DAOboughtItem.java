@@ -1,6 +1,7 @@
 package com.dtu.akitchen.ShoppingListItems;
 
 import com.dtu.akitchen.authentication.LogInOut;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -17,7 +18,7 @@ public class DAOboughtItem {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         //change this in case database is restructured;
         user = LogInOut.getCurrentUser();
-        String kitchenId = KitchenHelper.getKitchenId();
+        String kitchenId = FirebaseCalls.kitchenId;
         boughtItemsRef = databaseReference.child("bought_items").child(kitchenId);
     }
 
