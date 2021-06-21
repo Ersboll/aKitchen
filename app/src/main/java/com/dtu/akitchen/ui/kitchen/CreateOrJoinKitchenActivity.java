@@ -30,52 +30,10 @@ import org.jetbrains.annotations.NotNull;
 public class CreateOrJoinKitchenActivity extends AppCompatActivity {
     private final String TAG = "JoinKitchen";
     private ActivityCreateOrJoinKitchenBinding binding;
-    ValueEventListener listener;
-    DatabaseReference myRef;
-    private Boolean IN_CREATE_OR_JOIN_KITCHEN_ACTIVITY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        IN_CREATE_OR_JOIN_KITCHEN_ACTIVITY = true;
-
-        String uid = LogInOut.getCurrentUser().getUid();
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("/users/" + uid + "/kitchen");
-        listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                String value = snapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
-                if(value != null){
-                    Log.d(TAG,"You are a member of kitchen: " + value);
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK | // When logged out the activity stack is cleared and the MainActivity is set as the root activity
-                            Intent.FLAG_ACTIVITY_NO_ANIMATION); // No animation when switching
-                    startActivity(intent);
-                    finish();
-                } else if (IN_CREATE_OR_JOIN_KITCHEN_ACTIVITY != null && !IN_CREATE_OR_JOIN_KITCHEN_ACTIVITY) {
-                    Log.d(TAG,"You have not joined a kitchen");
-                    Intent intent = new Intent(getApplicationContext(),CreateOrJoinKitchenActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK | // When logged out the activity stack is cleared and the MainActivity is set as the root activity
-                            Intent.FLAG_ACTIVITY_NO_ANIMATION); // No animation when switching
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        };
-
-        myRef.addValueEventListener(listener);
-
-
-
 
         binding = ActivityCreateOrJoinKitchenBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -86,9 +44,9 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
         final Button joinKitchenButton = binding.joinKitchenButton;
         final Button logOutButton = binding.logOutButton;
 
-        logOutButton.setOnClickListener(v-> LogInOut.logout());
+        logOutButton.setOnClickListener(v -> LogInOut.logout());
 
-        createKitchenButton.setOnClickListener(v->{
+        createKitchenButton.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Kitchen details");
             builder.setIcon(R.drawable.ic_baseline_kitchen_24);
@@ -103,9 +61,9 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
             builder.setPositiveButton("Create", (dialog, which) -> {
                 //TODO ON Create click
                 String kitchenName = alertInput.getText().toString();
-                    User user = new User(LogInOut.getCurrentUser().getUid(),true,"");
-                    Kitchen kitchen = new Kitchen(kitchenName,user);
-                    FirebaseCalls.createKitchen(kitchen,user);
+                User user = new User(LogInOut.getCurrentUser().getUid(), true, "");
+                Kitchen kitchen = new Kitchen(kitchenName, user);
+                FirebaseCalls.createKitchen(kitchen, user);
             });
 
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
@@ -120,15 +78,4 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
         });
 
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        IN_CREATE_OR_JOIN_KITCHEN_ACTIVITY = false;
-    }
-    /*@Override
-    protected void onDestroy() {
-        super.onDestroy();
-        myRef.removeEventListener(listener);
-    }*/
 }

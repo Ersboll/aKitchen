@@ -39,7 +39,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
         price = view.findViewById(R.id.price_text);
 
         builder.setView(view).setTitle(itemName)
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                .setNeutralButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -52,11 +52,20 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
                                 " with key:" + itemKey);
                         buyItem(itemName, itemKey, Double.parseDouble(price.getText().toString()));
                     }
-                });
+                }).setNegativeButton("Delete item", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                delteItem(itemKey);
+            }
+        });
 
         return builder.create();
     }
 
+    private void delteItem(String key) {
+        DAOshoppingListItems shoppingDAO = new DAOshoppingListItems();
+        shoppingDAO.deleteItem(key);
+    }
 
 
     private void buyItem(String itemName, String itemKey, double price) {
