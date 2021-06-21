@@ -19,7 +19,7 @@ public class DAOboughtItem {
         //change this in case database is restructured;
         user = LogInOut.getCurrentUser();
         String kitchenId = FirebaseCalls.kitchenId;
-        boughtItemsRef = databaseReference.child("bought_items").child(kitchenId);
+        boughtItemsRef = databaseReference.child("kitchens").child(kitchenId).child("bought_items");
     }
 
     public Task<Void> addItem(BoughtItem item) {

@@ -54,7 +54,7 @@ public class BoughtItemsFragment extends Fragment {
         boughtItemsAdapter = new BoughtItemsAdapter(getActivity(), R.layout.bought_items_item ,boughtItemsList);
         // connect to firebase
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("bought_items").child(FirebaseCalls.kitchenId);
+                .child("kitchens").child(FirebaseCalls.kitchenId).child("bought_items");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

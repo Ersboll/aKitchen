@@ -77,9 +77,7 @@ public class ShoppingListFragment extends Fragment {
 
         Log.i("KitchenId",kitchenId);
         DatabaseReference shoppingListReference = FirebaseDatabase.getInstance().getReference()
-                .child("shopping_list").child(kitchenId);
-
-
+                .child("kitchens").child(kitchenId).child("shopping_list");
 
         //set custom made adapter for groccery items
         shoppingListAdapter = new ShoppingListAdapter(shoppingItems, this);

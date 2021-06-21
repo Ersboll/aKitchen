@@ -22,7 +22,7 @@ public class DAOshoppingListItems {
         //TODO should be done with onValueChagneListener instead
         //TODO uncomment line below when database connection is up
         kitchenId = FirebaseCalls.kitchenId;
-        this.shoppingListReference = databaseReference.child("shopping_list").child(kitchenId);
+        this.shoppingListReference = databaseReference.child("kitchens").child(kitchenId).child("shopping_list");
 
     }
 
