@@ -206,7 +206,8 @@ public class ShoppingListFragment extends Fragment {
                 }
                 try {
                     double priceValue = Double.parseDouble((priceInput.getText().toString()));
-                    positiveButton.setEnabled(priceValue >= 0);
+                    //to preven huge numbers from crashing database
+                    positiveButton.setEnabled(priceValue >= 0 && priceValue <= 10000);
                 } catch (NumberFormatException e) {
                     positiveButton.setEnabled(false);
                 }
