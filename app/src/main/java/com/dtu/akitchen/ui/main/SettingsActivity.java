@@ -147,6 +147,8 @@ public class SettingsActivity extends AppCompatActivity {
                     if (countActive == 1) {
                         deleteKitchen();
                         myKitchenRef.removeValue();
+                    } else {
+                        Toast.makeText(getApplicationContext(),"Error leaving kitchen while kitchen admin",Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Log.d(TAG, "Removes user from kitchen");
