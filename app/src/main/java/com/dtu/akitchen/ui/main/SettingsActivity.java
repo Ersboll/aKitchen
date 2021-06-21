@@ -187,7 +187,7 @@ public class SettingsActivity extends AppCompatActivity {
                 Log.d(TAG, "Leave Kitchen");
                 if (isCurrentAdmin){
                     Log.d(TAG,"Leave kitchen error::While admin");
-                    Toast.makeText(getApplicationContext(),"Error leaving kitchen while admin",Toast.LENGTH_LONG).show();
+                    //TODO Lav lige  en metode, der siger iscurrentadmin && userUID.size == 1 --> delete kitchen allowed + slet kitchen fra realtimeDatabase.
                 } else{
                     Log.d(TAG, "Removes user from kitchen");
                     DatabaseReference kitchenUserReference = curKitchenRef.child("users").child(uid);
