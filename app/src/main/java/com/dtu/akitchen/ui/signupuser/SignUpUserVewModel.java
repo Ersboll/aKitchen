@@ -6,15 +6,13 @@ import androidx.lifecycle.ViewModel;
 
 import com.dtu.akitchen.authentication.LogInOut;
 
-public class SignUpVewModel extends ViewModel {
+public class SignUpUserVewModel extends ViewModel {
     private String email;
     private String password;
     private String password2;
     private String TAG = "SignUpViewModel";
 
-    public SignUpVewModel() { Log.i(TAG, "ViewModel is created"); }
-
-
+    public SignUpUserVewModel() { Log.i(TAG, "ViewModel is created"); }
 
     @Override
     protected void onCleared(){
@@ -28,28 +26,18 @@ public class SignUpVewModel extends ViewModel {
         this.password2 = password2;
     }
 
-    public boolean isUserNameValid(String username){
-        return LogInOut.isEmailValid(username);
+    public boolean isEmailValid(){
+        return LogInOut.isEmailValid(email);
     }
 
-    public boolean arePasswordsValid(String password, String password2){
-        return LogInOut.arePasswordsValid(password,password2);
-    }
+    public boolean doPasswordsMatch(){ return LogInOut.doPasswordsMatch(password,password2); }
 
     public boolean isPasswordValid(){
-        return LogInOut.arePasswordsValid(password,password);
+        return LogInOut.isPasswordValid(password);
     }
-
-    public boolean isUserNameValid(){
-        return isUserNameValid(email);
-    }
-
-
-
     //Getters - Setters
     public String getPassword() { return password; }
 
     public String getEmail() { return email; }
-
 
 }
