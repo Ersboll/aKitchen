@@ -61,7 +61,7 @@ public class JoinKitchenActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                Log.w(TAG,"Warning could not retrive data: " +error.getMessage());
+                Log.w(TAG, "Warning could not retrive data: " + error.getMessage());
             }
         };
 
@@ -88,7 +88,7 @@ public class JoinKitchenActivity extends AppCompatActivity {
 
         kitchenInviteCodeEditText.addTextChangedListener(afterTextChangedListener);
         kitchenInviteCodeEditText.setOnEditorActionListener((v, actionId, event) -> {
-            if(actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 joinKitchen(mViewModel.getInviteCode());
             }
             return false;
@@ -98,13 +98,17 @@ public class JoinKitchenActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
-    private void joinKitchen(String inviteCode){
+        kitchenIDReference.removeEventListener(kitchenListener);
+    }
 
-
+    private void joinKitchen(String inviteCode) {
         FirebaseUser user = LogInOut.getCurrentUser();
 
-        if(kitchenExists) {
+        if (kitchenExists) {
             mDatabase.child("users")
                     .child(user.getUid())
                     .child("kitchen")
@@ -116,16 +120,14 @@ public class JoinKitchenActivity extends AppCompatActivity {
                     .child(user.getUid())
                     .child("admin")
                     .setValue(false);
+            mDatabase.child("kitchens")
+                    .child(inviteCode)
+                    .child("users")
+                    .child(user.getUid())
+                    .child("active")
+                    .setValue(true);
         } else {
-            Toast.makeText(this,"The kitchen you are trying to join doesn't exist", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "The kitchen you are trying to join doesn't exist", Toast.LENGTH_SHORT).show();
         }
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        kitchenIDReference.removeEventListener(kitchenListener);
     }
 }

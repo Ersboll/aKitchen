@@ -5,11 +5,13 @@ import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
 
+import com.dtu.akitchen.kitchen.FirebaseCalls;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Author Niels Kjær Ersbøll
@@ -23,6 +25,10 @@ public class LogInOut {
      * Logs the current out of their session
      */
     public static void logout() {
+        if(FirebaseCalls.kitchenId != null)
+            FirebaseDatabase.getInstance()
+                    .getReference("/kitchens/" + FirebaseCalls.kitchenId + "/users/" + getCurrentUser().getUid() + "/active")
+                    .setValue(false);
         FirebaseAuth.getInstance().signOut();
     }
 
@@ -71,6 +77,11 @@ public class LogInOut {
                             }
                             Toast.makeText(activity, "Authentication failed.", Toast.LENGTH_LONG).show();
                         } else {
+                            if(FirebaseCalls.kitchenId != null)
+                                FirebaseDatabase.getInstance()
+                                        .getReference("/kitchens/" + FirebaseCalls.kitchenId + "/users/" + getCurrentUser().getUid() + "/active")
+                                        .setValue(true);
+
                             auth.getCurrentUser();
                         }
                     });
