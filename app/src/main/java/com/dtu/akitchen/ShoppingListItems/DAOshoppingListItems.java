@@ -1,6 +1,8 @@
 package com.dtu.akitchen.ShoppingListItems;
 
 import com.dtu.akitchen.authentication.LogInOut;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
+import com.dtu.akitchen.kitchen.Kitchen;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -19,7 +21,7 @@ public class DAOshoppingListItems {
         //get the kitchen that the user belongs to
         //TODO should be done with onValueChagneListener instead
         //TODO uncomment line below when database connection is up
-        kitchenId = KitchenHelper.getKitchenId();
+        kitchenId = FirebaseCalls.kitchenId;
         this.shoppingListReference = databaseReference.child("shopping_list").child(kitchenId);
 
     }
