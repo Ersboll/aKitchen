@@ -84,7 +84,7 @@ public class HistoryFragment extends Fragment {
         String kitchenId = FirebaseCalls.kitchenId;
 
         DatabaseReference hisRef = FirebaseDatabase.getInstance().getReference()
-                .child("kitchens").child("kitchen1");
+                .child("kitchens").child(kitchenId);
 
         hisRef.addValueEventListener(new ValueEventListener() {
             @Override

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dtu.akitchen.R;
+import com.dtu.akitchen.ShoppingListItems.BoughtItem;
 import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.kitchen.FirebaseCalls;
 import com.dtu.akitchen.kitchen.Summary;
@@ -28,7 +29,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CurrentFragment extends Fragment {
 
@@ -119,6 +123,9 @@ public class CurrentFragment extends Fragment {
                 DatabaseReference newHistoryRef = kitchenRef.child("summaries/history").push();
                 DatabaseReference boughtItemsRef = kitchenRef.child("bought_items");
 
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                Date date = new Date();
+                FirebaseCalls.summary.ended = dateFormat.format(date);
                 newHistoryRef.setValue(FirebaseCalls.summary);
                 currentRef.setValue(new Summary());
                 boughtItemsRef.removeValue();
