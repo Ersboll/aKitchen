@@ -1,19 +1,15 @@
 package com.dtu.akitchen.authentication;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
 
-import com.dtu.akitchen.MainActivity;
-import com.dtu.akitchen.ui.logInOut.LoginActivity;
-import com.dtu.akitchen.ui.main.SettingsActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Author Niels Kjær Ersbøll
@@ -47,7 +43,7 @@ public class LogInOut {
     /**
      * Checks if the 2 passwords match
      */
-    public static boolean doPasswordsMatch(String password1, String password2){
+    public static boolean doPasswordsMatch(String password1, String password2) {
         return password1 != null && password1.equals(password2);
     }
 
@@ -57,22 +53,28 @@ public class LogInOut {
      * @param activity your current activity (often this)
      * @param email    the user email
      * @param password the user password
-     * @return true if password and email are valid, false if not
      */
-    public static boolean login(Activity activity, String email, String password) {
+    public static void login(Activity activity, String email, String password) {
         if (isPasswordValid(password) && isEmailValid(email)) {
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(activity, task -> {
-                        if (task.isSuccessful()) {
-                            auth.getCurrentUser();
-                        } else {
+                        if (!task.isSuccessful()) {
+                            Exception e = task.getException();
+                            Log.w(TAG, "User login exception: " + e.getMessage());
+                            if(e instanceof FirebaseAuthInvalidCredentialsException){
+                                // The password is invalid or the user does not have a password
+                                Toast.makeText(activity, "The password is invalid",Toast.LENGTH_SHORT).show();
+                            } else if( e instanceof FirebaseAuthInvalidUserException) {
+                                // There is no user record corresponding to this identifier. The user may have been deleted.
+                                Toast.makeText(activity, "There is no account tied to the given email",Toast.LENGTH_LONG).show();
+                            }
                             Toast.makeText(activity, "Authentication failed.", Toast.LENGTH_LONG).show();
+                        } else {
+                            auth.getCurrentUser();
                         }
                     });
-            return true;
         }
-        return false;
     }
 
     /**
@@ -82,14 +84,14 @@ public class LogInOut {
      * @param email    the user email
      * @param password the user password
      */
-    public static void signUp(Activity activity, String email, String password){
+    public static void signUp(Activity activity, String email, String password) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, task -> {
-                    if(!task.isSuccessful()){
-                        if (task.getException() instanceof FirebaseAuthUserCollisionException){
+                    if (!task.isSuccessful()) {
+                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(activity,"User with this email already exist.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "User with this email already exist.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Log.d(TAG, "User has signed up");
