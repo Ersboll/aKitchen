@@ -1,5 +1,5 @@
 package com.dtu.akitchen.ShoppingListItems;
-
+//Philip Hviid
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;

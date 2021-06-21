@@ -1,5 +1,5 @@
 package com.dtu.akitchen.ui.main;
-
+//Philip Hviid
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -23,6 +23,10 @@ import com.dtu.akitchen.ShoppingListItems.DAOboughtItem;
 import com.dtu.akitchen.ShoppingListItems.DAOshoppingListItems;
 import com.dtu.akitchen.ShoppingListItems.ShoppingListFragment;
 import com.dtu.akitchen.authentication.LogInOut;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class EnterPriceDialogFragment extends AppCompatDialogFragment {
@@ -71,13 +75,17 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
     private void buyItem(String itemName, String itemKey, double price) {
         DAOshoppingListItems shoppingDAO = new DAOshoppingListItems();
         DAOboughtItem boughtDAO = new DAOboughtItem();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+
         //TODO add real date
         BoughtItem boughtItem = new BoughtItem(itemName,price,
-                LogInOut.getCurrentUser().getUid(), "today");
+                LogInOut.getCurrentUser().getUid(), dateFormat.format(date));
         boughtDAO.addItem(boughtItem).addOnSuccessListener( suc -> {
             Log.i("BoughtItems", itemName + "bought");
             shoppingDAO.deleteItem(itemKey);
-            boughtDAO.upDateBalances(LogInOut.getCurrentUser().getUid(), price);
+            //TODO implement properly
+            //boughtDAO.upDateBalances(LogInOut.getCurrentUser().getUid(), price);
 
         }).addOnFailureListener(err -> {
             Log.i("BoughtItems", err.getMessage());
