@@ -8,12 +8,9 @@ import java.util.Map;
 public class Summary {
     public Map<String, Double> users;
     public double total;
-
+    public String ended;
 
     public Summary () {
         // Default constructor required for calls to DataSnapshot.getValue(User)
     }
-
-
-
 }
