@@ -1,9 +1,12 @@
 package com.dtu.akitchen.kitchen;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.dtu.akitchen.MainActivity;
+import com.dtu.akitchen.authentication.LogInOut;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +23,7 @@ public class FirebaseCalls {
     public static String kitchenId = null;
     public static Map<String, User> users = new HashMap<>();
     public static Summary summary = null;
+    public static Context context;
 
     private static final ValueEventListener kitchenUsersListener = new ValueEventListener() {
         @Override
@@ -30,6 +34,13 @@ public class FirebaseCalls {
                 if (user == null) continue;
                 user.setUid(dataSnapshot.getKey());
                 users.put(dataSnapshot.getKey(), user);
+            }
+
+            if (LogInOut.getCurrentUser() != null) {
+                User self = users.get(LogInOut.getCurrentUser().getUid());
+                if (self == null || self.name == null) {
+                    MainActivity.showNameDialog(context);
+                }
             }
         }
 

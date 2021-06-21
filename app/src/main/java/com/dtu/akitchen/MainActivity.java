@@ -1,5 +1,6 @@
 package com.dtu.akitchen;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -40,11 +41,14 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = "ClickedLogout";
     private FirebaseDatabase database;
     public TextView mTextviewTest;
+    private static boolean hasOpenedNameDialog = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseCalls.context = this;
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -72,30 +76,38 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        User user = FirebaseCalls.users.get(LogInOut.getCurrentUser().getUid());
+        /*User user = FirebaseCalls.users.get(LogInOut.getCurrentUser().getUid());
         if((user != null ? user.name : null) == null || user.name.isEmpty()){
-            // if a display name is not attached to the user
-            // Create a dialog to set it
+            showNameDialog();
+        }*/
+    }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Display name");
-            builder.setIcon(R.drawable.ic_baseline_account_circle_24);
-            builder.setMessage("Enter your display name for this kitchen");
+    public static void showNameDialog (Context context) {
+        // if a display name is not attached to the user
+        // Create a dialog to set it
 
-            EditText alertInput = new EditText(this);
+        if (hasOpenedNameDialog) return;
+        hasOpenedNameDialog = true;
 
-            builder.setView(alertInput);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Display name");
+        builder.setIcon(R.drawable.ic_baseline_account_circle_24);
+        builder.setMessage("Enter your display name for this kitchen");
+        builder.setCancelable(false);
 
-            builder.setPositiveButton("Set", (dialog, which) -> {
-               String displayName = alertInput.getText().toString();
-               FirebaseDatabase.getInstance()
-                       .getReference("/kitchens/" + FirebaseCalls.kitchenId + "/users/" + LogInOut.getCurrentUser().getUid() + "/name")
-                       .setValue(displayName);
-            });
+        EditText alertInput = new EditText(context);
 
-            AlertDialog ad = builder.create();
-            ad.show();
-        }
+        builder.setView(alertInput);
+
+        builder.setPositiveButton("Set", (dialog, which) -> {
+            String displayName = alertInput.getText().toString();
+            FirebaseDatabase.getInstance()
+                    .getReference("/kitchens/" + FirebaseCalls.kitchenId + "/users/" + LogInOut.getCurrentUser().getUid() + "/name")
+                    .setValue(displayName);
+        });
+
+        AlertDialog ad = builder.create();
+        ad.show();
     }
 
     @Override
