@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.databinding.ActivitySettingsBinding;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -116,7 +119,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void onPressUpdateName (View view) {
-        Log.d("aKitchen_settings", "Update name");
+        String newName = Objects.requireNonNull(binding.nameText.getText()).toString();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myName = database.getReference("/kitchens/" + FirebaseCalls.kitchenId + "/users/" + uid + "/name");
+        myName.setValue(newName);
     }
 
     public void onPressLeaveKitchen (View view) {
