@@ -13,6 +13,7 @@
     <string name="reenter_password">re-enter password</string>
     <string name="sign_up">Sign up</string>
     <string name="copied_invite_code">Copied invite code to clipboard</string>
+    <string name="set_new_admin">Set new admin</string>
 
     <string-array name="test_names">
         <item>Firstname Lastname (1)</item>
