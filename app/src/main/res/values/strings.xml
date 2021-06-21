@@ -12,50 +12,7 @@
     <string name="add_button_text">Add</string>
     <string name="reenter_password">re-enter password</string>
     <string name="sign_up">Sign up</string>
-    <string name="set_new_admin">Set new admin</string>
-
-    <string-array name="test_items">
-        <item>baking soda</item>
-        <item>carrots</item>
-        <item>frozen pizza</item>
-        <item>onion</item>
-        <item>cofee</item>
-        <item>covfefe</item>
-        <item>lava</item>
-        <item>diamond</item>
-        <item>baking soda</item>
-        <item>carrots</item>
-        <item>frozen pizza</item>
-        <item>onion</item>
-        <item>cofee</item>
-        <item>covfefe</item>
-        <item>lava</item>
-        <item>diamond</item>
-        <item>baking soda</item>
-        <item>carrots</item>
-        <item>frozen pizza</item>
-        <item>onion</item>
-        <item>cofee</item>
-        <item>covfefe</item>
-        <item>lava</item>
-        <item>diamond</item>
-        <item>baking soda</item>
-        <item>carrots</item>
-        <item>frozen pizza</item>
-        <item>onion</item>
-        <item>cofee</item>
-        <item>covfefe</item>
-        <item>lava</item>
-        <item>diamond</item>
-        <item>baking soda</item>
-        <item>carrots</item>
-        <item>frozen pizza</item>
-        <item>onion</item>
-        <item>cofee</item>
-        <item>covfefe</item>
-        <item>lava</item>
-        <item>diamond</item>
-    </string-array>
+    <string name="copied_invite_code">Copied invite code to clipboard</string>
 
     <string-array name="test_names">
         <item>Firstname Lastname (1)</item>
