@@ -100,8 +100,8 @@ public class ShoppingListFragment extends Fragment {
                     shoppingListItem = new ShoppingListItem(dataSnapshot.getKey(),
                             dataSnapshot.getValue().toString());
                     shoppingItems.add(shoppingListItem);
-                    shoppingListAdapter.notifyDataSetChanged();
                 }
+                shoppingListAdapter.notifyDataSetChanged();
             }
 
             @Override
