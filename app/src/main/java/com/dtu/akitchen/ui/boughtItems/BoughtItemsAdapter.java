@@ -86,9 +86,8 @@ public class BoughtItemsAdapter extends ArrayAdapter<BoughtItem> {
                 DataSnapshot snapshot = task.getResult();
                 if (snapshot == null) return;
                 String userId = snapshot.child("bought_by").getValue(String.class);
-                Log.d("TESTTEST", "" + userId);
                 Double price = snapshot.child("price").getValue(Double.class);
-                Log.d("TESTTEST", "" + price);
+                if (userId == null || price == null) return;
 
                 DAOboughtItem daOboughtItem = new DAOboughtItem();
                 daOboughtItem.updateBalances(userId, -price);
