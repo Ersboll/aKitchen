@@ -62,5 +62,27 @@
             android:gravity="center"
             android:layout_width="match_parent" />
     </LinearLayout>
-
+<!--    <Button-->
+<!--        android:id="@+id/remove_button"-->
+<!--        android:layout_width="63dp"-->
+<!--        android:layout_height="59dp"-->
+<!--        android:insetTop="0dp"-->
+<!--        android:insetBottom="0dp"-->
+<!--        android:visibility="invisible"-->
+<!--        android:minHeight="0dp" android:minWidth="0dp"-->
+<!--        android:textSize="10dp"-->
+<!--        android:text="delete" />-->
+    <TextView
+        android:layout_margin="1sp"
+        android:padding="5dp"
+        android:textSize="13sp"
+        android:text="date"
+        android:id="@+id/remove_text"
+        android:layout_height="wrap_content"
+        android:background="@color/red_700"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:visibility="invisible"
+        android:layout_width="wrap_content" />
 </LinearLayout>

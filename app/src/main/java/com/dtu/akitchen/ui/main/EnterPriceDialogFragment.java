@@ -85,7 +85,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
         Date date = new Date();
 
         //TODO add real date
-        BoughtItem boughtItem = new BoughtItem(itemName,price,
+        BoughtItem boughtItem = new BoughtItem(itemKey,itemName,price,
                 LogInOut.getCurrentUser().getUid(), dateFormat.format(date));
         boughtDAO.addItem(boughtItem).addOnSuccessListener( suc -> {
             Log.i("BoughtItems", itemName + "bought");
