@@ -71,7 +71,6 @@ public class LogInOut {
                                 // There is no user record corresponding to this identifier. The user may have been deleted.
                                 Toast.makeText(activity, "There is no account tied to the given email",Toast.LENGTH_LONG).show();
                             }
-                            Toast.makeText(activity, "Authentication failed.", Toast.LENGTH_LONG).show();
                         } else {
                             if(FirebaseCalls.kitchenId != null)
                                 FirebaseDatabase.getInstance()
