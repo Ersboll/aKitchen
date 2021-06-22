@@ -81,8 +81,8 @@ public class BoughtItemsFragment extends Fragment {
 
                     BoughtItem item = new BoughtItem(itemId, name, price, boughtById, date);
                     boughtItemsList.add(item);
-                    boughtItemsAdapter.notifyDataSetChanged();
                 }
+                boughtItemsAdapter.notifyDataSetChanged();
             }
 
             @Override
