@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BoughtItem {
+    public String id;
     private ShoppingListFragment fragment;
     public double price;
     public String itemName;
@@ -13,6 +14,8 @@ public class BoughtItem {
     public String date;
 
     private DAOboughtItem DAO;
+
+    public String getId() { return id; }
 
     public String getDate() {
         return date;
@@ -30,7 +33,8 @@ public class BoughtItem {
         return itemName;
     }
 
-    public BoughtItem(String itemName, double price, String boughtBy, String date) {
+    public BoughtItem(String id,String itemName, double price, String boughtBy, String date) {
+        this.id=id;
         this.itemName = itemName;
         this.boughtBy = boughtBy;
         this.price = price;
@@ -53,6 +57,7 @@ public class BoughtItem {
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
+        result.put("id", id);
         result.put("itemName", itemName);
         result.put("price", price);
         result.put("bought_by", boughtBy);

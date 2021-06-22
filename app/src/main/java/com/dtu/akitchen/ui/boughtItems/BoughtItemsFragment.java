@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -51,6 +53,16 @@ public class BoughtItemsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_bought_items, container, false);
+        ListView listView = (ListView) view.findViewById(R.id.bought_item_list);
+
         boughtItemsAdapter = new BoughtItemsAdapter(getActivity(), R.layout.bought_items_item ,boughtItemsList);
         // connect to firebase
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
@@ -59,15 +71,15 @@ public class BoughtItemsFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                    boughtItemsList.clear();
+                boughtItemsList.clear();
                 for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
+                    String itemId = (String) dataSnapshot.getKey();
                     String boughtById = (String) dataSnapshot.child("bought_by").getValue();
                     double price = Double.parseDouble(dataSnapshot.child("price").getValue().toString());
                     String name = (String) dataSnapshot.child("itemName").getValue();
                     String date = (String) dataSnapshot.child("date").getValue();
 
-                    String userName = FirebaseCalls.users.get(boughtById).name;
-                    BoughtItem item = new BoughtItem(name, price, userName, date);
+                    BoughtItem item = new BoughtItem(itemId, name, price, boughtById, date);
                     boughtItemsList.add(item);
                     boughtItemsAdapter.notifyDataSetChanged();
                 }
@@ -78,14 +90,6 @@ public class BoughtItemsFragment extends Fragment {
                 Toast.makeText(getActivity(), "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
         });
-
-        }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bought_items, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.bought_item_list);
 
         listView.setAdapter(boughtItemsAdapter);
         return view;
