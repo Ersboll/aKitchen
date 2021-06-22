@@ -6,15 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,7 +18,6 @@ import com.dtu.akitchen.R;
 import com.dtu.akitchen.ShoppingListItems.BoughtItem;
 import com.dtu.akitchen.ShoppingListItems.DAOboughtItem;
 import com.dtu.akitchen.ShoppingListItems.DAOshoppingListItems;
-import com.dtu.akitchen.ShoppingListItems.ShoppingListFragment;
 import com.dtu.akitchen.authentication.LogInOut;
 
 import java.text.DateFormat;
@@ -92,7 +87,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
             //delete the bought item fro mthe shopping list, if it is succesfully bought
             shoppingDAO.deleteItem(itemKey);
             //update balance of all active users in the kitchen
-            boughtDAO.upDateBalances(LogInOut.getCurrentUser().getUid(), price);
+            boughtDAO.updateBalances(LogInOut.getCurrentUser().getUid(), price);
             Toast.makeText(context,
                     itemName + " purchased", Toast.LENGTH_SHORT).show();
         }).addOnFailureListener(err -> {

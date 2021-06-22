@@ -32,7 +32,7 @@ public class DAOboughtItem {
     }
 
 
-    public void upDateBalances(String userUID, double price) {
+    public void updateBalances(String userUID, double price) {
         //get only the active users to update balances
         Summary summary = FirebaseCalls.summary;
         //update total amounth of money spent for this summary session

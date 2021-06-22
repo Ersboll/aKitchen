@@ -1,11 +1,11 @@
 package com.dtu.akitchen.ui.boughtItems;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,8 +14,11 @@ import org.jetbrains.annotations.NotNull;
 
 import com.dtu.akitchen.R;
 import com.dtu.akitchen.ShoppingListItems.BoughtItem;
+import com.dtu.akitchen.ShoppingListItems.DAOboughtItem;
 import com.dtu.akitchen.authentication.LogInOut;
 import com.dtu.akitchen.kitchen.FirebaseCalls;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,10 +59,8 @@ public class BoughtItemsAdapter extends ArrayAdapter<BoughtItem> {
         TextView removeButton = convertView.findViewById(R.id.remove_text);
 
         String loggedInUser = LogInOut.getCurrentUser().getUid();
-        System.out.println("###### "+FirebaseCalls.users.get(loggedInUser) +"||"+FirebaseCalls.users.get(loggedInUser).admin);
 
-        if(loggedInUser.equals(boughtBy) || FirebaseCalls.users.get(loggedInUser).admin == true){
-                    System.out.println("###### "+LogInOut.getCurrentUser().getUid() +"||"+boughtBy);
+        if(loggedInUser.equals(boughtBy) || FirebaseCalls.isCurrentAdmin()){
             removeButton.setVisibility(View.VISIBLE);
             removeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,15 +81,17 @@ public class BoughtItemsAdapter extends ArrayAdapter<BoughtItem> {
     public void removeButtonClickHandler(String itemId){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("kitchens").child(FirebaseCalls.kitchenId).child("bought_items").child(itemId);
+        reference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DataSnapshot snapshot = task.getResult();
+                if (snapshot == null) return;
+                String userId = snapshot.child("bought_by").getValue(String.class);
+                Double price = snapshot.child("price").getValue(Double.class);
+                if (userId == null || price == null) return;
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                System.out.println("#######"+snapshot.getValue());
+                DAOboughtItem daOboughtItem = new DAOboughtItem();
+                daOboughtItem.updateBalances(userId, -price);
                 snapshot.getRef().removeValue();
-            }
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
             }
         });
     }
