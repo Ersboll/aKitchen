@@ -6,23 +6,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dtu.akitchen.R;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Locale;
+
 public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.ViewHolder> {
 
-    private CurrentFragment fragment;
-    private String[] localNameDataSet;
-    private int[] localValuesDataSet;
+    private Fragment fragment;
+    private ArrayList<String> localNameDataSet;
+    private ArrayList<Double> localValuesDataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameTextView;
         private final TextView valueTextView;
 
-        public ViewHolder(View view, CurrentFragment fragment) {
+        public ViewHolder(View view, Fragment fragment) {
             super(view);
             nameTextView = (TextView) view.findViewById(R.id.current_user_name);
             valueTextView = (TextView) view.findViewById(R.id.current_user_value);
@@ -39,7 +44,7 @@ public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.
 
     //dataSet represents data to be used by the adapter
     //TODO import from firebase
-    public CurrentListAdapter(String[] dataSetNames, int[] dataSetValues, CurrentFragment fragment) {
+    public CurrentListAdapter(ArrayList<String> dataSetNames, ArrayList<Double> dataSetValues, Fragment fragment) {
         this.fragment = fragment;
         localNameDataSet = dataSetNames;
         localValuesDataSet = dataSetValues;
@@ -62,23 +67,20 @@ public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getNameTextView().setText(localNameDataSet[position]);
-        String color = localValuesDataSet[position] + fragment.getResources().getString(R.string.dkk);
-        viewHolder.getValueTextView().setText(color);
-        if(localValuesDataSet[position] < 0){
+        viewHolder.getNameTextView().setText(localNameDataSet.get(position));
+        String value = String.format(Locale.US, "%.2f", localValuesDataSet.get(position)) + fragment.getResources().getString(R.string.dkk);
+        if(localValuesDataSet.get(position) < 0){
             viewHolder.getValueTextView().setTextColor(Color.RED);
         } else {
             viewHolder.getValueTextView().setTextColor(Color.parseColor("#00bd03"));
         }
+        viewHolder.getValueTextView().setText(value);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        if(null == localNameDataSet) {
-            return 0;
-        }
-        return localNameDataSet.length;
+        return localNameDataSet.size();
     }
 
 }

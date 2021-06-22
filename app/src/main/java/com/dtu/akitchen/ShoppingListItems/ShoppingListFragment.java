@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dtu.akitchen.R;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
 import com.dtu.akitchen.ui.main.EnterPriceDialogFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 
@@ -71,15 +74,17 @@ public class ShoppingListFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        //TODO figure out how to actually get kitchen id
+        //seperation lines for styling
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                recyclerView.getContext(), LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
         //get database reference to the shopping list
-        String kitchenId = KitchenHelper.getKitchenId();
+        String kitchenId = FirebaseCalls.kitchenId;
 
         Log.i("KitchenId",kitchenId);
         DatabaseReference shoppingListReference = FirebaseDatabase.getInstance().getReference()
-                .child("shopping_list").child(kitchenId);
-
-
+                .child("kitchens").child(kitchenId).child("shopping_list");
 
         //set custom made adapter for groccery items
         shoppingListAdapter = new ShoppingListAdapter(shoppingItems, this);
@@ -121,7 +126,7 @@ public class ShoppingListFragment extends Fragment {
                 shoppingListItemsDAO = new DAOshoppingListItems();
 
                 shoppingListItemsDAO.addItem(newItemText).addOnSuccessListener(suc -> {
-                    showShortToast("newItemText added");
+                    showShortToast(newItemText + " added");
                     itemTextView.setText("");
                 }).addOnFailureListener( err -> {
                     showShortToast(err.getMessage());
@@ -168,6 +173,7 @@ public class ShoppingListFragment extends Fragment {
 
     public void openInputPriceDialog(String itemName, String itemKey) {
         inputDialog = new EnterPriceDialogFragment();
+        inputDialog.setContext(getContext());
         inputDialog.setTitle(itemName);
         inputDialog.setItemKey(itemKey);
 
@@ -178,6 +184,7 @@ public class ShoppingListFragment extends Fragment {
         //make button only be active when the input is >=0
         positiveButton = ((AlertDialog) inputDialog.getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
         positiveButton.setEnabled(false);
+
         //saves the price input field to add event listener to enable confirm button
         priceInput = inputDialog.getPrice();
 
@@ -200,7 +207,10 @@ public class ShoppingListFragment extends Fragment {
                 }
                 try {
                     double priceValue = Double.parseDouble((priceInput.getText().toString()));
-                    positiveButton.setEnabled(priceValue >= 0);
+                    //to preven huge numbers from crashing database
+                    Log.i("InputValidation", ""+ (BigDecimal.valueOf(priceValue).scale()));
+                    positiveButton.setEnabled(priceValue >= 0 && priceValue <= 10000
+                    && BigDecimal.valueOf(priceValue).scale()<3); //sccuffed check for max 2 decimals
                 } catch (NumberFormatException e) {
                     positiveButton.setEnabled(false);
                 }

@@ -22,31 +22,19 @@ public class LoginViewModel extends ViewModel {
         Log.i(TAG, "ViewModel is Destroyed");
     }
 
-    public void loginDataChanged(String username, String password){
-        this.email = isUserNameValid(username) ? username : "";
-        this.password = isPasswordValid(password) ? password : "";
+    public void loginDataChanged(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 
-    // Username validation check
-    private boolean isUserNameValid(String username) {
-        return LogInOut.isEmailValid(username);
+    public boolean isEmailValid() {
+        return LogInOut.isEmailValid(email);
     }
 
-    public boolean isUserNameValid(){
-        return isUserNameValid(email);
-    }
-
-    // Password validation check
-    public boolean isPasswordValid(String password) {
+    public boolean isPasswordValid() {
         return LogInOut.isPasswordValid(password);
     }
 
-    public boolean isPasswordValid(){
-        return isPasswordValid(password);
-    }
-
-
-    // getters
 
     public String getPassword() {
         return password;
