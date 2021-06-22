@@ -69,12 +69,6 @@ public class CurrentFragment extends Fragment {
 
         tempValueData = new ArrayList<>();
         tempNameData = new ArrayList<>();
-        tempValueData.add(Double.parseDouble("0"));
-        tempNameData.add("");
-
-        //Depreciated test values
-        //tempNameData = getResources().getStringArray(R.array.test_names);
-        //tempValueData = getResources().getIntArray(R.array.test_values);
 
         currentListAdapter = new CurrentListAdapter(tempNameData, tempValueData, this);
         recyclerView.setAdapter(currentListAdapter);
@@ -116,7 +110,7 @@ public class CurrentFragment extends Fragment {
             concludeButton.setVisibility(View.VISIBLE);
         }
         concludeButton.setOnClickListener(v -> {
-            if (FirebaseCalls.isCurrentAdmin()) {
+            if (FirebaseCalls.isCurrentAdmin() && FirebaseCalls.summary.total > 0) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference kitchenRef = database.getReference("/kitchens/" + FirebaseCalls.kitchenId);
                 DatabaseReference currentRef = kitchenRef.child("summaries/current");

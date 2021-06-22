@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dtu.akitchen.R;
 import com.dtu.akitchen.kitchen.FirebaseCalls;
+import com.dtu.akitchen.kitchen.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class HistoryFragment extends Fragment {
@@ -35,8 +37,11 @@ public class HistoryFragment extends Fragment {
     ArrayList<String> tempCreatedDate;
     ArrayList<Long> tempUserCount;
     ArrayList<Double> tempTotalExpense;
-    ArrayList<String> tempNameData;
-    ArrayList<Double> tempValueData;
+    ArrayList<ArrayList<String>> tempNameData;
+    ArrayList<ArrayList<Double>> tempValueData;
+
+    ValueEventListener newDataListener;
+    DatabaseReference hisRef;
 
     public static HistoryFragment newInstance() {
         HistoryFragment historyFragment = new HistoryFragment();
@@ -67,11 +72,6 @@ public class HistoryFragment extends Fragment {
         tempTotalExpense = new ArrayList<>();
         tempNameData = new ArrayList<>();
         tempValueData = new ArrayList<>();
-        tempCreatedDate.add("");
-        tempUserCount.add(Long.valueOf("0"));
-        tempTotalExpense.add(0.0);
-        tempNameData.add("");
-        tempValueData.add(0.0);
 
         //Depreciated test values
         //createdDate = getResources().getStringArray(R.array.test_dates);
@@ -83,10 +83,10 @@ public class HistoryFragment extends Fragment {
 
         String kitchenId = FirebaseCalls.kitchenId;
 
-        DatabaseReference hisRef = FirebaseDatabase.getInstance().getReference()
+        hisRef = FirebaseDatabase.getInstance().getReference()
                 .child("kitchens").child(kitchenId);
 
-        hisRef.addValueEventListener(new ValueEventListener() {
+        newDataListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 tempCreatedDate.clear();
@@ -98,7 +98,20 @@ public class HistoryFragment extends Fragment {
                     tempCreatedDate.add(snap.child("ended").getValue(String.class));
                     tempUserCount.add(snap.child("users").getChildrenCount());
                     tempTotalExpense.add(snap.child("total").getValue(Double.class));
-                    //add name and value data here once UI supports it
+
+                    ArrayList<String> nameData = new ArrayList<>();
+                    ArrayList<Double> valueData = new ArrayList<>();
+                    for (DataSnapshot undersnap : snap.child("users").getChildren()) {
+                        valueData.add(undersnap.getValue(Double.class));
+                        User user = FirebaseCalls.users.get(undersnap.getKey());
+                        if (user != null && user.name != null) {
+                            nameData.add(user.name);
+                        } else {
+                            nameData.add("Unnamed user");
+                        }
+                    }
+                    tempNameData.add(nameData);
+                    tempValueData.add(valueData);
                 }
                 historyListAdapter.notifyDataSetChanged();
             }
@@ -107,22 +120,20 @@ public class HistoryFragment extends Fragment {
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
                 Log.i(TAG,"VEL cancelled");
             }
-        });
-
-        Button exportButton = root.findViewById(R.id.export_button);
-        exportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: Export selected list entry as xlsx/pdf
-                //TODO: Firebase integration
-                if(false){
-                    Toast.makeText(getContext(),R.string.export_success, Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(getContext(),R.string.export_fail, Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        };
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hisRef.addValueEventListener(newDataListener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hisRef.removeEventListener(newDataListener);
     }
 }
