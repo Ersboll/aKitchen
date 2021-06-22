@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FirebaseCalls.context = this;
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -76,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        FirebaseCalls.context = this;
 
         if (FirebaseCalls.showDialogWhenReady) {
             showNameDialog(this);
@@ -86,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
+        FirebaseCalls.context = null;
+
         hasOpenedNameDialog = false;
     }
 
