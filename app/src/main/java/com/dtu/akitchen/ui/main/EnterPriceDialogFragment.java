@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import android.util.Log;
@@ -19,6 +20,14 @@ import com.dtu.akitchen.ShoppingListItems.BoughtItem;
 import com.dtu.akitchen.ShoppingListItems.DAOboughtItem;
 import com.dtu.akitchen.ShoppingListItems.DAOshoppingListItems;
 import com.dtu.akitchen.authentication.LogInOut;
+import com.dtu.akitchen.kitchen.FirebaseCalls;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,14 +39,41 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
     private EditText price;
     private String itemName;
     private String itemKey;
+    DatabaseReference reference;
+    ValueEventListener listener;
 
-    //need context to make toast, and there is a android bug, with makign toast from own context
+    //need context to make toast, and there is a android bug, with making toast from own context
     public void setContext(Context context) {
         this.context = context;
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        String kitchenId = FirebaseCalls.kitchenId;
+
+        reference = FirebaseDatabase.getInstance().getReference()
+                .child("kitchens").child(kitchenId).child("shopping_list");
+
+        //To prevent multiple people buying same item
+        listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Log.i("DialogFrag", itemKey);
+                if (null==snapshot.child(itemKey).getValue()) {
+                    Log.i("DialogFragment", "key is null");
+                    EnterPriceDialogFragment.this.dismiss();
+                    Toast.makeText(context, itemName + " removed from list", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        };
+
+        reference.addValueEventListener(listener);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_enter_price_dialog, null);
@@ -72,6 +108,11 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
         shoppingDAO.deleteItem(key);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 
     private void buyItem(String itemName, String itemKey, double price) {
         DAOshoppingListItems shoppingDAO = new DAOshoppingListItems();
@@ -104,4 +145,9 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
     }
     public void setItemKey(String itemKey) {this.itemKey = itemKey; }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        reference.removeEventListener(listener);
+    }
 }
