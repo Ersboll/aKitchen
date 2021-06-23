@@ -91,8 +91,6 @@ public class CurrentFragment extends Fragment {
                     } else {
                         tempNameData.add("Unnamed user");
                     }
-
-                    Log.i(TAG,tempValueData.get(tempValueData.size()-1).toString());
                 }
                 currentListAdapter.notifyDataSetChanged();
             }

@@ -38,7 +38,7 @@ import com.dtu.akitchen.ui.overview.OverviewActivity;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private String TAG = "ClickedLogout";
+    private String TAG = "MainActionbar";
     private FirebaseDatabase database;
     public TextView mTextviewTest;
     private static boolean hasOpenedNameDialog = false;
@@ -129,19 +129,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.logout_submenu:
-                Log.d(TAG,"Logout submenu clicked");
+                Log.i(TAG,"Logout submenu clicked");
                 LogInOut.logout();
                 return true;
             case R.id.settings_submenu:
-                Log.d(TAG, "Settings submenu clicked");
+                Log.i(TAG, "Settings submenu clicked");
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
             case R.id.invite_submenu:
-                Log.d(TAG, "Invite submenu clicked");
+                Log.i(TAG, "Invite submenu clicked");
                 startActivity(new Intent(MainActivity.this, InviteActivity.class));
                 return true;
             case R.id.overview_submenu:
-                Log.d(TAG, "Overview submenu clicked");
+                Log.i(TAG, "Overview submenu clicked");
                 Intent intentOverview = new Intent(this, OverviewActivity.class);
                 startActivity(intentOverview);
                 return true;

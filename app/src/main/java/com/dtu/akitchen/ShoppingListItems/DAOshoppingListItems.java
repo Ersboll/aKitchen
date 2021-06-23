@@ -19,8 +19,6 @@ public class DAOshoppingListItems {
         FirebaseUser user = LogInOut.getCurrentUser();
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         //get the kitchen that the user belongs to
-        //TODO should be done with onValueChagneListener instead
-        //TODO uncomment line below when database connection is up
         kitchenId = FirebaseCalls.kitchenId;
         this.shoppingListReference = databaseReference.child("kitchens").child(kitchenId).child("shopping_list");
 

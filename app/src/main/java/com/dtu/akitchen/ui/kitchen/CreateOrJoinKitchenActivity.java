@@ -59,7 +59,6 @@ public class CreateOrJoinKitchenActivity extends AppCompatActivity {
 
             // Set button
             builder.setPositiveButton("Create", (dialog, which) -> {
-                //TODO ON Create click
                 String kitchenName = alertInput.getText().toString();
                 User user = new User(LogInOut.getCurrentUser().getUid(), true, null);
                 Kitchen kitchen = new Kitchen(kitchenName, user);

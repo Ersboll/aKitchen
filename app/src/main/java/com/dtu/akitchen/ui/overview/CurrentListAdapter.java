@@ -43,7 +43,6 @@ public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.
     }
 
     //dataSet represents data to be used by the adapter
-    //TODO import from firebase
     public CurrentListAdapter(ArrayList<String> dataSetNames, ArrayList<Double> dataSetValues, Fragment fragment) {
         this.fragment = fragment;
         localNameDataSet = dataSetNames;

@@ -79,7 +79,6 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date date = new Date();
 
-        //TODO add real date
         BoughtItem boughtItem = new BoughtItem(itemKey,itemName,price,
                 LogInOut.getCurrentUser().getUid(), dateFormat.format(date));
         boughtDAO.addItem(boughtItem).addOnSuccessListener( suc -> {

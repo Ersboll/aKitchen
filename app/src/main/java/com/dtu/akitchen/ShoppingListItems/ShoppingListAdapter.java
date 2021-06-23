@@ -53,7 +53,6 @@ public class ShoppingListAdapter extends
     }
 
     //dataSet represents data to be used by the adapter
-    //TODO import from firebase
     public ShoppingListAdapter(ArrayList<ShoppingListItem> shoppingListItems, ShoppingListFragment fragment) {
         this.fragment = fragment;
         this.shoppingListItems = shoppingListItems;

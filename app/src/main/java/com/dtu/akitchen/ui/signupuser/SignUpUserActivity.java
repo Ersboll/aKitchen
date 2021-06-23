@@ -77,7 +77,6 @@ public class SignUpUserActivity extends AppCompatActivity {
         });
 
         SignUpButton.setOnClickListener(v -> {
-            Log.d(TAG, "You clicked SignUpButton");
             signUp();
         });
     }
