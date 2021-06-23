@@ -40,11 +40,14 @@ public class ShoppingListFragment extends Fragment {
     RecyclerView recyclerView;
     ShoppingListAdapter shoppingListAdapter;
     RecyclerView.LayoutManager layoutManager;
-    Button positiveButton;
     EditText priceInput;
     EnterPriceDialogFragment inputDialog;
     DAOshoppingListItems shoppingListItemsDAO;
     ArrayList<ShoppingListItem> shoppingItems = new ArrayList<ShoppingListItem>();
+    DatabaseReference shoppingListReference;
+    ValueEventListener valueEventListener;
+    Button addButton;
+    View.OnClickListener addButtonListener;
 
 
 
@@ -58,6 +61,35 @@ public class ShoppingListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        shoppingListAdapter = new ShoppingListAdapter(shoppingItems, this);
+
+        //get database reference to the shopping list
+        String kitchenId = FirebaseCalls.kitchenId;
+
+        shoppingListReference = FirebaseDatabase.getInstance().getReference()
+                .child("kitchens").child(kitchenId).child("shopping_list");
+
+        //listens to changes in database, and updates recyclerview accordingly
+        valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                shoppingItems.clear();
+                ShoppingListItem shoppingListItem;
+                for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
+                    shoppingListItem = new ShoppingListItem(dataSnapshot.getKey(),
+                            dataSnapshot.getValue().toString());
+                    shoppingItems.add(shoppingListItem);
+                }
+                shoppingListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                showShortToast("Failed to get data");
+            }
+
+        };
+
 
     }
 
@@ -79,45 +111,12 @@ public class ShoppingListFragment extends Fragment {
                 recyclerView.getContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        //get database reference to the shopping list
-        String kitchenId = FirebaseCalls.kitchenId;
-
-        DatabaseReference shoppingListReference = FirebaseDatabase.getInstance().getReference()
-                .child("kitchens").child(kitchenId).child("shopping_list");
-
         //set custom made adapter for groccery items
-        shoppingListAdapter = new ShoppingListAdapter(shoppingItems, this);
         recyclerView.setAdapter(shoppingListAdapter);
-
-
-        shoppingListReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                shoppingItems.clear();
-                ShoppingListItem shoppingListItem;
-                for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
-                    shoppingListItem = new ShoppingListItem(dataSnapshot.getKey(),
-                            dataSnapshot.getValue().toString());
-                    shoppingItems.add(shoppingListItem);
-                }
-                shoppingListAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                showShortToast("Failed to get data");
-            }
-        });
-
-
-        //set add button onClick
-
-        Button addButton = rootView.findViewById((R.id.add_item_button));
-        //only pressable if not blank
-
         TextView itemTextView = (TextView) rootView.findViewById(R.id.new_item_text);
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        //set add button onClick
+        addButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String newItemText = itemTextView.getText().toString();
@@ -132,7 +131,11 @@ public class ShoppingListFragment extends Fragment {
                 });
 
             }
-        });
+        };
+
+        addButton = rootView.findViewById((R.id.add_item_button));
+        addButton.setOnClickListener(addButtonListener);
+
 
         //addButton only works if an item has been entered
         addButton.setEnabled(false);
@@ -158,6 +161,7 @@ public class ShoppingListFragment extends Fragment {
         });
 
 
+
         //return the inflated flagment
         return rootView;
     }
@@ -180,41 +184,19 @@ public class ShoppingListFragment extends Fragment {
                 "inputDialog");
         getActivity().getSupportFragmentManager().executePendingTransactions();
 
-        //make button only be active when the input is >=0
-        positiveButton = ((AlertDialog) inputDialog.getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
-        positiveButton.setEnabled(false);
+    }
 
-        //saves the price input field to add event listener to enable confirm button
-        priceInput = inputDialog.getPrice();
+    @Override
+    public void onResume() {
+        super.onResume();
+        shoppingListReference.addValueEventListener(valueEventListener);
+    }
 
-        priceInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    @Override
+    public void onPause() {
+        super.onPause();
+        shoppingListReference.removeEventListener(valueEventListener);
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(TextUtils.isEmpty(s)){
-                    positiveButton.setEnabled(false);
-                    return;
-                }
-                try {
-                    double priceValue = Double.parseDouble((priceInput.getText().toString()));
-                    //to preven huge numbers from crashing database
-                    Log.i("InputValidation", ""+ (BigDecimal.valueOf(priceValue).scale()));
-                    positiveButton.setEnabled(priceValue >= 0 && priceValue <= 10000
-                    && BigDecimal.valueOf(priceValue).scale()<3); //sccuffed check for max 2 decimals
-                } catch (NumberFormatException e) {
-                    positiveButton.setEnabled(false);
-                }
-            }
-        });
     }
 
 
