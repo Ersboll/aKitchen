@@ -36,6 +36,8 @@ public class BoughtItemsFragment extends Fragment {
     String userName;
     BoughtItemsAdapter boughtItemsAdapter;
     ArrayList<BoughtItem> boughtItemsList = new ArrayList<BoughtItem>();
+    ValueEventListener valueEventListener;
+    DatabaseReference reference;
 
     public BoughtItemsFragment() {
         // Required empty public constructor
@@ -53,22 +55,12 @@ public class BoughtItemsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bought_items, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.bought_item_list);
-
-        boughtItemsAdapter = new BoughtItemsAdapter(getActivity(), R.layout.bought_items_item ,boughtItemsList);
-        // connect to firebase
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+        reference = FirebaseDatabase.getInstance().getReference()
                 .child("kitchens").child(FirebaseCalls.kitchenId).child("bought_items");
 
-        reference.addValueEventListener(new ValueEventListener() {
+        boughtItemsAdapter = new BoughtItemsAdapter(getActivity(), R.layout.bought_items_item ,boughtItemsList);
+
+        valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 boughtItemsList.clear();
@@ -89,9 +81,30 @@ public class BoughtItemsFragment extends Fragment {
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
                 Toast.makeText(getActivity(), "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
-        });
+        };
 
+        }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_bought_items, container, false);
+        ListView listView = (ListView) view.findViewById(R.id.bought_item_list);
+
+        // connect to firebase
         listView.setAdapter(boughtItemsAdapter);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        reference.addValueEventListener(valueEventListener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        reference.removeEventListener(valueEventListener);
     }
 }
