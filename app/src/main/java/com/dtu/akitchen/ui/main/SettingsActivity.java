@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -46,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
     ValueEventListener userListListener;
     DatabaseReference userListRef;
     public AlertDialog dialog;
+    DatabaseReference curUserNameRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +109,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
             userUids.add(user.getUid());
         }
+        String userName = users.get(userUids.indexOf(uid));
+        binding.nameText.setText(userName);
 
     }
 
@@ -125,6 +130,10 @@ public class SettingsActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myName = database.getReference("/kitchens/" + FirebaseCalls.kitchenId + "/users/" + uid + "/name");
         myName.setValue(newName);
+        // Clears and closes keybaord
+        binding.nameText.setText(newName);
+        binding.nameText.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        Toast.makeText(getApplicationContext(),"Sucessfully changed name", Toast.LENGTH_LONG).show();
     }
 
     private void deleteKitchen () {
