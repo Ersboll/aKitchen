@@ -9,9 +9,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,6 +46,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
     private String itemKey;
     DatabaseReference reference;
     ValueEventListener listener;
+    Button positiveButton;
 
     //need context to make toast, and there is a android bug, with making toast from own context
     public void setContext(Context context) {
@@ -63,7 +69,8 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
                 if (null==snapshot.child(itemKey).getValue()) {
                     Log.i("DialogFragment", "key is null");
                     EnterPriceDialogFragment.this.dismiss();
-                    Toast.makeText(context, itemName + " removed from list", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, itemName + " removed from list by other user",
+                            Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -78,6 +85,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_enter_price_dialog, null);
         price = view.findViewById(R.id.price_text);
+
 
         builder.setView(view).setTitle(itemName)
                 .setNeutralButton("cancel", new DialogInterface.OnClickListener() {
@@ -98,6 +106,8 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 delteItem(itemKey);
             }
+
+
         });
 
         return builder.create();
@@ -109,8 +119,44 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
+
+        positiveButton =  ((AlertDialog) this.getDialog())
+                .getButton(AlertDialog.BUTTON_POSITIVE);
+
+        //make button only be active when the input is >=0
+        positiveButton.setEnabled(false);
+
+        price.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+            //only allow user to buy items cheaper than 10000 and with at most 2 decimals
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(TextUtils.isEmpty(s)){
+                    positiveButton.setEnabled(false);
+                    return;
+                }
+                try {
+                    double priceValue = Double.parseDouble((price.getText().toString()));
+                    //to preven huge numbers from crashing database
+                    Log.i("InputValidation", ""+ (BigDecimal.valueOf(priceValue).scale()));
+                    positiveButton.setEnabled(priceValue >= 0 && priceValue <= 10000
+                            && BigDecimal.valueOf(priceValue).scale()<3); //sccuffed check for max 2 decimals
+                } catch (NumberFormatException e) {
+                    positiveButton.setEnabled(false);
+                }
+            }
+        });
+
 
     }
 
@@ -134,10 +180,6 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
             Log.i("BoughtItems", err.getMessage());
         });
 
-    }
-
-    public EditText getPrice() {
-        return price;
     }
 
     public void setTitle(String itemName) {

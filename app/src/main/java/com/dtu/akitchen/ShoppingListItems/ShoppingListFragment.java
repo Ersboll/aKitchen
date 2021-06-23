@@ -40,7 +40,6 @@ public class ShoppingListFragment extends Fragment {
     RecyclerView recyclerView;
     ShoppingListAdapter shoppingListAdapter;
     RecyclerView.LayoutManager layoutManager;
-    Button positiveButton;
     EditText priceInput;
     EnterPriceDialogFragment inputDialog;
     DAOshoppingListItems shoppingListItemsDAO;
@@ -185,41 +184,6 @@ public class ShoppingListFragment extends Fragment {
                 "inputDialog");
         getActivity().getSupportFragmentManager().executePendingTransactions();
 
-        //make button only be active when the input is >=0
-        positiveButton = ((AlertDialog) inputDialog.getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
-        positiveButton.setEnabled(false);
-
-        //saves the price input field to add event listener to enable confirm button
-        priceInput = inputDialog.getPrice();
-
-        priceInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(TextUtils.isEmpty(s)){
-                    positiveButton.setEnabled(false);
-                    return;
-                }
-                try {
-                    double priceValue = Double.parseDouble((priceInput.getText().toString()));
-                    //to preven huge numbers from crashing database
-                    Log.i("InputValidation", ""+ (BigDecimal.valueOf(priceValue).scale()));
-                    positiveButton.setEnabled(priceValue >= 0 && priceValue <= 10000
-                    && BigDecimal.valueOf(priceValue).scale()<3); //sccuffed check for max 2 decimals
-                } catch (NumberFormatException e) {
-                    positiveButton.setEnabled(false);
-                }
-            }
-        });
     }
 
     @Override
