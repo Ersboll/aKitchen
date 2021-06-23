@@ -47,6 +47,8 @@ public class ShoppingListFragment extends Fragment {
     ArrayList<ShoppingListItem> shoppingItems = new ArrayList<ShoppingListItem>();
     DatabaseReference shoppingListReference;
     ValueEventListener valueEventListener;
+    Button addButton;
+    View.OnClickListener addButtonListener;
 
 
 
@@ -68,6 +70,7 @@ public class ShoppingListFragment extends Fragment {
         shoppingListReference = FirebaseDatabase.getInstance().getReference()
                 .child("kitchens").child(kitchenId).child("shopping_list");
 
+        //listens to changes in database, and updates recyclerview accordingly
         valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -85,7 +88,9 @@ public class ShoppingListFragment extends Fragment {
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
                 showShortToast("Failed to get data");
             }
+
         };
+
 
     }
 
@@ -107,22 +112,12 @@ public class ShoppingListFragment extends Fragment {
                 recyclerView.getContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-
         //set custom made adapter for groccery items
         recyclerView.setAdapter(shoppingListAdapter);
-
-
-        shoppingListReference.addValueEventListener(valueEventListener);
-
-
-        //set add button onClick
-
-        Button addButton = rootView.findViewById((R.id.add_item_button));
-        //only pressable if not blank
-
         TextView itemTextView = (TextView) rootView.findViewById(R.id.new_item_text);
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        //set add button onClick
+        addButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String newItemText = itemTextView.getText().toString();
@@ -137,7 +132,11 @@ public class ShoppingListFragment extends Fragment {
                 });
 
             }
-        });
+        };
+
+        addButton = rootView.findViewById((R.id.add_item_button));
+        addButton.setOnClickListener(addButtonListener);
+
 
         //addButton only works if an item has been entered
         addButton.setEnabled(false);
@@ -161,6 +160,7 @@ public class ShoppingListFragment extends Fragment {
                 }
             }
         });
+
 
 
         //return the inflated flagment
@@ -232,6 +232,7 @@ public class ShoppingListFragment extends Fragment {
     public void onPause() {
         super.onPause();
         shoppingListReference.removeEventListener(valueEventListener);
+
     }
 
 
