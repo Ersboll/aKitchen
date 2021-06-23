@@ -45,6 +45,10 @@ public class ShoppingListFragment extends Fragment {
     EnterPriceDialogFragment inputDialog;
     DAOshoppingListItems shoppingListItemsDAO;
     ArrayList<ShoppingListItem> shoppingItems = new ArrayList<ShoppingListItem>();
+    DatabaseReference shoppingListReference;
+    ValueEventListener valueEventListener;
+    Button addButton;
+    View.OnClickListener addButtonListener;
 
 
 
@@ -58,6 +62,35 @@ public class ShoppingListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        shoppingListAdapter = new ShoppingListAdapter(shoppingItems, this);
+
+        //get database reference to the shopping list
+        String kitchenId = FirebaseCalls.kitchenId;
+
+        shoppingListReference = FirebaseDatabase.getInstance().getReference()
+                .child("kitchens").child(kitchenId).child("shopping_list");
+
+        //listens to changes in database, and updates recyclerview accordingly
+        valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                shoppingItems.clear();
+                ShoppingListItem shoppingListItem;
+                for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
+                    shoppingListItem = new ShoppingListItem(dataSnapshot.getKey(),
+                            dataSnapshot.getValue().toString());
+                    shoppingItems.add(shoppingListItem);
+                }
+                shoppingListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                showShortToast("Failed to get data");
+            }
+
+        };
+
 
     }
 
@@ -79,45 +112,12 @@ public class ShoppingListFragment extends Fragment {
                 recyclerView.getContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        //get database reference to the shopping list
-        String kitchenId = FirebaseCalls.kitchenId;
-
-        DatabaseReference shoppingListReference = FirebaseDatabase.getInstance().getReference()
-                .child("kitchens").child(kitchenId).child("shopping_list");
-
         //set custom made adapter for groccery items
-        shoppingListAdapter = new ShoppingListAdapter(shoppingItems, this);
         recyclerView.setAdapter(shoppingListAdapter);
-
-
-        shoppingListReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                shoppingItems.clear();
-                ShoppingListItem shoppingListItem;
-                for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
-                    shoppingListItem = new ShoppingListItem(dataSnapshot.getKey(),
-                            dataSnapshot.getValue().toString());
-                    shoppingItems.add(shoppingListItem);
-                }
-                shoppingListAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                showShortToast("Failed to get data");
-            }
-        });
-
-
-        //set add button onClick
-
-        Button addButton = rootView.findViewById((R.id.add_item_button));
-        //only pressable if not blank
-
         TextView itemTextView = (TextView) rootView.findViewById(R.id.new_item_text);
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        //set add button onClick
+        addButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String newItemText = itemTextView.getText().toString();
@@ -132,7 +132,11 @@ public class ShoppingListFragment extends Fragment {
                 });
 
             }
-        });
+        };
+
+        addButton = rootView.findViewById((R.id.add_item_button));
+        addButton.setOnClickListener(addButtonListener);
+
 
         //addButton only works if an item has been entered
         addButton.setEnabled(false);
@@ -156,6 +160,7 @@ public class ShoppingListFragment extends Fragment {
                 }
             }
         });
+
 
 
         //return the inflated flagment
@@ -215,6 +220,19 @@ public class ShoppingListFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        shoppingListReference.addValueEventListener(valueEventListener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        shoppingListReference.removeEventListener(valueEventListener);
+
     }
 
 
