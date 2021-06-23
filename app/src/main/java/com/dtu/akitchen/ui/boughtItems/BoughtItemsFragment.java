@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,14 +66,18 @@ public class BoughtItemsFragment extends Fragment {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 boughtItemsList.clear();
                 for (DataSnapshot dataSnapshot :snapshot.getChildren()) {
-                    String itemId = (String) dataSnapshot.getKey();
-                    String boughtById = (String) dataSnapshot.child("bought_by").getValue();
-                    double price = Double.parseDouble(dataSnapshot.child("price").getValue().toString());
-                    String name = (String) dataSnapshot.child("itemName").getValue();
-                    String date = (String) dataSnapshot.child("date").getValue();
+                    try {
+                        String itemId = dataSnapshot.getKey();
+                        String boughtById = dataSnapshot.child("bought_by").getValue(String.class);
+                        double price = dataSnapshot.child("price").getValue(Double.class);
+                        String name = dataSnapshot.child("itemName").getValue(String.class);
+                        String date = dataSnapshot.child("date").getValue(String.class);
 
-                    BoughtItem item = new BoughtItem(itemId, name, price, boughtById, date);
-                    boughtItemsList.add(item);
+                        BoughtItem item = new BoughtItem(itemId, name, price, boughtById, date);
+                        boughtItemsList.add(item);
+                    } catch (NullPointerException e) {
+                        Log.w("BoughtItems", "Item missing properties");
+                    }
                 }
                 boughtItemsAdapter.notifyDataSetChanged();
             }
