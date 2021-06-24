@@ -211,7 +211,7 @@ public class SettingsActivity extends AppCompatActivity {
                 .setNegativeButton("Cancel", dialogClickListener).show();
     }
 
-
+    // Buttonhandler for setting new admin. Opens the Alert dialog and addds a view of the userListView to that view.
     public void onPressSetNewAdmin(View view) {
 
         DialogInterface.OnClickListener dialogClickListener = ((dialog, which) -> {
