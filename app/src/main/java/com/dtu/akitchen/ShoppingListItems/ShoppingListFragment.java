@@ -125,9 +125,10 @@ public class ShoppingListFragment extends Fragment {
 
                 shoppingListItemsDAO.addItem(newItemText).addOnSuccessListener(suc -> {
                     showShortToast(newItemText + " added");
-                    itemTextView.setText("");
                 }).addOnFailureListener( err -> {
                     showShortToast(err.getMessage());
+                }).addOnCompleteListener( com -> {
+                    itemTextView.setText("");
                 });
 
             }
