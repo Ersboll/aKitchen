@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
     DatabaseReference reference;
     ValueEventListener listener;
     Button positiveButton;
+    Button negativeButton;
 
     //need context to make toast, and there is a android bug, with making toast from own context
     public void setContext(Context context) {
@@ -86,7 +88,6 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.fragment_enter_price_dialog, null);
         price = view.findViewById(R.id.price_text);
 
-
         builder.setView(view).setTitle(itemName)
                 .setNeutralButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -122,12 +123,17 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
     public void onStart() {
         super.onStart();
 
+        //set color of negative button for visual clarity
+        negativeButton=((AlertDialog) this.getDialog()).getButton(DialogInterface.BUTTON_NEGATIVE);
+        negativeButton.setBackgroundColor(Color.RED);
+        negativeButton.setTextColor(Color.WHITE);
+
+        //save reference to enable and disable depending on user input
         positiveButton =  ((AlertDialog) this.getDialog())
                 .getButton(AlertDialog.BUTTON_POSITIVE);
 
         //make button only be active when the input is >=0
         positiveButton.setEnabled(false);
-
         price.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -160,6 +166,7 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
 
     }
 
+    //this is where items are bought, would be good to refactor into the bought item class
     private void buyItem(String itemName, String itemKey, double price) {
         DAOshoppingListItems shoppingDAO = new DAOshoppingListItems();
         DAOboughtItem boughtDAO = new DAOboughtItem();
