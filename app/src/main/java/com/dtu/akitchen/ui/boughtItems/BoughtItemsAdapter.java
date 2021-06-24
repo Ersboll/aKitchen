@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -56,7 +57,7 @@ public class BoughtItemsAdapter extends ArrayAdapter<BoughtItem> {
         TextView  tvBoughtBy = (TextView) convertView.findViewById(R.id.bought_item_bought_by);
         TextView  tvPrice = (TextView) convertView.findViewById(R.id.bought_item_price);
         TextView  tvDate = (TextView) convertView.findViewById(R.id.bought_item_date);
-        TextView removeButton = convertView.findViewById(R.id.remove_text);
+        ImageButton removeButton = convertView.findViewById(R.id.remove_text);
 
         String loggedInUser = LogInOut.getCurrentUser().getUid();
 
@@ -74,7 +75,6 @@ public class BoughtItemsAdapter extends ArrayAdapter<BoughtItem> {
         tvBoughtBy.setText(userName);
         tvDate.setText(date);
         tvPrice.setText(String.format(Locale.US, "%.2f", price) + " DKK");
-        removeButton.setText("remove");
         return convertView;
     }
 
