@@ -63,15 +63,20 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         uid = LogInOut.getCurrentUser().getUid();
+
+        //Firebase references
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myKitchenRef = database.getReference("/users/" + uid + "/kitchen");
         myIsAdminRef = database.getReference("/kitchens/" + FirebaseCalls.kitchenId + "/users/" + uid + "/admin");
         curKitchenRef = database.getReference("/kitchens/" + FirebaseCalls.kitchenId);
+
+        // Listview and adding items to listview using adapter
         userListListView = new ListView(this);
         List<String> users = new ArrayList<>();
         List<String> userUids = new ArrayList<>();
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,users);
+
+        // Setting a new admin
         userListListView.setAdapter(adapter);
         userListListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @SuppressLint("RestrictedApi")
@@ -109,6 +114,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
             userUids.add(user.getUid());
         }
+
+        // Setting pre-text field to current username.
         String userName = users.get(userUids.indexOf(uid));
         binding.nameText.setText(userName);
 
@@ -124,29 +131,33 @@ public class SettingsActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    // Updating the name of a user.
     public void onPressUpdateName (View view) {
+        // Firebase reference created if needed.
         String newName = Objects.requireNonNull(binding.nameText.getText()).toString();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myName = database.getReference("/kitchens/" + FirebaseCalls.kitchenId + "/users/" + uid + "/name");
+
         myName.setValue(newName);
         // Clears and closes keybaord
         binding.nameText.setText(newName);
         binding.nameText.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        // Confirms change of name
         Toast.makeText(getApplicationContext(),"Sucessfully changed name", Toast.LENGTH_LONG).show();
     }
 
+    //Firebase method for deleating a kitchen
     private void deleteKitchen () {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference kitchenRef = database.getReference("/kitchens/" + FirebaseCalls.kitchenId);
         kitchenRef.removeValue();
     }
-
+    // Button handler for leaving kitchen
     public void onPressLeaveKitchen (View view) {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE) {
                 Log.d(TAG, "Leave Kitchen");
-
+                // If your the only user left and you leave the kitchen, the  kitchen will be deleted.
                 if (FirebaseCalls.isCurrentAdmin()) {
                     int countActive = 0;
                     for (User user : FirebaseCalls.users.values()) {
@@ -170,7 +181,7 @@ public class SettingsActivity extends AppCompatActivity {
         builder.setMessage("Are you sure?").setPositiveButton("Leave", dialogClickListener)
                 .setNegativeButton("Cancel", dialogClickListener).show();
     }
-
+        // User.Dat ? Expr : NonExtingUser
     public void onPressDeleteUser (View view) {
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -180,7 +191,7 @@ public class SettingsActivity extends AppCompatActivity {
                         if (user.active) countActive++;
                     }
                     if (countActive == 1) {
-                        @SuppressLint("ShowToast") Snackbar snackbar = Snackbar.make(view,"Delete user", Snackbar.LENGTH_LONG);
+                        @SuppressLint("ShowToast") Snackbar snackbar = Snackbar.make(view,"Deleted user", Snackbar.LENGTH_LONG);
                         snackbar.show();
                         deleteKitchen();
                         LogInOut.deleteUser();
@@ -188,7 +199,7 @@ public class SettingsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Error deleting user while kitchen admin", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    @SuppressLint("ShowToast") Snackbar snackbar = Snackbar.make(view,"Delete user", Snackbar.LENGTH_LONG);
+                    @SuppressLint("ShowToast") Snackbar snackbar = Snackbar.make(view,"Deleted user", Snackbar.LENGTH_LONG);
                     snackbar.show();
                     curKitchenRef.child("users").child(uid).child("active").setValue(false);
                     LogInOut.deleteUser();
