@@ -89,20 +89,20 @@ public class EnterPriceDialogFragment extends AppCompatDialogFragment {
         price = view.findViewById(R.id.price_text);
 
         builder.setView(view).setTitle(itemName)
-                .setNeutralButton("cancel", new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.enter_price_dialog_cancel_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
                 })
-                .setPositiveButton("Buy", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.enter_price_dialog_buy_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.i("BoughtItem", "trying to buy: " + itemName + "" +
                                 " with key:" + itemKey);
                         buyItem(itemName, itemKey, Double.parseDouble(price.getText().toString()));
                     }
-                }).setNegativeButton("Delete item", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.enter_price_dialog_delete_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 delteItem(itemKey);

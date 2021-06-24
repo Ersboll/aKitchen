@@ -133,6 +133,7 @@ public class ShoppingListFragment extends Fragment {
             }
         };
 
+        //save addButton reference to enable and disable depending on input
         addButton = rootView.findViewById((R.id.add_item_button));
         addButton.setOnClickListener(addButtonListener);
 
@@ -166,14 +167,13 @@ public class ShoppingListFragment extends Fragment {
         return rootView;
     }
 
-
-
-
-
+    //for showing toast short toast messages
     public void showShortToast(String message) {
         Toast.makeText(getContext(), message , Toast.LENGTH_SHORT).show();
     }
 
+    //A lot of Dialog configuration can only be set after it is build and returned by builder
+    //this method takes care of setting extra properties and shows the dialog
     public void openInputPriceDialog(String itemName, String itemKey) {
         inputDialog = new EnterPriceDialogFragment();
         inputDialog.setContext(getContext());
