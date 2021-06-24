@@ -28,6 +28,7 @@ public class SignUpUserActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Sets general UI
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpUserBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -42,7 +43,7 @@ public class SignUpUserActivity extends AppCompatActivity {
 
         mViewModel = new ViewModelProvider(this).get(SignUpUserVewModel.class);
 
-        // Firebase
+        // binds the textfields
         final EditText SignUpMail = binding.signUpMail;
         final EditText SignUpPass = binding.signUpPass;
         final EditText SignUpPass2 = binding.signUpPass2;
@@ -64,18 +65,18 @@ public class SignUpUserActivity extends AppCompatActivity {
                 mViewModel.signUpDataChanged(SignUpMail.getText().toString(),SignUpPass.getText().toString(), SignUpPass2.getText().toString());
             }
         };
-
+        // When text has changed in all. Call the method in viewModel which assigns new passwords and usernames locally.
         SignUpMail.addTextChangedListener(afterTextChangedListener);
         SignUpPass.addTextChangedListener(afterTextChangedListener);
         SignUpPass2.addTextChangedListener(afterTextChangedListener);
-
+        // When done editing signup pass 2. Call singup
         SignUpPass2.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE){
                 signUp();
             }
             return false;
         });
-
+        // Could also press button
         SignUpButton.setOnClickListener(v -> {
             signUp();
         });
@@ -92,7 +93,7 @@ public class SignUpUserActivity extends AppCompatActivity {
         }
     }
 
-
+    // Validation
     private void signUp() {
         if( !mViewModel.isEmailValid() ){
             Toast.makeText(this,"Must be a vaild email address", Toast.LENGTH_SHORT).show();
@@ -101,6 +102,7 @@ public class SignUpUserActivity extends AppCompatActivity {
         } else if(!mViewModel.isPasswordValid()){
             Toast.makeText(this, "Password must be at least 6 characters long",Toast.LENGTH_LONG).show();
         } else {
+            // Call clss using correct method for google calls.CreateUserWithEmailAndPassword
             LogInOut.signUp(SignUpUserActivity.this, mViewModel.getEmail(), mViewModel.getPassword());
 
         }
