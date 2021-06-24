@@ -115,7 +115,7 @@ public class ShoppingListFragment extends Fragment {
         recyclerView.setAdapter(shoppingListAdapter);
         TextView itemTextView = (TextView) rootView.findViewById(R.id.new_item_text);
 
-        //set add button onClick
+        //set add button onClick, to add items to shopping list
         addButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,9 +127,8 @@ public class ShoppingListFragment extends Fragment {
                     showShortToast(newItemText + " added");
                 }).addOnFailureListener( err -> {
                     showShortToast(err.getMessage());
-                }).addOnCompleteListener( com -> {
-                    itemTextView.setText("");
                 });
+                itemTextView.setText("");
 
             }
         };
