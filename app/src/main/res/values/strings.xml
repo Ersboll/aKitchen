@@ -37,4 +37,7 @@
     <string name="settle_accounts_fail">Failed to settle accounts!</string>
     <string name="export_success">Successfully generated file for export!</string>
     <string name="export_fail">Generating file for export failed!</string>
+    <string name="enter_price_dialog_cancel_button">cancel</string>
+    <string name="enter_price_dialog_buy_button">Buy</string>
+    <string name="enter_price_dialog_delete_button">Delete item</string>
 </resources>
