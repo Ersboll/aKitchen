@@ -63,29 +63,6 @@
             android:gravity="center"
             android:layout_width="match_parent" />
     </LinearLayout>
-<!--    <Button-->
-<!--        android:id="@+id/remove_button"-->
-<!--        android:layout_width="63dp"-->
-<!--        android:layout_height="59dp"-->
-<!--        android:insetTop="0dp"-->
-<!--        android:insetBottom="0dp"-->
-<!--        android:visibility="invisible"-->
-<!--        android:minHeight="0dp" android:minWidth="0dp"-->
-<!--        android:textSize="10dp"-->
-<!--        android:text="delete" />-->
-<!--    <TextView-->
-<!--        android:id="@+id/remove_text"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="1sp"-->
-<!--        android:background="@color/red_700"-->
-<!--        android:gravity="center"-->
-<!--        android:padding="5dp"-->
-<!--        android:text="date"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="13sp"-->
-<!--        android:visibility="invisible" />-->
 
     <ImageButton
         android:visibility="invisible"
